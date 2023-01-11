@@ -1,6 +1,6 @@
 ﻿using Unity.Entities;
 
-namespace Timespawn.EntityTween.Tweens
+namespace DotsTween.Tweens
 {
     public struct TweenDestroyCommand : IBufferElementData
     {

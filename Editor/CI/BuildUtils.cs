@@ -8,7 +8,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Timespawn.EntityTween.Editor.CI
+namespace DotsTween.Editor.CI
 {
     public static class BuildUtils
     {

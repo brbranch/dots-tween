@@ -1,8 +1,8 @@
-﻿using Timespawn.EntityTween.Math;
+﻿using DotsTween.Math;
 using Unity.Entities;
 using Unity.Mathematics;
 
-namespace Timespawn.EntityTween.Tweens
+namespace DotsTween.Tweens
 {
     public struct TweenState : IBufferElementData, ITweenId
     {

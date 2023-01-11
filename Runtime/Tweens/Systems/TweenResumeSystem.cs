@@ -1,16 +1,16 @@
 ﻿using Unity.Entities;
 
-namespace Timespawn.EntityTween.Tweens
+namespace DotsTween.Tweens
 {
     [UpdateInGroup(typeof(TweenSimulationSystemGroup))]
     [UpdateAfter(typeof(TweenStateSystem))]
-    internal class TweenResumeSystem : SystemBase
+    internal partial class TweenResumeSystem : SystemBase
     {
         protected override void OnUpdate()
         {
-            EndSimulationEntityCommandBufferSystem endSimECBSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
-            EntityCommandBuffer.ParallelWriter parallelWriter = endSimECBSystem.CreateCommandBuffer().AsParallelWriter();
-            ComponentDataFromEntity<TweenPause> pauseFromEntity = GetComponentDataFromEntity<TweenPause>();
+            var endSimEcbSystem = World.GetOrCreateSystemManaged<EndSimulationEntityCommandBufferSystem>();
+            var parallelWriter = endSimEcbSystem.CreateCommandBuffer().AsParallelWriter();
+            var pauseFromEntity = GetComponentLookup<TweenPause>();
 
             Entities
                 .WithReadOnly(pauseFromEntity)
@@ -25,7 +25,7 @@ namespace Timespawn.EntityTween.Tweens
                     parallelWriter.RemoveComponent<TweenResumeCommand>(entityInQueryIndex, entity);
                 }).ScheduleParallel();
 
-            endSimECBSystem.AddJobHandleForProducer(Dependency);
+            endSimEcbSystem.AddJobHandleForProducer(Dependency);
         }
     }
 }

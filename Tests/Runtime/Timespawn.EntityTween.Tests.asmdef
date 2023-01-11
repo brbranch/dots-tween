@@ -1,14 +1,14 @@
 {
     "name": "Timespawn.EntityTween.Tests",
+    "rootNamespace": "",
     "references": [
-        "Timespawn.EntityTween",
+        "DotsTween.Runtime",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "Unity.Entities",
         "Unity.Entities.Hybrid",
         "Unity.Mathematics",
         "Unity.Transforms",
-        "Unity.Tiny.2D",
         "Unity.2D.Entities.SpriteRenderer"
     ],
     "includePlatforms": [],

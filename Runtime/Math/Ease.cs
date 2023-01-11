@@ -1,10 +1,10 @@
 ﻿using Unity.Mathematics;
 
-namespace Timespawn.EntityTween.Math
+namespace DotsTween.Math
 {
     public enum EaseType : byte
     {
-        Linear,
+        Linear = 0,
         SmoothStart,
         SmoothStop,
         SmoothStep,

@@ -1,14 +1,14 @@
 ﻿using System;
-using Timespawn.EntityTween.Math;
-using Timespawn.EntityTween.Tweens;
+using DotsTween.Math;
+using DotsTween.Tweens;
 using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 using Random = Unity.Mathematics.Random;
 
-namespace Timespawn.EntityTween.Samples.StressTest
+namespace DotsTween.Samples.StressTest
 {
-    public class StressTestSystem : SystemBase
+    public partial class StressTestSystem : SystemBase
     {
         protected override void OnStartRunning()
         {
@@ -19,7 +19,7 @@ namespace Timespawn.EntityTween.Samples.StressTest
 
         protected override void OnUpdate()
         {
-            EndSimulationEntityCommandBufferSystem endSimECBSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+            EndSimulationEntityCommandBufferSystem endSimECBSystem = World.GetOrCreateSystemManaged<EndSimulationEntityCommandBufferSystem>();
             EntityCommandBuffer.ParallelWriter parallelWriter = endSimECBSystem.CreateCommandBuffer().AsParallelWriter();
             Random random = new Random((uint) Environment.TickCount);
 
@@ -37,9 +37,9 @@ namespace Timespawn.EntityTween.Samples.StressTest
                     quaternion rotateEnd = quaternion.AxisAngle(random.NextFloat3Direction(), random.NextFloat(cmd.MinRotateDegree, cmd.MaxRotateDegree));
                     EaseDesc rotateEaseDesc = new EaseDesc(cmd.RotateEaseType, cmd.RotateEaseExponent);
                     Tween.Rotate(parallelWriter, entityInQueryIndex, obj, quaternion.identity, rotateEnd, cmd.RotateDuration, rotateEaseDesc, cmd.RotateIsPingPong, cmd.RotateLoopCount);
-
-                    float3 scaleStart = new float3(random.NextFloat(cmd.MinStartScale, cmd.MaxStartScale));
-                    float3 scaleEnd = new float3(random.NextFloat(cmd.MinEndScale, cmd.MaxEndScale));
+                    
+                    float scaleStart = random.NextFloat(cmd.MinStartScale, cmd.MaxStartScale);
+                    float scaleEnd = random.NextFloat(cmd.MinEndScale, cmd.MaxEndScale);
                     EaseDesc scaleEaseDesc = new EaseDesc(cmd.ScaleEaseType, cmd.ScaleEaseExponent);
                     Tween.Scale(parallelWriter, entityInQueryIndex, obj, scaleStart, scaleEnd, cmd.ScaleDuration, scaleEaseDesc, cmd.ScaleIsPingPong, cmd.ScaleLoopCount);
                 }

@@ -1,7 +1,7 @@
 {
-    "name": "Timespawn.EntityTween.Editor",
+    "name": "DotsTween.Editor",
     "references": [
-        "Timespawn.EntityTween"
+        "DotsTween.Runtime"
     ],
     "includePlatforms": [
         "Editor"

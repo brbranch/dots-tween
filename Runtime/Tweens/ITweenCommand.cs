@@ -1,4 +1,4 @@
-﻿namespace Timespawn.EntityTween.Tweens
+﻿namespace DotsTween.Tweens
 {
     internal interface ITweenParams
     {

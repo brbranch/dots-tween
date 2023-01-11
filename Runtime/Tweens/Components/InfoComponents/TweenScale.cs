@@ -2,16 +2,16 @@
 using Unity.Mathematics;
 using Unity.Transforms;
 
-namespace Timespawn.EntityTween.Tweens
+namespace DotsTween.Tweens
 {
-    [WriteGroup(typeof(Scale))]
-    public struct TweenScale : IComponentData, ITweenId, ITweenInfo<float3>
+    [WriteGroup(typeof(LocalTransform))]
+    public struct TweenScale : IComponentData, ITweenId, ITweenInfo<float>
     {
         public int Id;
-        public float3 Start;
-        public float3 End;
+        public float Start;
+        public float End;
 
-        public TweenScale(in int id, in float3 start, in float3 end)
+        public TweenScale(in int id, in float start, in float end)
         {
             Id = id;
             Start = start;
@@ -28,18 +28,18 @@ namespace Timespawn.EntityTween.Tweens
             return Id;
         }
 
-        public void SetTweenInfo(in float3 start, in float3 end)
+        public void SetTweenInfo(in float start, in float end)
         {
             Start = start;
             End = end;
         }
 
-        public float3 GetTweenStart()
+        public float GetTweenStart()
         {
             return Start;
         }
 
-        public float3 GetTweenEnd()
+        public float GetTweenEnd()
         {
             return End;
         }

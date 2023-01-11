@@ -2,9 +2,9 @@
 using Unity.Mathematics;
 using Unity.Transforms;
 
-namespace Timespawn.EntityTween.Tweens
+namespace DotsTween.Tweens
 {
-    [WriteGroup(typeof(Translation))]
+    [WriteGroup(typeof(LocalTransform))]
     public struct TweenTranslation : IComponentData, ITweenId, ITweenInfo<float3>
     {
         public int Id;

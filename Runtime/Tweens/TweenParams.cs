@@ -1,6 +1,6 @@
-﻿using Timespawn.EntityTween.Math;
+﻿using DotsTween.Math;
 
-namespace Timespawn.EntityTween
+namespace DotsTween
 {
     public struct TweenParams
     {

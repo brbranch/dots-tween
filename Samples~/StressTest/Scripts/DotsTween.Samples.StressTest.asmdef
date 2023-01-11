@@ -1,10 +1,11 @@
 {
-    "name": "Timespawn.EntityTween.Samples.StressTest",
+    "name": "DotsTween.Samples.StressTest",
     "references": [
-        "Timespawn.EntityTween",
+        "DotsTween.Runtime",
         "Unity.Entities",
         "Unity.Entities.Hybrid",
-        "Unity.Mathematics"
+        "Unity.Mathematics",
+        "Unity.Burst"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

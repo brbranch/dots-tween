@@ -2,9 +2,9 @@
 using Unity.Mathematics;
 using Unity.Transforms;
 
-namespace Timespawn.EntityTween.Tweens
+namespace DotsTween.Tweens
 {
-    [WriteGroup(typeof(Rotation))]
+    [WriteGroup(typeof(LocalTransform))]
     public struct TweenRotation : IComponentData, ITweenId, ITweenInfo<quaternion>
     {
         public int Id;

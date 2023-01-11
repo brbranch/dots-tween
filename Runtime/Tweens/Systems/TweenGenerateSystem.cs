@@ -1,6 +1,8 @@
 ﻿using Unity.Burst;
+using Unity.Burst.Intrinsics;
 using Unity.Collections;
 using Unity.Entities;
+using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Transforms;
 
@@ -10,22 +12,22 @@ using Unity.Tiny;
 using Unity.U2D.Entities;
 #endif
 
-[assembly: RegisterGenericJobType(typeof(Timespawn.EntityTween.Tweens.TweenTranslationGenerateSystem.GenerateJob))]
-[assembly: RegisterGenericJobType(typeof(Timespawn.EntityTween.Tweens.TweenRotationGenerateSystem.GenerateJob))]
-[assembly: RegisterGenericJobType(typeof(Timespawn.EntityTween.Tweens.TweenScaleGenerateSystem.GenerateJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenTranslationGenerateSystem.GenerateJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenRotationGenerateSystem.GenerateJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenScaleGenerateSystem.GenerateJob))]
 
 #if UNITY_TINY_ALL_0_31_0 || UNITY_2D_ENTITIES
 [assembly: RegisterGenericJobType(typeof(Timespawn.EntityTween.Tweens.TweenTintGenerateSystem.GenerateJob))]
 #endif
 
-namespace Timespawn.EntityTween.Tweens
+namespace DotsTween.Tweens
 {
     [UpdateInGroup(typeof(TweenGenerateSystemGroup))]
-    internal abstract class TweenGenerateSystem<TTweenCommand, TTweenInfo, TTarget, TTweenInfoValue> : SystemBase
-        where TTweenCommand : struct, IComponentData, ITweenParams, ITweenInfo<TTweenInfoValue>
-        where TTweenInfo : struct, IComponentData, ITweenId, ITweenInfo<TTweenInfoValue>
-        where TTarget : struct, IComponentData
-        where TTweenInfoValue : struct
+    internal abstract partial class TweenGenerateSystem<TTweenCommand, TTweenInfo, TTarget, TTweenInfoValue> : SystemBase
+        where TTweenCommand : unmanaged, IComponentData, ITweenParams, ITweenInfo<TTweenInfoValue>
+        where TTweenInfo : unmanaged, IComponentData, ITweenId, ITweenInfo<TTweenInfoValue>
+        where TTarget : unmanaged, IComponentData
+        where TTweenInfoValue : unmanaged
     {
         [BurstCompile]
         internal struct GenerateJob : IJobChunk
@@ -39,7 +41,7 @@ namespace Timespawn.EntityTween.Tweens
 
             public EntityCommandBuffer.ParallelWriter ParallelWriter;
 
-            public void Execute(ArchetypeChunk chunk, int chunkIndex, int firstEntityIndex)
+            public void Execute(in ArchetypeChunk chunk, int chunkIndex, bool useEnabledMask, in v128 chunkEnabledMask)
             {
                 bool hasTweenBuffer = chunk.Has(TweenBufferType);
                 bool hasTargetType = chunk.Has(TargetType);
@@ -84,8 +86,8 @@ namespace Timespawn.EntityTween.Tweens
 
         protected override void OnUpdate()
         {
-            double elapsedTime = Time.ElapsedTime;
-            EndSimulationEntityCommandBufferSystem endSimECBSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+            double elapsedTime = SystemAPI.Time.ElapsedTime;
+            EndSimulationEntityCommandBufferSystem endSimECBSystem = World.GetOrCreateSystemManaged<EndSimulationEntityCommandBufferSystem>();
 
             GenerateJob job = new GenerateJob
             {
@@ -103,9 +105,9 @@ namespace Timespawn.EntityTween.Tweens
         }
     }
 
-    internal class TweenTranslationGenerateSystem : TweenGenerateSystem<TweenTranslationCommand, TweenTranslation, Translation, float3> {}
-    internal class TweenRotationGenerateSystem : TweenGenerateSystem<TweenRotationCommand, TweenRotation, Rotation, quaternion> {}
-    internal class TweenScaleGenerateSystem : TweenGenerateSystem<TweenScaleCommand, TweenScale, NonUniformScale, float3> {}
+    internal partial class TweenTranslationGenerateSystem : TweenGenerateSystem<TweenTranslationCommand, TweenTranslation, LocalTransform, float3> {}
+    internal partial class TweenRotationGenerateSystem : TweenGenerateSystem<TweenRotationCommand, TweenRotation, LocalTransform, quaternion> {}
+    internal partial class TweenScaleGenerateSystem : TweenGenerateSystem<TweenScaleCommand, TweenScale, LocalTransform, float> {}
 
 #if UNITY_TINY_ALL_0_31_0 || UNITY_2D_ENTITIES
     internal class TweenTintGenerateSystem : TweenGenerateSystem<TweenTintCommand, TweenTint, SpriteRenderer, float4> {}

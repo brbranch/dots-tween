@@ -1,7 +1,7 @@
 ﻿using Unity.Entities;
 using Unity.Mathematics;
 
-namespace Timespawn.EntityTween.Tweens
+namespace DotsTween.Tweens
 {
     internal struct TweenTranslationCommand : IComponentData, ITweenParams, ITweenInfo<float3>
     {

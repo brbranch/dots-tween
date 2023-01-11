@@ -1,28 +1,27 @@
 ﻿using Unity.Entities;
 
-namespace Timespawn.EntityTween.Tweens
+namespace DotsTween.Tweens
 {
     [UpdateInGroup(typeof(TweenSimulationSystemGroup))]
     [UpdateAfter(typeof(TweenStateSystem))]
     [UpdateBefore(typeof(TweenDestroySystemGroup))]
-    internal class TweenStopSystem : SystemBase
+    internal partial class TweenStopSystem : SystemBase
     {
         protected override void OnUpdate()
         {
-            BufferFromEntity<TweenDestroyCommand> destroyBufferFromEntity = GetBufferFromEntity<TweenDestroyCommand>(true);
+            var destroyBufferFromEntity = GetBufferLookup<TweenDestroyCommand>(true);
 
-            EndSimulationEntityCommandBufferSystem endSimECBSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
-            EntityCommandBuffer.ParallelWriter parallelWriter = endSimECBSystem.CreateCommandBuffer().AsParallelWriter();
+            EndSimulationEntityCommandBufferSystem endSimEcbSystem = World.GetOrCreateSystemManaged<EndSimulationEntityCommandBufferSystem>();
+            EntityCommandBuffer.ParallelWriter parallelWriter = endSimEcbSystem.CreateCommandBuffer().AsParallelWriter();
 
             Entities
                 .WithReadOnly(destroyBufferFromEntity)
                 .WithAll<TweenStopCommand>()
                 .ForEach((int entityInQueryIndex, Entity entity, ref DynamicBuffer<TweenState> tweenBuffer) =>
                 {
-                    for (int i = 0; i < tweenBuffer.Length; i++)
+                    foreach (var tween in tweenBuffer)
                     {
-                        TweenState tween = tweenBuffer[i];
-                        if (!destroyBufferFromEntity.HasComponent(entity))
+                        if (!destroyBufferFromEntity.HasBuffer(entity))
                         {
                             parallelWriter.AddBuffer<TweenDestroyCommand>(entityInQueryIndex, entity);
                         }
@@ -32,13 +31,13 @@ namespace Timespawn.EntityTween.Tweens
 
                     parallelWriter.RemoveComponent<TweenStopCommand>(entityInQueryIndex, entity);
 
-                    if (HasComponent<TweenPause>(entity))
+                    if (SystemAPI.HasComponent<TweenPause>(entity))
                     {
                         parallelWriter.RemoveComponent<TweenPause>(entityInQueryIndex, entity);
                     }
                 }).ScheduleParallel();
 
-            endSimECBSystem.AddJobHandleForProducer(Dependency);
+            endSimEcbSystem.AddJobHandleForProducer(Dependency);
         }
     }
 }

@@ -1,29 +1,35 @@
 {
-  "name": "com.timespawn.entitytween",
-  "version": "0.6.0",
-  "displayName": "Entity Tween",
-  "description": "Entity compatible tween library for Unity ECS/DOTS and Project Tiny (DOTS Runtime).",
-  "unity": "2020.1",
+  "name": "com.dyonng.dotstween",
+  "version": "0.7.0",
+  "displayName": "DOTS Tween",
+  "description": "Tween library for Unity ECS/DOTS.",
+  "unity": "2022.2",
   "dependencies": {
-    "com.unity.entities": "0.17.0-preview.42",
-    "com.unity.burst": "1.4.9",
-    "com.unity.mathematics": "1.2.1"
+    "com.unity.collections": "2.1.0-pre.6",
+    "com.unity.entities": "1.0.0-pre.15",
+    "com.unity.burst": "1.8.2",
+    "com.unity.mathematics": "1.2.6"
   },
   "author": {
-    "name": "Timespawn",
-    "email": "nagachiangdev@gmail.com",
-    "url": "https://nagachiang.github.io"
+    "name": "Dyon",
+    "email": "dyonjng@gmail.com",
+    "url": "https://github.com/dyonng/dots-tween"
   },
   "keywords": [
     "ECS",
     "DOTS",
     "Entity",
-    "Tween"
+    "Tween",
+    "Animation",
+    "entity",
+    "component",
+    "system",
+    "tweening"
   ],
   "samples": [
     {
       "displayName": "Stress Test",
-      "description": "The test demonstrates lots of cubes being translated, rotated and scaled at the same time. Dependent on Hybrid Renderer (com.unity.rendering.hybrid) for rendering.",
+      "description": "The test demonstrates lots of cubes being translated, rotated and scaled at the same time. Dependent on Entities.Graphics for rendering.",
       "path": "Samples~/StressTest"
     }
   ]

@@ -1,25 +1,24 @@
-﻿using Timespawn.EntityTween.Tweens;
+﻿using DotsTween.Tweens;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 
-namespace Timespawn.EntityTween
+namespace DotsTween
 {
     [UpdateInGroup(typeof(TweenApplySystemGroup))]
-    internal class TweenScaleSystem : SystemBase
+    internal partial class TweenScaleSystem : SystemBase
     {
         protected override void OnUpdate()
         {
             Entities
                 .WithNone<TweenPause>()
-                .ForEach((ref NonUniformScale scale, in DynamicBuffer<TweenState> tweenBuffer, in TweenScale tweenInfo) =>
+                .ForEach((ref LocalTransform localTransform, in DynamicBuffer<TweenState> tweenBuffer, in TweenScale tweenInfo) =>
                 {
-                    for (int i = 0; i < tweenBuffer.Length; i++)
+                    foreach (var tween in tweenBuffer)
                     {
-                        TweenState tween = tweenBuffer[i];
                         if (tween.Id == tweenInfo.Id)
                         {
-                            scale.Value = math.lerp(tweenInfo.Start, tweenInfo.End, tween.EasePercentage);
+                            localTransform.Scale = math.lerp(tweenInfo.Start, tweenInfo.End, tween.EasePercentage);
                             break;
                         }
                     }

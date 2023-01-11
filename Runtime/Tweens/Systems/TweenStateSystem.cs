@@ -1,17 +1,17 @@
 ﻿using Unity.Entities;
 
-namespace Timespawn.EntityTween.Tweens
+namespace DotsTween.Tweens
 {
     [UpdateInGroup(typeof(TweenSimulationSystemGroup))]
     [UpdateAfter(typeof(TweenApplySystemGroup))]
-    internal class TweenStateSystem : SystemBase
+    internal partial class TweenStateSystem : SystemBase
     {
         protected override void OnUpdate()
         {
-            BufferFromEntity<TweenDestroyCommand> destroyBufferFromEntity = GetBufferFromEntity<TweenDestroyCommand>(true);
+            var destroyBufferFromEntity = GetBufferLookup<TweenDestroyCommand>(true);
 
-            EndSimulationEntityCommandBufferSystem endSimECBSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
-            EntityCommandBuffer.ParallelWriter parallelWriter = endSimECBSystem.CreateCommandBuffer().AsParallelWriter();
+            EndSimulationEntityCommandBufferSystem endSimEcbSystem = World.GetOrCreateSystemManaged<EndSimulationEntityCommandBufferSystem>();
+            EntityCommandBuffer.ParallelWriter parallelWriter = endSimEcbSystem.CreateCommandBuffer().AsParallelWriter();
 
             Entities
                 .WithReadOnly(destroyBufferFromEntity)
@@ -19,7 +19,7 @@ namespace Timespawn.EntityTween.Tweens
                 .ForEach((Entity entity, int entityInQueryIndex, ref DynamicBuffer<TweenState> tweenBuffer) =>
                 {
                     DynamicBuffer<TweenDestroyCommand> newDestroyCommandBuffer = default;
-                    if (!destroyBufferFromEntity.HasComponent(entity))
+                    if (!destroyBufferFromEntity.HasBuffer(entity))
                     {
                         newDestroyCommandBuffer = parallelWriter.AddBuffer<TweenDestroyCommand>(entityInQueryIndex, entity);
                     }
@@ -77,7 +77,7 @@ namespace Timespawn.EntityTween.Tweens
                     }
                 }).ScheduleParallel();
 
-            endSimECBSystem.AddJobHandleForProducer(Dependency);
+            endSimEcbSystem.AddJobHandleForProducer(Dependency);
         }
     }
 }
