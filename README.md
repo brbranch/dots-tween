@@ -1,8 +1,8 @@
 # Entity Tween
 
-![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/nagachiang/entity-tween?sort=semver) ![Unity](https://github.com/NagaChiang/entity-tween/workflows/Unity/badge.svg)
+[//]: # (![GitHub release &#40;latest SemVer&#41;]&#40;https://img.shields.io/github/v/release/nagachiang/entity-tween?sort=semver&#41; ![Unity]&#40;https://github.com/NagaChiang/entity-tween/workflows/Unity/badge.svg&#41;)
 
-Entity compatible tween library for Unity ECS/DOTS and Project Tiny (DOTS Runtime).
+Entity compatible tween library for Unity ECS/DOTS
 
 ## Table of Contents
 
@@ -15,8 +15,6 @@ Entity compatible tween library for Unity ECS/DOTS and Project Tiny (DOTS Runtim
   - [Stop the entity](#stop-the-entity)
   - [Loop infinitely](#loop-infinitely)
   - [Check if the entity is tweening](#check-if-the-entity-is-tweening)
-- [Known Issues](#known-issues)
-  - [Compatibility with Unity 2021](#compatibility-with-unity-2021)
 - [Workflow](#workflow)
   - [Command](#command)
   - [Generation](#generation)
@@ -52,7 +50,6 @@ Entity compatible tween library for Unity ECS/DOTS and Project Tiny (DOTS Runtim
 
 ## Features
 
-- Compatible with Tiny 0.29.0 and above (DOTS Runtime)
 - Tween support
     - `Translation.Value`
     - `Rotation.Value`
@@ -71,14 +68,10 @@ Entity compatible tween library for Unity ECS/DOTS and Project Tiny (DOTS Runtim
 
 ## Dependencies
 
-- Unity 2020.1+
-- Entities 0.17.0-preview.42
-- Burst 1.4.9
-- Mathematics 1.2.1
-
-### Optional
-
-- Project Tiny Full 0.29.0
+- "com.unity.collections": "2.1.0-pre.6",
+- "com.unity.entities": "1.0.0-pre.15",
+- "com.unity.burst": "1.8.2",
+- "com.unity.mathematics": "1.2.6"
 
 ## Installation
 
@@ -88,35 +81,7 @@ Or, you can edit `Packages/manifest.json` manually, adding git URL as a dependen
 
 ```json
 "dependencies": {
-    "com.timespawn.entitytween": "https://github.com/NagaChiang/entity-tween.git"
-}
-```
-
-To specify particular branch or tag, you can add it after the URL:
-
-```json
-"dependencies": {
-    "com.timespawn.entitytween": "https://github.com/NagaChiang/entity-tween.git#develop"
-}
-```
-
-```json
-"dependencies": {
-    "com.timespawn.entitytween": "https://github.com/NagaChiang/entity-tween.git#v0.1.0"
-}
-```
-
-To update existing Entity Tween package to the latest, remove the dependency on `com.timespawn.entitytween` in `Packages/packages-lock.json` then refresh:
-
-```json
-"dependencies": {
-    "com.timespawn.entitytween": {
-      "version": "https://github.com/NagaChiang/entity-tween.git",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "d3341cf672c26d1f0fe6e09d3bf7978c8cf22df7"
-    }
+    "com.dyonng.dotstween": "https://github.com/dyonng/dots-tween.git"
 }
 ```
 
@@ -165,14 +130,6 @@ if (EntityManager.HasComponent<TweenState>(entity))
 }
 ```
 
-## Known Issues
-
-### Compatibility with Unity 2021
-
-According to the [forum thread](https://forum.unity.com/threads/notice-on-dots-compatibility-with-unity-2021-1.1091800/), Entities package is not compatible with Unity 2021 until the end of 2021.
-
-> You must stay on Unity 2020 LTS and on Entities 0.17 for now. Future releases of Entities will not be compatible with Unity 2021 until the end of the year at the earliest. Upgrading to 2021.1 and using current or future Entities packages will not work and is not expected to work.
-
 ## Workflow
 
 ### Command
@@ -211,4 +168,5 @@ For example, `TweenTranslationDestroySystem` will be responsible for destroying 
 
 ## Donation
 
+### NagaChiang's Donation Link (Original Author):
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/C0C12EHR2)

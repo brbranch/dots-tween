@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.7.0] - 2023.01.11
+
+### Changed
+
+- Start of Dyon's Fork
+- Namespace is now `DotsTween`
+  - Runtime reference is now `DotsTween.Runtime`
+- Dependency upgrade
+  - "com.unity.collections": "2.1.0-pre.6",
+  - "com.unity.entities": "1.0.0-pre.15",
+  - "com.unity.burst": "1.8.2",
+  - "com.unity.mathematics": "1.2.6"
+- Stress Test sample now using subscene
+
 ## [0.6.0] - 2021.08.08
 
 ### Changed
