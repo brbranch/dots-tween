@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.7.1] - 2023.01.15
+
+### Changed
+
+- Add Eases from [easings.net](https://easings.net/)
+- Removed `EaseDesc`
+- Removed `EaseExponent`
+- Add `[BurstCompile]` to everything (prayge)
+
 ## [0.7.0] - 2023.01.11
 
 ### Changed

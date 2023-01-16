@@ -1,9 +1,11 @@
-﻿using Unity.Entities;
+﻿using Unity.Burst;
+using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 
 namespace DotsTween.Tweens
 {
+    [BurstCompile]
     [WriteGroup(typeof(LocalTransform))]
     public struct TweenTranslation : IComponentData, ITweenId, ITweenInfo<float3>
     {
@@ -18,27 +20,32 @@ namespace DotsTween.Tweens
             End = end;
         }
 
+        [BurstCompile]
         public void SetTweenId(in int id)
         {
             Id = id;
         }
 
+        [BurstCompile]
         public int GetTweenId()
         {
             return Id;
         }
 
+        [BurstCompile]
         public void SetTweenInfo(in float3 start, in float3 end)
         {
             Start = start;
             End = end;
         }
 
+        [BurstCompile]
         public float3 GetTweenStart()
         {
             return Start;
         }
 
+        [BurstCompile]
         public float3 GetTweenEnd()
         {
             return End;

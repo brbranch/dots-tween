@@ -1,13 +1,16 @@
 ﻿using DotsTween.Tweens;
+using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 
 namespace DotsTween
 {
+    [BurstCompile]
     [UpdateInGroup(typeof(TweenApplySystemGroup))]
     internal partial class TweenRotationSystem : SystemBase
     {
+        [BurstCompile]
         protected override void OnUpdate()
         {
             Entities

@@ -1,9 +1,11 @@
 ﻿using DotsTween.Math;
+using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
 
 namespace DotsTween.Tweens
 {
+    [BurstCompile]
     public struct TweenState : IBufferElementData, ITweenId
     {
         internal const byte LOOP_COUNT_INFINITE = 0;
@@ -41,6 +43,7 @@ namespace DotsTween.Tweens
         {
         }
 
+        [BurstCompile]
         public float GetNormalizedTime()
         {
             float oneWayDuration = Duration;
@@ -52,16 +55,19 @@ namespace DotsTween.Tweens
             return math.clamp(CurrentTime / oneWayDuration, 0.0f, 1.0f);
         }
 
+        [BurstCompile]
         public void SetTweenId(in int id)
         {
             Id = id;
         }
 
+        [BurstCompile]
         public int GetTweenId()
         {
             return Id;
         }
 
+        [BurstCompile]
         private int GenerateId(in double elapsedTime, in int entityInQueryIndex, in int tweenInfoTypeIndex)
         {
             unchecked

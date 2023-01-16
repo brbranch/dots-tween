@@ -1,11 +1,14 @@
-﻿using Unity.Entities;
+﻿using Unity.Burst;
+using Unity.Entities;
 
 namespace DotsTween.Tweens
 {
+    [BurstCompile]
     [UpdateInGroup(typeof(TweenSimulationSystemGroup))]
     [UpdateAfter(typeof(TweenStateSystem))]
     internal partial class TweenResumeSystem : SystemBase
     {
+        [BurstCompile]
         protected override void OnUpdate()
         {
             var endSimEcbSystem = World.GetOrCreateSystemManaged<EndSimulationEntityCommandBufferSystem>();

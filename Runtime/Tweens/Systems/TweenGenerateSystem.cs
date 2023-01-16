@@ -22,6 +22,7 @@ using Unity.U2D.Entities;
 
 namespace DotsTween.Tweens
 {
+    [BurstCompile]
     [UpdateInGroup(typeof(TweenGenerateSystemGroup))]
     internal abstract partial class TweenGenerateSystem<TTweenCommand, TTweenInfo, TTarget, TTweenInfoValue> : SystemBase
         where TTweenCommand : unmanaged, IComponentData, ITweenParams, ITweenInfo<TTweenInfoValue>
@@ -41,6 +42,7 @@ namespace DotsTween.Tweens
 
             public EntityCommandBuffer.ParallelWriter ParallelWriter;
 
+            [BurstCompile]
             public void Execute(in ArchetypeChunk chunk, int chunkIndex, bool useEnabledMask, in v128 chunkEnabledMask)
             {
                 bool hasTweenBuffer = chunk.Has(TweenBufferType);
@@ -79,11 +81,13 @@ namespace DotsTween.Tweens
 
         private EntityQuery tweenCommandQuery;
 
+        [BurstCompile]
         protected override void OnCreate()
         {
             tweenCommandQuery = GetEntityQuery(ComponentType.ReadOnly<TTweenCommand>());
         }
 
+        [BurstCompile]
         protected override void OnUpdate()
         {
             double elapsedTime = SystemAPI.Time.ElapsedTime;
@@ -105,8 +109,13 @@ namespace DotsTween.Tweens
         }
     }
 
+    [BurstCompile]
     internal partial class TweenTranslationGenerateSystem : TweenGenerateSystem<TweenTranslationCommand, TweenTranslation, LocalTransform, float3> {}
+    
+    [BurstCompile]
     internal partial class TweenRotationGenerateSystem : TweenGenerateSystem<TweenRotationCommand, TweenRotation, LocalTransform, quaternion> {}
+    
+    [BurstCompile]
     internal partial class TweenScaleGenerateSystem : TweenGenerateSystem<TweenScaleCommand, TweenScale, LocalTransform, float> {}
 
 #if UNITY_TINY_ALL_0_31_0 || UNITY_2D_ENTITIES

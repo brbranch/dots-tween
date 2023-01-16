@@ -15,6 +15,7 @@ using Unity.Jobs;
 
 namespace DotsTween.Tweens
 {
+    [BurstCompile]
     [UpdateInGroup(typeof(TweenDestroySystemGroup))]
     internal abstract partial class TweenDestroySystem<TTweenInfo> : SystemBase 
         where TTweenInfo : unmanaged, IComponentData, ITweenId
@@ -30,6 +31,7 @@ namespace DotsTween.Tweens
 
             public EntityCommandBuffer.ParallelWriter ParallelWriter;
 
+            [BurstCompile]
             public void Execute(in ArchetypeChunk chunk, int chunkIndex, bool useEnabledMask, in v128 chunkEnabledMask)
             {
                 NativeArray<Entity> entities = chunk.GetNativeArray(EntityType);
@@ -85,6 +87,7 @@ namespace DotsTween.Tweens
 
         private EntityQuery tweenInfoQuery;
 
+        [BurstCompile]
         protected override void OnCreate()
         {
             tweenInfoQuery = GetEntityQuery(
@@ -93,6 +96,7 @@ namespace DotsTween.Tweens
                 ComponentType.ReadOnly<TweenDestroyCommand>());
         }
 
+        [BurstCompile]
         protected override void OnUpdate()
         {
             EndSimulationEntityCommandBufferSystem endSimECBSystem = World.GetOrCreateSystemManaged<EndSimulationEntityCommandBufferSystem>();
@@ -111,8 +115,13 @@ namespace DotsTween.Tweens
         }
     }
 
+    [BurstCompile]
     internal partial class TweenTranslationDestroySystem : TweenDestroySystem<TweenTranslation> {}
+    
+    [BurstCompile]
     internal partial class TweenRotationDestroySystem : TweenDestroySystem<TweenRotation> {}
+    
+    [BurstCompile]
     internal partial class TweenScaleDestroySystem : TweenDestroySystem<TweenScale> {}
 
 #if UNITY_TINY_ALL_0_31_0 || UNITY_2D_ENTITIES

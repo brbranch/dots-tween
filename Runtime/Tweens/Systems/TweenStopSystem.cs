@@ -1,12 +1,15 @@
-﻿using Unity.Entities;
+﻿using Unity.Burst;
+using Unity.Entities;
 
 namespace DotsTween.Tweens
 {
+    [BurstCompile]
     [UpdateInGroup(typeof(TweenSimulationSystemGroup))]
     [UpdateAfter(typeof(TweenStateSystem))]
     [UpdateBefore(typeof(TweenDestroySystemGroup))]
     internal partial class TweenStopSystem : SystemBase
     {
+        [BurstCompile]
         protected override void OnUpdate()
         {
             var destroyBufferFromEntity = GetBufferLookup<TweenDestroyCommand>(true);

@@ -1,12 +1,15 @@
 ﻿using DotsTween.Math;
 using DotsTween.Tweens;
+using Unity.Burst;
 using Unity.Entities;
 
 namespace DotsTween
 {
+    [BurstCompile]
     [UpdateInGroup(typeof(TweenSimulationSystemGroup))]
     internal partial class TweenEaseSystem : SystemBase
     {
+        [BurstCompile]
         protected override void OnUpdate()
         {
             Entities
