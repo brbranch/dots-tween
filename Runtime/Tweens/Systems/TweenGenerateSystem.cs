@@ -77,11 +77,11 @@ namespace DotsTween.Tweens
             }
         }
 
-        private EntityQuery TweenCommandQuery;
+        private EntityQuery tweenCommandQuery;
 
         protected override void OnCreate()
         {
-            TweenCommandQuery = GetEntityQuery(ComponentType.ReadOnly<TTweenCommand>());
+            tweenCommandQuery = GetEntityQuery(ComponentType.ReadOnly<TTweenCommand>());
         }
 
         protected override void OnUpdate()
@@ -100,7 +100,7 @@ namespace DotsTween.Tweens
                 ParallelWriter = endSimECBSystem.CreateCommandBuffer().AsParallelWriter(),
             };
 
-            Dependency = job.ScheduleParallel(TweenCommandQuery, Dependency);
+            Dependency = job.ScheduleParallel(tweenCommandQuery, Dependency);
             endSimECBSystem.AddJobHandleForProducer(Dependency);
         }
     }

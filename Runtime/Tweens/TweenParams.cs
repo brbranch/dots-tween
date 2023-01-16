@@ -6,22 +6,19 @@ namespace DotsTween
     {
         public float Duration;
         public EaseType EaseType;
-        public byte EaseExponent;
         public bool IsPingPong;
         public byte LoopCount;
         public float StartDelay;
 
         public TweenParams(
             in float duration, 
-            in EaseType easeType = EaseType.Linear, 
-            in int easeExponent = 0,
+            in EaseType easeType = EaseType.Linear,
             in bool isPingPong = false, 
             in int loopCount = 1, 
             in float startDelay = 0.0f)
         {
             Duration = duration;
             EaseType = easeType;
-            EaseExponent = (byte) easeExponent;
             IsPingPong = isPingPong;
             LoopCount = (byte) loopCount;
             StartDelay = startDelay;
@@ -31,24 +28,24 @@ namespace DotsTween
         {
             string msg = $"{Duration} secs";
 
-            if (EaseType != EaseType.Linear || EaseExponent != 0)
+            if (EaseType != EaseType.Linear)
             {
-                msg += $", {EaseType} ({EaseExponent})";
+                msg += $", {EaseType}";
             }
 
             if (IsPingPong)
             {
-                msg += ", pingpong";
+                msg += ", Ping Pong";
             }
 
             if (LoopCount != 1)
             {
-                msg += LoopCount == 0 ? ", infinite" : $", {LoopCount} times";
+                msg += LoopCount == 0 ? ", Infinite" : $", {LoopCount} times";
             }
 
             if (StartDelay > 0.0f)
             {
-                msg += $", delayed {StartDelay} secs";
+                msg += $", Delayed {StartDelay} secs";
             }
 
             return msg;

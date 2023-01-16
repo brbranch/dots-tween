@@ -38,14 +38,14 @@ namespace DotsTween.Tweens
                             }
 
                             tween.IsReverting = false;
-                            tween.Time = 0.0f;
+                            tween.CurrentTime = 0.0f;
                         }
                         else if (!tween.IsReverting && normalizedTime >= 1.0f)
                         {
                             if (tween.IsPingPong)
                             {
                                 tween.IsReverting = true;
-                                tween.Time = tween.Duration / 2.0f;
+                                tween.CurrentTime = tween.Duration / 2.0f;
                             }
                             else
                             {
@@ -56,7 +56,7 @@ namespace DotsTween.Tweens
 
                                 if (isInfiniteLoop || tween.LoopCount > 0)
                                 {
-                                    tween.Time = 0.0f;
+                                    tween.CurrentTime = 0.0f;
                                 }
                             }
                         }

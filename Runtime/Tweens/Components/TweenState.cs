@@ -10,17 +10,15 @@ namespace DotsTween.Tweens
 
         public int Id;
         public EaseType EaseType;
-        public byte EaseExponent;
         public float Duration;
-        public float Time;
+        public float CurrentTime;
         public float EasePercentage;
         public bool IsPingPong;
         public byte LoopCount;
         public bool IsReverting;
 
         internal TweenState(
-            in EaseType easeType, 
-            in byte easeExponent, 
+            in EaseType easeType,
             in float duration, 
             in bool isPingPong, 
             in byte loopCount, 
@@ -30,17 +28,16 @@ namespace DotsTween.Tweens
             in int tweenInfoTypeIndex) : this()
         {
             EaseType = easeType;
-            EaseExponent = easeExponent;
             Duration = duration;
             IsPingPong = isPingPong;
             LoopCount = loopCount;
 
-            Time = -math.max(delayedStartTime, 0.0f);
+            CurrentTime = -math.max(delayedStartTime, 0.0f);
             Id = GenerateId(elapsedTime, chunkIndex, tweenInfoTypeIndex);
         }
 
         internal TweenState(in TweenParams tweenParams, in double elapsedTime, in int chunkIndex, in int tweenInfoTypeIndex)
-            : this(tweenParams.EaseType, tweenParams.EaseExponent, tweenParams.Duration, tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay, elapsedTime, chunkIndex, tweenInfoTypeIndex)
+            : this(tweenParams.EaseType, tweenParams.Duration, tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay, elapsedTime, chunkIndex, tweenInfoTypeIndex)
         {
         }
 
@@ -52,7 +49,7 @@ namespace DotsTween.Tweens
                 oneWayDuration /= 2.0f;
             }
 
-            return math.clamp(Time / oneWayDuration, 0.0f, 1.0f);
+            return math.clamp(CurrentTime / oneWayDuration, 0.0f, 1.0f);
         }
 
         public void SetTweenId(in int id)
@@ -70,7 +67,7 @@ namespace DotsTween.Tweens
             unchecked
             {
                 int hashCode = (int) EaseType;
-                hashCode = (hashCode * 397) ^ EaseExponent.GetHashCode();
+                hashCode = (hashCode * 397) ^ ((byte)EaseType).GetHashCode();
                 hashCode = (hashCode * 397) ^ Duration.GetHashCode();
                 hashCode = (hashCode * 397) ^ IsPingPong.GetHashCode();
                 hashCode = (hashCode * 397) ^ LoopCount.GetHashCode();

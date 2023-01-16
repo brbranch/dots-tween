@@ -83,11 +83,11 @@ namespace DotsTween.Tweens
             }
         }
 
-        private EntityQuery TweenInfoQuery;
+        private EntityQuery tweenInfoQuery;
 
         protected override void OnCreate()
         {
-            TweenInfoQuery = GetEntityQuery(
+            tweenInfoQuery = GetEntityQuery(
                 ComponentType.ReadOnly<TTweenInfo>(),
                 ComponentType.ReadOnly<TweenState>(),
                 ComponentType.ReadOnly<TweenDestroyCommand>());
@@ -106,7 +106,7 @@ namespace DotsTween.Tweens
                 ParallelWriter = endSimECBSystem.CreateCommandBuffer().AsParallelWriter(),
             };
 
-            Dependency = job.ScheduleParallel(TweenInfoQuery, Dependency);
+            Dependency = job.ScheduleParallel(tweenInfoQuery, Dependency);
             endSimECBSystem.AddJobHandleForProducer(Dependency);
         }
     }

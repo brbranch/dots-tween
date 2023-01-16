@@ -18,11 +18,8 @@ namespace DotsTween
                     for (int i = 0; i < tweenBuffer.Length; i++)
                     {
                         TweenState tween = tweenBuffer[i];
-                        tween.Time += tween.IsReverting ? -deltaTime : deltaTime;
-
-                        float normalizedTime = tween.GetNormalizedTime();
-                        tween.EasePercentage = Ease.CalculatePercentage(normalizedTime, tween.EaseType, tween.EaseExponent);
-
+                        tween.CurrentTime += tween.IsReverting ? -deltaTime : deltaTime;
+                        tween.EasePercentage = EasingFunctions.Ease(tween.EaseType, tween.GetNormalizedTime());
                         tweenBuffer[i] = tween;
                     }
                 }).ScheduleParallel();

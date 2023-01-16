@@ -18,7 +18,7 @@ namespace DotsTween.Tweens
             in float3 end, 
             in TweenParams tweenParams)
         {
-            Move(entityManager, entity, start, end, tweenParams.Duration, new EaseDesc(tweenParams.EaseType, tweenParams.EaseExponent), tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
+            Move(entityManager, entity, start, end, tweenParams.Duration, tweenParams.EaseType, tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
         }
 
         public static void Move(
@@ -28,7 +28,7 @@ namespace DotsTween.Tweens
             in float3 end,
             in TweenParams tweenParams)
         {
-            Move(commandBuffer, entity, start, end, tweenParams.Duration, new EaseDesc(tweenParams.EaseType, tweenParams.EaseExponent), tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
+            Move(commandBuffer, entity, start, end, tweenParams.Duration, EaseType.Linear, tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
         }
 
         public static void Move(
@@ -39,7 +39,7 @@ namespace DotsTween.Tweens
             in float3 end, 
             in TweenParams tweenParams)
         {
-            Move(parallelWriter, sortKey, entity, start, end, tweenParams.Duration, new EaseDesc(tweenParams.EaseType, tweenParams.EaseExponent), tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
+            Move(parallelWriter, sortKey, entity, start, end, tweenParams.Duration, tweenParams.EaseType, tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
         }
 
         public static void Move(
@@ -48,17 +48,17 @@ namespace DotsTween.Tweens
             in float3 start, 
             in float3 end, 
             in float duration,
-            in EaseDesc easeDesc = default,
+            in EaseType easeType = EaseType.Linear,
             in bool isPingPong = false, 
             in int loopCount = 1,
             in float startDelay = 0.0f)
         {
-            if (!CheckParams(easeDesc.Exponent, loopCount))
+            if (!CheckParams(loopCount))
             {
                 return;
             }
 
-            TweenParams tweenParams = new TweenParams(duration, easeDesc.Type, easeDesc.Exponent, isPingPong, loopCount, startDelay);
+            TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
             entityManager.AddComponentData(entity, new TweenTranslationCommand(tweenParams, start, end));
         }
 
@@ -68,17 +68,17 @@ namespace DotsTween.Tweens
             in float3 start, 
             in float3 end, 
             in float duration,
-            in EaseDesc easeDesc = default,
+            in EaseType easeType = EaseType.Linear,
             in bool isPingPong = false, 
             in int loopCount = 1,
             in float startDelay = 0.0f)
         {
-            if (!CheckParams(easeDesc.Exponent, loopCount))
+            if (!CheckParams(loopCount))
             {
                 return;
             }
 
-            TweenParams tweenParams = new TweenParams(duration, easeDesc.Type, easeDesc.Exponent, isPingPong, loopCount, startDelay);
+            TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
             commandBuffer.AddComponent(entity, new TweenTranslationCommand(tweenParams, start, end));
         }
 
@@ -89,17 +89,17 @@ namespace DotsTween.Tweens
             in float3 start, 
             in float3 end, 
             in float duration,
-            in EaseDesc easeDesc = default,
-            in bool isPingPong = false, 
+            in EaseType easeType = EaseType.Linear,
+            bool isPingPong = false, 
             in int loopCount = 1,
             in float startDelay = 0.0f)
         {
-            if (!CheckParams(easeDesc.Exponent, loopCount))
+            if (!CheckParams(loopCount))
             {
                 return;
             }
 
-            TweenParams tweenParams = new TweenParams(duration, easeDesc.Type, easeDesc.Exponent, isPingPong, loopCount, startDelay);
+            TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
             parallelWriter.AddComponent(sortKey, entity, new TweenTranslationCommand(tweenParams, start, end));
         }
 
@@ -110,7 +110,7 @@ namespace DotsTween.Tweens
             in quaternion end, 
             in TweenParams tweenParams)
         {
-            Rotate(entityManager, entity, start, end, tweenParams.Duration, new EaseDesc(tweenParams.EaseType, tweenParams.EaseExponent), tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
+            Rotate(entityManager, entity, start, end, tweenParams.Duration, EaseType.Linear, tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
         }
 
         public static void Rotate(
@@ -120,7 +120,7 @@ namespace DotsTween.Tweens
             in quaternion end, 
             in TweenParams tweenParams)
         {
-            Rotate(commandBuffer, entity, start, end, tweenParams.Duration, new EaseDesc(tweenParams.EaseType, tweenParams.EaseExponent), tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
+            Rotate(commandBuffer, entity, start, end, tweenParams.Duration, EaseType.Linear, tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
         }
 
         public static void Rotate(
@@ -131,7 +131,7 @@ namespace DotsTween.Tweens
             in quaternion end,
             in TweenParams tweenParams)
         {
-            Rotate(parallelWriter, sortKey, entity, start, end, tweenParams.Duration, new EaseDesc(tweenParams.EaseType, tweenParams.EaseExponent), tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
+            Rotate(parallelWriter, sortKey, entity, start, end, tweenParams.Duration, EaseType.Linear, tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
         }
 
         public static void Rotate(
@@ -140,17 +140,17 @@ namespace DotsTween.Tweens
             in quaternion start, 
             in quaternion end, 
             in float duration,
-            in EaseDesc easeDesc = default,
+            in EaseType easeType = EaseType.Linear,
             in bool isPingPong = false, 
             in int loopCount = 1,
             in float startDelay = 0.0f)
         {
-            if (!CheckParams(easeDesc.Exponent, loopCount))
+            if (!CheckParams(loopCount))
             {
                 return;
             }
 
-            TweenParams tweenParams = new TweenParams(duration, easeDesc.Type, easeDesc.Exponent, isPingPong, loopCount, startDelay);
+            TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
             entityManager.AddComponentData(entity, new TweenRotationCommand(tweenParams, start, end));
         }
 
@@ -160,17 +160,17 @@ namespace DotsTween.Tweens
             in quaternion start, 
             in quaternion end, 
             in float duration,
-            in EaseDesc easeDesc = default,
+            in EaseType easeType = EaseType.Linear,
             in bool isPingPong = false, 
             in int loopCount = 1,
             in float startDelay = 0.0f)
         {
-            if (!CheckParams(easeDesc.Exponent, loopCount))
+            if (!CheckParams(loopCount))
             {
                 return;
             }
 
-            TweenParams tweenParams = new TweenParams(duration, easeDesc.Type, easeDesc.Exponent, isPingPong, loopCount, startDelay);
+            TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
             commandBuffer.AddComponent(entity, new TweenRotationCommand(tweenParams, start, end));
         }
 
@@ -181,17 +181,17 @@ namespace DotsTween.Tweens
             in quaternion start, 
             in quaternion end, 
             in float duration,
-            in EaseDesc easeDesc = default,
+            in EaseType easeType = EaseType.Linear,
             in bool isPingPong = false, 
             in int loopCount = 1,
             in float startDelay = 0.0f)
         {
-            if (!CheckParams(easeDesc.Exponent, loopCount))
+            if (!CheckParams(loopCount))
             {
                 return;
             }
 
-            TweenParams tweenParams = new TweenParams(duration, easeDesc.Type, easeDesc.Exponent, isPingPong, loopCount, startDelay);
+            TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
             parallelWriter.AddComponent(sortKey, entity, new TweenRotationCommand(tweenParams, start, end));
         }
 
@@ -202,7 +202,7 @@ namespace DotsTween.Tweens
             in float end, 
             in TweenParams tweenParams)
         {
-            Scale(entityManager, entity, start, end, tweenParams.Duration, new EaseDesc(tweenParams.EaseType, tweenParams.EaseExponent), tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
+            Scale(entityManager, entity, start, end, tweenParams.Duration, EaseType.Linear, tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
         }
 
         public static void Scale(
@@ -212,7 +212,7 @@ namespace DotsTween.Tweens
             in float end,
             in TweenParams tweenParams)
         {
-            Scale(commandBuffer, entity, start, end, tweenParams.Duration, new EaseDesc(tweenParams.EaseType, tweenParams.EaseExponent), tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
+            Scale(commandBuffer, entity, start, end, tweenParams.Duration, EaseType.Linear, tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
         }
 
         public static void Scale(
@@ -223,7 +223,7 @@ namespace DotsTween.Tweens
             in float end, 
             in TweenParams tweenParams)
         {
-            Scale(parallelWriter, sortKey, entity, start, end, tweenParams.Duration, new EaseDesc(tweenParams.EaseType, tweenParams.EaseExponent), tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
+            Scale(parallelWriter, sortKey, entity, start, end, tweenParams.Duration, EaseType.Linear, tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
         }
 
         public static void Scale(
@@ -232,17 +232,17 @@ namespace DotsTween.Tweens
             in float start, 
             in float end, 
             in float duration,
-            in EaseDesc easeDesc = default,
+            in EaseType easeType = EaseType.Linear,
             in bool isPingPong = false, 
             in int loopCount = 1,
             in float startDelay = 0.0f)
         {
-            if (!CheckParams(easeDesc.Exponent, loopCount))
+            if (!CheckParams(loopCount))
             {
                 return;
             }
 
-            TweenParams tweenParams = new TweenParams(duration, easeDesc.Type, easeDesc.Exponent, isPingPong, loopCount, startDelay);
+            TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
             entityManager.AddComponentData(entity, new TweenScaleCommand(tweenParams, start, end));
         }
 
@@ -252,17 +252,17 @@ namespace DotsTween.Tweens
             in float start, 
             in float end, 
             in float duration,
-            in EaseDesc easeDesc = default,
+            in EaseType easeType = EaseType.Linear,
             in bool isPingPong = false, 
             in int loopCount = 1,
             in float startDelay = 0.0f)
         {
-            if (!CheckParams(easeDesc.Exponent, loopCount))
+            if (!CheckParams(loopCount))
             {
                 return;
             }
 
-            TweenParams tweenParams = new TweenParams(duration, easeDesc.Type, easeDesc.Exponent, isPingPong, loopCount, startDelay);
+            TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
             commandBuffer.AddComponent(entity, new TweenScaleCommand(tweenParams, start, end));
         }
 
@@ -273,17 +273,17 @@ namespace DotsTween.Tweens
             in float start, 
             in float end, 
             in float duration,
-            in EaseDesc easeDesc = default,
+            in EaseType easeType = EaseType.Linear,
             in bool isPingPong = false, 
             in int loopCount = 1,
             in float startDelay = 0.0f)
         {
-            if (!CheckParams(easeDesc.Exponent, loopCount))
+            if (!CheckParams(loopCount))
             {
                 return;
             }
 
-            TweenParams tweenParams = new TweenParams(duration, easeDesc.Type, easeDesc.Exponent, isPingPong, loopCount, startDelay);
+            TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
             parallelWriter.AddComponent(sortKey, entity, new TweenScaleCommand(tweenParams, start, end));
         }
 
@@ -296,7 +296,7 @@ namespace DotsTween.Tweens
             in float4 end, 
             in TweenParams tweenParams)
         {
-            Tint(entityManager, entity, start, end, tweenParams.Duration, new EaseDesc(tweenParams.EaseType, tweenParams.EaseExponent), tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
+            Tint(entityManager, entity, start, end, tweenParams.Duration, easeType, tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
         }
 
         public static void Tint(
@@ -306,7 +306,7 @@ namespace DotsTween.Tweens
             in float4 end, 
             in TweenParams tweenParams)
         {
-            Tint(commandBuffer, entity, start, end, tweenParams.Duration, new EaseDesc(tweenParams.EaseType, tweenParams.EaseExponent), tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
+            Tint(commandBuffer, entity, start, end, tweenParams.Duration, easeType, tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
         }
 
         public static void Tint(
@@ -317,7 +317,7 @@ namespace DotsTween.Tweens
             in float4 end, 
             in TweenParams tweenParams)
         {
-            Tint(parallelWriter, sortKey, entity, start, end, tweenParams.Duration, new EaseDesc(tweenParams.EaseType, tweenParams.EaseExponent), tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
+            Tint(parallelWriter, sortKey, entity, start, end, tweenParams.Duration, easeType, tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
         }
 
         public static void Tint(
@@ -326,12 +326,12 @@ namespace DotsTween.Tweens
             in float4 start, 
             in float4 end, 
             in float duration,
-            in EaseDesc easeDesc = default,
+            in EaseType easeType = EaseType.Linear,
             in bool isPingPong = false, 
             in int loopCount = 1,
             in float startDelay = 0.0f)
         {
-            if (!CheckParams(easeDesc.Exponent, loopCount))
+            if (!CheckParams(loopCount))
             {
                 return;
             }
@@ -346,12 +346,12 @@ namespace DotsTween.Tweens
             in float4 start, 
             in float4 end, 
             in float duration,
-            in EaseDesc easeDesc = default,
+            in EaseType easeType = EaseType.Linear,
             in bool isPingPong = false, 
             in int loopCount = 1,
             in float startDelay = 0.0f)
         {
-            if (!CheckParams(easeDesc.Exponent, loopCount))
+            if (!CheckParams(loopCount))
             {
                 return;
             }
@@ -367,12 +367,12 @@ namespace DotsTween.Tweens
             in float4 start, 
             in float4 end, 
             in float duration,
-            in EaseDesc easeDesc = default,
+            in EaseType easeType = EaseType.Linear,
             in bool isPingPong = false, 
             in int loopCount = 1,
             in float startDelay = 0.0f)
         {
-            if (!CheckParams(easeDesc.Exponent, loopCount))
+            if (!CheckParams(loopCount))
             {
                 return;
             }
@@ -428,19 +428,9 @@ namespace DotsTween.Tweens
             parallelWriter.AddComponent<TweenStopCommand>(sortKey, entity);
         }
 
-        private static bool CheckParams(in int easeExponent, in int loopCount)
+        private static bool CheckParams(in int loopCount)
         {
-            if (easeExponent < byte.MinValue || easeExponent > byte.MaxValue)
-            {
-                return false;
-            }
-
-            if (loopCount < byte.MinValue || loopCount > byte.MaxValue)
-            {
-                return false;
-            }
-
-            return true;
+            return loopCount is >= byte.MinValue and <= byte.MaxValue;
         }
     }
 }
