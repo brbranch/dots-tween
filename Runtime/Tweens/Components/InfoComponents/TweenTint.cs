@@ -1,16 +1,15 @@
-﻿#if UNITY_TINY_ALL_0_31_0 || UNITY_2D_ENTITIES
-using Unity.Entities;
-using Unity.Mathematics;
+﻿using Unity.Entities;
+using UnityEngine;
 
-namespace Timespawn.EntityTween.Tweens
+namespace DotsTween.Tweens
 {
-    public struct TweenTint : IComponentData, ITweenId, ITweenInfo<float4>
+    public struct TweenTint : IComponentData, ITweenId, ITweenInfo<Color>
     {
         public int Id;
-        public float4 Start;
-        public float4 End;
+        public Color Start;
+        public Color End;
 
-        public TweenTint(in int id, in float4 start, in float4 end)
+        public TweenTint(in int id, in Color start, in Color end)
         {
             Id = id;
             Start = start;
@@ -27,21 +26,20 @@ namespace Timespawn.EntityTween.Tweens
             return Id;
         }
 
-        public void SetTweenInfo(in float4 start, in float4 end)
+        public void SetTweenInfo(in Color start, in Color end)
         {
             Start = start;
             End = end;
         }
 
-        public float4 GetTweenStart()
+        public Color GetTweenStart()
         {
             return Start;
         }
 
-        public float4 GetTweenEnd()
+        public Color GetTweenEnd()
         {
             return End;
         }
     }
-} 
-#endif
+}
