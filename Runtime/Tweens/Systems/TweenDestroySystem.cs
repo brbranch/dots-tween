@@ -35,9 +35,9 @@ namespace DotsTween.Tweens
             public void Execute(in ArchetypeChunk chunk, int chunkIndex, bool useEnabledMask, in v128 chunkEnabledMask)
             {
                 NativeArray<Entity> entities = chunk.GetNativeArray(EntityType);
-                NativeArray<TTweenInfo> infos = chunk.GetNativeArray(InfoType);
-                BufferAccessor<TweenState> tweenBuffers = chunk.GetBufferAccessor(TweenBufferType);
-                BufferAccessor<TweenDestroyCommand> destroyBuffers = chunk.GetBufferAccessor(DestroyCommandType);
+                NativeArray<TTweenInfo> infos = chunk.GetNativeArray(ref InfoType);
+                BufferAccessor<TweenState> tweenBuffers = chunk.GetBufferAccessor(ref TweenBufferType);
+                BufferAccessor<TweenDestroyCommand> destroyBuffers = chunk.GetBufferAccessor(ref DestroyCommandType);
                 for (int i = 0; i < entities.Length; i++)
                 {
                     Entity entity = entities[i];

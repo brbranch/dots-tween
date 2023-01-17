@@ -45,11 +45,11 @@ namespace DotsTween.Tweens
             [BurstCompile]
             public void Execute(in ArchetypeChunk chunk, int chunkIndex, bool useEnabledMask, in v128 chunkEnabledMask)
             {
-                bool hasTweenBuffer = chunk.Has(TweenBufferType);
-                bool hasTargetType = chunk.Has(TargetType);
+                bool hasTweenBuffer = chunk.Has(ref TweenBufferType);
+                bool hasTargetType = chunk.Has(ref TargetType);
 
                 NativeArray<Entity> entities = chunk.GetNativeArray(EntityType);
-                NativeArray<TTweenCommand> commands = chunk.GetNativeArray(TweenCommandType);
+                NativeArray<TTweenCommand> commands = chunk.GetNativeArray(ref TweenCommandType);
                 for (int i = 0; i < entities.Length; i++)
                 {
                     Entity entity = entities[i];

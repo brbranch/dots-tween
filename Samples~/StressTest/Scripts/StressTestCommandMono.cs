@@ -11,8 +11,7 @@ namespace DotsTween.Samples.StressTest
         
         [Header("Move")]
         public float MoveDuration = 5;
-        public EaseType MoveEaseType = EaseType.SmoothStep;
-        public ushort MoveEaseExponent = 2;
+        public EaseType MoveEaseType = EaseType.QuadraticInOut;
         public bool MoveIsPingPong = true;
         public ushort MoveLoopCount = 0;
         public float StartMoveRadius = 2;
@@ -20,8 +19,7 @@ namespace DotsTween.Samples.StressTest
         
         [Header("Rotate")]
         public float RotateDuration = 5;
-        public EaseType RotateEaseType = EaseType.SmoothStep;
-        public ushort RotateEaseExponent = 2;
+        public EaseType RotateEaseType = EaseType.QuadraticInOut;
         public bool RotateIsPingPong = true;
         public ushort RotateLoopCount = 0;
         public float MinRotateDegree = 160;
@@ -29,8 +27,7 @@ namespace DotsTween.Samples.StressTest
         
         [Header("Scale")]
         public float ScaleDuration = 5;
-        public EaseType ScaleEaseType = EaseType.SmoothStep;
-        public ushort ScaleEaseExponent = 2;
+        public EaseType ScaleEaseType = EaseType.QuadraticInOut;
         public bool ScaleIsPingPong = true;
         public ushort ScaleLoopCount = 0;
         public float MinStartScale = 0.1f;
@@ -47,22 +44,19 @@ namespace DotsTween.Samples.StressTest
                     Prefab = GetEntity(authoring.Prefab),
                     Count = authoring.Count, 
                     MoveDuration = authoring.MoveDuration,  
-                    MoveEaseType = authoring.MoveEaseType,  
-                    MoveEaseExponent = authoring.MoveEaseExponent,  
+                    MoveEaseType = authoring.MoveEaseType,
                     MoveIsPingPong = authoring.MoveIsPingPong,
                     MoveLoopCount = authoring.MoveLoopCount, 
                     StartMoveRadius = authoring.StartMoveRadius,   
                     EndMoveRadius = authoring.EndMoveRadius, 
                     RotateDuration = authoring.RotateDuration,
                     RotateEaseType = authoring.RotateEaseType,
-                    RotateEaseExponent = authoring.RotateEaseExponent,
                     RotateIsPingPong = authoring.RotateIsPingPong,  
                     RotateLoopCount = authoring.RotateLoopCount,   
                     MinRotateDegree = authoring.MinRotateDegree,   
                     MaxRotateDegree = authoring.MaxRotateDegree,   
                     ScaleDuration = authoring.ScaleDuration, 
-                    ScaleEaseType = authoring.ScaleEaseType, 
-                    ScaleEaseExponent = authoring.ScaleEaseExponent, 
+                    ScaleEaseType = authoring.ScaleEaseType,
                     ScaleIsPingPong = authoring.ScaleIsPingPong,   
                     ScaleLoopCount = authoring.ScaleLoopCount,
                     MinStartScale = authoring.MinStartScale, 
@@ -81,7 +75,6 @@ namespace DotsTween.Samples.StressTest
 
         public float MoveDuration;
         public EaseType MoveEaseType;
-        public ushort MoveEaseExponent;
         public bool MoveIsPingPong;
         public ushort MoveLoopCount;
         public float StartMoveRadius;
@@ -89,7 +82,6 @@ namespace DotsTween.Samples.StressTest
 
         public float RotateDuration;
         public EaseType RotateEaseType;
-        public ushort RotateEaseExponent;
         public bool RotateIsPingPong;
         public ushort RotateLoopCount;
         public float MinRotateDegree;
@@ -97,7 +89,6 @@ namespace DotsTween.Samples.StressTest
 
         public float ScaleDuration;
         public EaseType ScaleEaseType;
-        public ushort ScaleEaseExponent;
         public bool ScaleIsPingPong;
         public ushort ScaleLoopCount;
         public float MinStartScale;

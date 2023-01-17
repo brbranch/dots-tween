@@ -1,5 +1,4 @@
 ﻿using System;
-using DotsTween.Math;
 using DotsTween.Tweens;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -31,17 +30,14 @@ namespace DotsTween.Samples.StressTest
 
                     float3 moveStart = random.NextFloat3Direction() * cmd.StartMoveRadius;
                     float3 moveEnd = random.NextFloat3Direction() * cmd.EndMoveRadius;
-                    EaseDesc moveEaseDesc = new EaseDesc(cmd.MoveEaseType, cmd.MoveEaseExponent);
-                    Tween.Move(parallelWriter, entityInQueryIndex, obj, moveStart, moveEnd, cmd.MoveDuration, moveEaseDesc, cmd.MoveIsPingPong, cmd.MoveLoopCount);
+                    Tween.Move(parallelWriter, entityInQueryIndex, obj, moveStart, moveEnd, cmd.MoveDuration, cmd.MoveEaseType, cmd.MoveIsPingPong, cmd.MoveLoopCount);
 
                     quaternion rotateEnd = quaternion.AxisAngle(random.NextFloat3Direction(), random.NextFloat(cmd.MinRotateDegree, cmd.MaxRotateDegree));
-                    EaseDesc rotateEaseDesc = new EaseDesc(cmd.RotateEaseType, cmd.RotateEaseExponent);
-                    Tween.Rotate(parallelWriter, entityInQueryIndex, obj, quaternion.identity, rotateEnd, cmd.RotateDuration, rotateEaseDesc, cmd.RotateIsPingPong, cmd.RotateLoopCount);
+                    Tween.Rotate(parallelWriter, entityInQueryIndex, obj, quaternion.identity, rotateEnd, cmd.RotateDuration, cmd.RotateEaseType, cmd.RotateIsPingPong, cmd.RotateLoopCount);
                     
                     float scaleStart = random.NextFloat(cmd.MinStartScale, cmd.MaxStartScale);
                     float scaleEnd = random.NextFloat(cmd.MinEndScale, cmd.MaxEndScale);
-                    EaseDesc scaleEaseDesc = new EaseDesc(cmd.ScaleEaseType, cmd.ScaleEaseExponent);
-                    Tween.Scale(parallelWriter, entityInQueryIndex, obj, scaleStart, scaleEnd, cmd.ScaleDuration, scaleEaseDesc, cmd.ScaleIsPingPong, cmd.ScaleLoopCount);
+                    Tween.Scale(parallelWriter, entityInQueryIndex, obj, scaleStart, scaleEnd, cmd.ScaleDuration, cmd.ScaleEaseType, cmd.ScaleIsPingPong, cmd.ScaleLoopCount);
                 }
 
                 parallelWriter.RemoveComponent<StressTestCommand>(entityInQueryIndex, entity);
