@@ -288,6 +288,98 @@ namespace DotsTween.Tweens
             parallelWriter.AddComponent(sortKey, entity, new TweenScaleCommand(tweenParams, start, end));
         }
 
+        public static void NonUniformScale(
+            in EntityManager entityManager,
+            in Entity entity,
+            in float3 start,
+            in float3 end,
+            in TweenParams tweenParams)
+        {
+            NonUniformScale(entityManager, entity, start, end, tweenParams.Duration, EaseType.Linear, tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
+        }
+
+        public static void NonUniformScale(
+            in EntityCommandBuffer commandBuffer,
+            in Entity entity,
+            in float3 start,
+            in float3 end,
+            in TweenParams tweenParams)
+        {
+            NonUniformScale(commandBuffer, entity, start, end, tweenParams.Duration, EaseType.Linear, tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
+        }
+
+        public static void NonUniformScale(
+            in EntityCommandBuffer.ParallelWriter parallelWriter,
+            in int sortKey,
+            in Entity entity,
+            in float3 start,
+            in float3 end,
+            in TweenParams tweenParams)
+        {
+            NonUniformScale(parallelWriter, sortKey, entity, start, end, tweenParams.Duration, EaseType.Linear, tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
+        }
+
+        public static void NonUniformScale(
+            in EntityManager entityManager,
+            in Entity entity,
+            in float3 start,
+            in float3 end,
+            in float duration,
+            in EaseType easeType = EaseType.Linear,
+            in bool isPingPong = false,
+            in int loopCount = 1,
+            in float startDelay = 0.0f)
+        {
+            if (!CheckParams(loopCount))
+            {
+                return;
+            }
+
+            TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
+            entityManager.AddComponentData(entity, new TweenNonUniformScaleCommand(tweenParams, start, end));
+        }
+
+        public static void NonUniformScale(
+            in EntityCommandBuffer commandBuffer,
+            in Entity entity,
+            in float3 start,
+            in float3 end,
+            in float duration,
+            in EaseType easeType = EaseType.Linear,
+            in bool isPingPong = false,
+            in int loopCount = 1,
+            in float startDelay = 0.0f)
+        {
+            if (!CheckParams(loopCount))
+            {
+                return;
+            }
+
+            TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
+            commandBuffer.AddComponent(entity, new TweenNonUniformScaleCommand(tweenParams, start, end));
+        }
+
+        public static void NonUniformScale(
+            in EntityCommandBuffer.ParallelWriter parallelWriter,
+            in int sortKey,
+            in Entity entity,
+            in float3 start,
+            in float3 end,
+            in float duration,
+            in EaseType easeType = EaseType.Linear,
+            in bool isPingPong = false,
+            in int loopCount = 1,
+            in float startDelay = 0.0f)
+        {
+            if (!CheckParams(loopCount))
+            {
+                return;
+            }
+
+            TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
+            parallelWriter.AddComponent(sortKey, entity, new TweenNonUniformScaleCommand(tweenParams, start, end));
+        }
+
         public static void Tint(
             in EntityManager entityManager,
             in Entity entity,
