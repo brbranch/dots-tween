@@ -4,6 +4,7 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
+using Unity.Rendering;
 using Unity.Transforms;
 
 #if UNITY_TINY_ALL_0_31_0
@@ -16,10 +17,7 @@ using Unity.U2D.Entities;
 [assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenRotationGenerateSystem.GenerateJob))]
 [assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenScaleGenerateSystem.GenerateJob))]
 [assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenNonUniformScaleGenerateSystem.GenerateJob))]
-
-#if UNITY_TINY_ALL_0_31_0 || UNITY_2D_ENTITIES
-[assembly: RegisterGenericJobType(typeof(Timespawn.EntityTween.Tweens.TweenTintGenerateSystem.GenerateJob))]
-#endif
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenTintGenerateSystem.GenerateJob))]
 
 namespace DotsTween.Tweens
 {
@@ -118,10 +116,10 @@ namespace DotsTween.Tweens
 
     [BurstCompile]
     internal partial class TweenScaleGenerateSystem : TweenGenerateSystem<TweenScaleCommand, TweenScale, LocalTransform, float> { }
+    
     [BurstCompile]
     internal partial class TweenNonUniformScaleGenerateSystem : TweenGenerateSystem<TweenNonUniformScaleCommand, TweenNonUniformScale, PostTransformScale, float3> { }
 
-#if UNITY_TINY_ALL_0_31_0 || UNITY_2D_ENTITIES
-    internal class TweenTintGenerateSystem : TweenGenerateSystem<TweenTintCommand, TweenTint, SpriteRenderer, float4> {}
-#endif
+    [BurstCompile]
+    internal partial class TweenTintGenerateSystem : TweenGenerateSystem<TweenTintCommand, TweenTint, URPMaterialPropertyBaseColor, float4> {}
 }

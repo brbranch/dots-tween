@@ -12,6 +12,7 @@ namespace DotsTween.Tweens
     {
         public const byte Infinite = TweenState.LOOP_COUNT_INFINITE;
 
+        #region Move
         public static void Move(
             in EntityManager entityManager,
             in Entity entity,
@@ -103,7 +104,9 @@ namespace DotsTween.Tweens
             TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
             parallelWriter.AddComponent(sortKey, entity, new TweenTranslationCommand(tweenParams, start, end));
         }
-
+#endregion
+        
+        #region Rotate
         public static void Rotate(
             in EntityManager entityManager,
             in Entity entity,
@@ -195,7 +198,9 @@ namespace DotsTween.Tweens
             TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
             parallelWriter.AddComponent(sortKey, entity, new TweenRotationCommand(tweenParams, start, end));
         }
+#endregion
 
+        #region Scale
         public static void Scale(
             in EntityManager entityManager,
             in Entity entity,
@@ -287,7 +292,9 @@ namespace DotsTween.Tweens
             TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
             parallelWriter.AddComponent(sortKey, entity, new TweenScaleCommand(tweenParams, start, end));
         }
-
+        #endregion
+        
+        #region NonUniformScale
         public static void NonUniformScale(
             in EntityManager entityManager,
             in Entity entity,
@@ -379,7 +386,9 @@ namespace DotsTween.Tweens
             TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
             parallelWriter.AddComponent(sortKey, entity, new TweenNonUniformScaleCommand(tweenParams, start, end));
         }
-
+        #endregion
+        
+        #region Tint
         public static void Tint(
             in EntityManager entityManager,
             in Entity entity,
@@ -428,7 +437,7 @@ namespace DotsTween.Tweens
             }
 
             TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
-            entityManager.AddComponentData(entity, new TweenTintCommand(tweenParams, start, end));
+            entityManager.AddComponentData(entity, new TweenTintCommand(tweenParams, start.ToFloat4(), end.ToFloat4()));
         }
 
         public static void Tint(
@@ -448,7 +457,7 @@ namespace DotsTween.Tweens
             }
 
             TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
-            commandBuffer.AddComponent(entity, new TweenTintCommand(tweenParams, start, end));
+            commandBuffer.AddComponent(entity, new TweenTintCommand(tweenParams, start.ToFloat4(), end.ToFloat4()));
         }
 
         public static void Tint(
@@ -469,9 +478,11 @@ namespace DotsTween.Tweens
             }
 
             TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
-            parallelWriter.AddComponent(sortKey, entity, new TweenTintCommand(tweenParams, start, end));
+            parallelWriter.AddComponent(sortKey, entity, new TweenTintCommand(tweenParams, start.ToFloat4(), end.ToFloat4()));
         }
-
+        #endregion
+        
+        #region Controls
         public static void Pause(in EntityManager entityManager, in Entity entity)
         {
             entityManager.AddComponent<TweenPause>(entity);
@@ -521,5 +532,6 @@ namespace DotsTween.Tweens
         {
             return loopCount is >= byte.MinValue and <= byte.MaxValue;
         }
+        #endregion
     }
 }

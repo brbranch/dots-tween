@@ -1,22 +1,22 @@
 ﻿using Unity.Entities;
-using UnityEngine;
+using Unity.Mathematics;
 
 namespace DotsTween.Tweens
 {
-    internal struct TweenTintCommand : IComponentData, ITweenParams, ITweenInfo<Color>
+    internal struct TweenTintCommand : IComponentData, ITweenParams, ITweenInfo<float4>
     {
         public TweenParams TweenParams;
-        public Color Start;
-        public Color End;
+        public float4 Start;
+        public float4 End;
 
-        public TweenTintCommand(in TweenParams tweenParams, in Color start, in Color end)
+        public TweenTintCommand(in TweenParams tweenParams, in float4 start, in float4 end)
         {
             TweenParams = tweenParams;
             Start = start;
             End = end;
         }
 
-        public void SetTweenInfo(in Color start, in Color end)
+        public void SetTweenInfo(in float4 start, in float4 end)
         {
             Start = start;
             End = end;
@@ -32,12 +32,12 @@ namespace DotsTween.Tweens
             return TweenParams;
         }
 
-        public Color GetTweenStart()
+        public float4 GetTweenStart()
         {
             return Start;
         }
 
-        public Color GetTweenEnd()
+        public float4 GetTweenEnd()
         {
             return End;
         }
