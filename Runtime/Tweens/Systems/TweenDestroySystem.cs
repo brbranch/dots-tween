@@ -126,6 +126,6 @@ namespace DotsTween.Tweens
     internal partial class TweenNonUniformScaleDestroySystem : TweenDestroySystem<TweenNonUniformScale> { }
 
     [BurstCompile]
-    internal partial class TweenTintDestroySystem : TweenDestroySystem<TweenTint> {}
+    internal partial class TweenTintDestroySystem : TweenDestroySystem<TweenURPTint> {}
 
 }

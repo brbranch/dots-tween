@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace DotsTween.Tweens
 {
-    public struct TweenTint : IComponentData, ITweenId, ITweenInfo<float4>
+    public struct TweenURPTint : IComponentData, ITweenId, ITweenInfo<float4>
     {
         public int Id;
         public float4 Start;
         public float4 End;
 
-        public TweenTint(in int id, in float4 start, in float4 end)
+        public TweenURPTint(in int id, in float4 start, in float4 end)
         {
             Id = id;
             Start = start;

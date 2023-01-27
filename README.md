@@ -2,7 +2,8 @@
 
 [//]: # (![GitHub release &#40;latest SemVer&#41;]&#40;https://img.shields.io/github/v/release/nagachiang/entity-tween?sort=semver&#41; ![Unity]&#40;https://github.com/NagaChiang/entity-tween/workflows/Unity/badge.svg&#41;)
 
-Entity compatible tween library for Unity ECS/DOTS
+Entity compatible tween library for Unity ECS/DOTS.
+Now uses Entities Graphics library from Unity.
 
 ## Table of Contents
 
@@ -53,25 +54,24 @@ Entity compatible tween library for Unity ECS/DOTS
 - Tween support
     - `Translation.Value`
     - `Rotation.Value`
+    - `Scale.Value`
     - `NonUniformScale.Value`
-    - `SpriteRenderer.Color` in Tiny
+    - `URPMaterialPropertyBaseColor.Value`
 - Pause, resume and stop tweens on an entity
 - Multiple types of active tweens on the same entity at the same time
 - Ping-pong
 - Loop
 - Start delay
-- Ease library (inspired by [Squirrel Eiserloh's talk on GDC 2015](https://www.youtube.com/watch?v=mr5xkf6zSzk))
-    - Smooth start
-    - Smooth stop
-    - Smooth step
-    - Crossfade
+- URP Support
+- Ease library (from [easings.net](https://easings.net))
 
 ## Dependencies
 
-- "com.unity.collections": "2.1.0-pre.6",
-- "com.unity.entities": "1.0.0-pre.15",
-- "com.unity.burst": "1.8.2",
-- "com.unity.mathematics": "1.2.6"
+- `"com.unity.collections": "2.1.0-pre.6"`
+- `"com.unity.entities": "1.0.0-pre.15"`
+- `"com.unity.burst": "1.8.2"`
+- `"com.unity.mathematics": "1.2.6"`
+- `"com.unity.entities.graphics": "1.0.0-pre.15"`
 
 ## Installation
 
@@ -100,9 +100,9 @@ float duration = 5.0f;
 bool isPingPong = false;
 int loopCount = 1;
 
-Tween.Move(entityManager, entity, start, end, duration, EaseDesc.SmoothStep, isPingPong, loopCount);
-Tween.Move(commandBuffer, entity, start, end, duration, EaseDesc.SmoothStep, isPingPong, loopCount);
-Tween.Move(parallelWriter, sortKey, entity, start, end, duration, EaseDesc.SmoothStep, isPingPong, loopCount);
+Tween.Move(entityManager, entity, start, end, duration, EaseType.Linear, isPingPong, loopCount);
+Tween.Move(commandBuffer, entity, start, end, duration, EaseType.Linear, isPingPong, loopCount);
+Tween.Move(parallelWriter, sortKey, entity, start, end, duration, EaseType.Linear, isPingPong, loopCount);
 ```
 
 ### Stop the entity
@@ -116,7 +116,7 @@ Tween.Stop(entityManager, entity);
 When `loopCount` is 0, it means loop the tween infinitely. It's recommended to use `Tween.Infinite` in case it changes in the future.
 
 ```cs
-Tween.Move(entityManager, entity, start, end, duration, EaseDesc.SmoothStep, isPingPong, Tween.Infinite);
+Tween.Move(entityManager, entity, start, end, duration, EaseDesc.Linear, isPingPong, Tween.Infinite);
 ```
 
 ### Check if the entity is tweening
@@ -148,7 +148,7 @@ For example, `TweenTranslationGenerateSystem`, which inherits `TweenGenerateSyst
 
 ### Easing
 
-`TweenEaseSystem` iterates all `TweenState` components and update the elapsed time of the tween, then calculate the progress by `Ease.CalculatePercentage()` for later use.
+`TweenEaseSystem` iterates all `TweenState` components and update the elapsed time of the tween, then calculate the progress by `EasingFunctions.Ease(tween.EaseType, tween.GetNormalizedTime())` for later use.
 
 ### Applying
 

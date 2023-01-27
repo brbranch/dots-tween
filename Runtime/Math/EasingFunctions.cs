@@ -12,37 +12,37 @@ namespace DotsTween.Math
         private const float C4 = (2f * math.PI) / 3f;
         private const float C5 = (2f * math.PI) / 4.5f;
         
-        public static float Linear(float x) { return x; }
-        public static float InQuad(float x) { return x * x; }
-        public static float OutQuad(float x) { return 1f - (1f - x) * (1f - x); }
-        public static float InOutQuad(float x) { return x < 0.5f ? 2f * x * x : 1f - math.pow(-2f * x + 2f, 2f) / 2f; }
-        public static float InCubic(float x) { return x * x * x; }
-        public static float OutCubic(float x) { return 1 - math.pow(1 - x, 3); }
-        public static float InOutCubic(float x) { return x < 0.5 ? 4 * x * x * x : 1 - math.pow(-2 * x + 2, 3) / 2; }
-        public static float InQuart(float x) { return x * x * x * x; }
-        public static float OutQuart(float x) { return 1f - math.pow(1f - x, 4f); }
-        public static float InOutQuart(float x) { return x < 0.5f ? 8f * x * x * x * x : 1f - math.pow(-2f * x + 2f, 4f) / 2f; }
-        public static float InQuint(float x) { return x * x * x * x * x; }
-        public static float OutQuint(float x) { return 1f - math.pow(1f - x, 5f); }
-        public static float InOutQuint(float x) { return x < 0.5f ? 16f * x * x * x * x * x : 1 - math.pow(-2f * x + 2f, 5f) / 2f; }
-        public static float InSine(float x) { return 1f - math.cos((x * math.PI) / 2f); }
-        public static float OutSine(float x) { return math.sin((x * math.PI) / 2f); }
-        public static float InOutSine(float x) { return -(math.cos(math.PI * x) - 1f) / 2f; }
-        public static float InExpo(float x) { return x <= 0f ? 0f : math.pow(2f, 10f * x - 10f); }
-        public static float OutExpo(float x) { return x >= 1f ? 1f : 1f - math.pow(2f, -10f * x); }
-        public static float InOutExpo(float x) { return x <= 0f ? 0f : x >= 1f ? 1f : x < 0.5f ? math.pow(2f, 20f * x - 10f) / 2f : (2f - math.pow(2f, -20f * x + 10f)) / 2f; }
-        public static float InCirc(float x) { return 1f - math.sqrt(1f - math.pow(x, 2f)); }
-        public static float OutCirc(float x) { return math.sqrt(1f - math.pow(x - 1f, 2f)); }
-        public static float InOutCirc(float x) { return x < 0.5f ? (1f - math.sqrt(1f - math.pow(2f * x, 2f))) / 2f : (math.sqrt(1f - math.pow(-2f * x + 2f, 2f)) + 1f) / 2f; }
-        public static float InBack(float x) { return C3 * x * x * x - C1 * x * x; }
-        public static float OutBack(float x) { return 1f + C3 * math.pow(x - 1f, 3f) + C1 * math.pow(x - 1f, 2f); }
-        public static float InOutBack(float x) { return x < 0.5f ? (math.pow(2f * x, 2f) * ((C2 + 1f) * 2f * x - C2)) / 2f : (math.pow(2f * x - 2f, 2f) * ((C2 + 1f) * (x * 2f - 2f) + C2) + 2f) / 2f; }
-        public static float InElastic(float x) { return x <= 0f ? 0f : x >= 1f ? 1f : -math.pow(2f, 10f * x - 10f) * math.sin((x * 10f - 10.75f) * C4); }
-        public static float OutElastic(float x) { return x <= 0f ? 0f : x >= 1f ? 1f : math.pow(2f, -10f * x) * math.sin((x * 10f - 0.75f) * C4) + 1f; }
-        public static float InOutElastic(float x) { return x <= 0f ? 0f : x >= 1f ? 1f : x < 0.5f ? -(math.pow(2f, 20f * x - 10f) * math.sin((20f * x - 11.125f) * C5)) / 2 : (math.pow(2f, -20f * x + 10f) * math.sin((20f * x - 11.125f) * C5)) / 2f + 1f; }
-        public static float InBounce(float x) { return 1 - InterpolateOutBounceStatic(1 - x); }
-        public static float OutBounce(float x) { return InterpolateOutBounceStatic(x); }
-        public static float InOutBounce(float x) { return x < 0.5f ? (1f - InterpolateOutBounceStatic(1f - 2f * x)) / 2f : (1f + InterpolateOutBounceStatic(2f * x - 1f)) / 2f; }
+        private static float Linear(float x) { return x; }
+        private static float InQuad(float x) { return x * x; }
+        private static float OutQuad(float x) { return 1f - (1f - x) * (1f - x); }
+        private static float InOutQuad(float x) { return x < 0.5f ? 2f * x * x : 1f - math.pow(-2f * x + 2f, 2f) / 2f; }
+        private static float InCubic(float x) { return x * x * x; }
+        private static float OutCubic(float x) { return 1 - math.pow(1 - x, 3); }
+        private static float InOutCubic(float x) { return x < 0.5 ? 4 * x * x * x : 1 - math.pow(-2 * x + 2, 3) / 2; }
+        private static float InQuart(float x) { return x * x * x * x; }
+        private static float OutQuart(float x) { return 1f - math.pow(1f - x, 4f); }
+        private static float InOutQuart(float x) { return x < 0.5f ? 8f * x * x * x * x : 1f - math.pow(-2f * x + 2f, 4f) / 2f; }
+        private static float InQuint(float x) { return x * x * x * x * x; }
+        private static float OutQuint(float x) { return 1f - math.pow(1f - x, 5f); }
+        private static float InOutQuint(float x) { return x < 0.5f ? 16f * x * x * x * x * x : 1 - math.pow(-2f * x + 2f, 5f) / 2f; }
+        private static float InSine(float x) { return 1f - math.cos((x * math.PI) / 2f); }
+        private static float OutSine(float x) { return math.sin((x * math.PI) / 2f); }
+        private static float InOutSine(float x) { return -(math.cos(math.PI * x) - 1f) / 2f; }
+        private static float InExpo(float x) { return x <= 0f ? 0f : math.pow(2f, 10f * x - 10f); }
+        private static float OutExpo(float x) { return x >= 1f ? 1f : 1f - math.pow(2f, -10f * x); }
+        private static float InOutExpo(float x) { return x <= 0f ? 0f : x >= 1f ? 1f : x < 0.5f ? math.pow(2f, 20f * x - 10f) / 2f : (2f - math.pow(2f, -20f * x + 10f)) / 2f; }
+        private static float InCirc(float x) { return 1f - math.sqrt(1f - math.pow(x, 2f)); }
+        private static float OutCirc(float x) { return math.sqrt(1f - math.pow(x - 1f, 2f)); }
+        private static float InOutCirc(float x) { return x < 0.5f ? (1f - math.sqrt(1f - math.pow(2f * x, 2f))) / 2f : (math.sqrt(1f - math.pow(-2f * x + 2f, 2f)) + 1f) / 2f; }
+        private static float InBack(float x) { return C3 * x * x * x - C1 * x * x; }
+        private static float OutBack(float x) { return 1f + C3 * math.pow(x - 1f, 3f) + C1 * math.pow(x - 1f, 2f); }
+        private static float InOutBack(float x) { return x < 0.5f ? (math.pow(2f * x, 2f) * ((C2 + 1f) * 2f * x - C2)) / 2f : (math.pow(2f * x - 2f, 2f) * ((C2 + 1f) * (x * 2f - 2f) + C2) + 2f) / 2f; }
+        private static float InElastic(float x) { return x <= 0f ? 0f : x >= 1f ? 1f : -math.pow(2f, 10f * x - 10f) * math.sin((x * 10f - 10.75f) * C4); }
+        private static float OutElastic(float x) { return x <= 0f ? 0f : x >= 1f ? 1f : math.pow(2f, -10f * x) * math.sin((x * 10f - 0.75f) * C4) + 1f; }
+        private static float InOutElastic(float x) { return x <= 0f ? 0f : x >= 1f ? 1f : x < 0.5f ? -(math.pow(2f, 20f * x - 10f) * math.sin((20f * x - 11.125f) * C5)) / 2 : (math.pow(2f, -20f * x + 10f) * math.sin((20f * x - 11.125f) * C5)) / 2f + 1f; }
+        private static float InBounce(float x) { return 1 - InterpolateOutBounceStatic(1 - x); }
+        private static float OutBounce(float x) { return InterpolateOutBounceStatic(x); }
+        private static float InOutBounce(float x) { return x < 0.5f ? (1f - InterpolateOutBounceStatic(1f - 2f * x)) / 2f : (1f + InterpolateOutBounceStatic(2f * x - 1f)) / 2f; }
         
         private static float InterpolateOutBounceStatic(float x)
         {

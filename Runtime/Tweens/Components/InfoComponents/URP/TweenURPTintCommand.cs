@@ -3,13 +3,13 @@ using Unity.Mathematics;
 
 namespace DotsTween.Tweens
 {
-    internal struct TweenTintCommand : IComponentData, ITweenParams, ITweenInfo<float4>
+    internal struct TweenURPTintCommand : IComponentData, ITweenParams, ITweenInfo<float4>
     {
         public TweenParams TweenParams;
         public float4 Start;
         public float4 End;
 
-        public TweenTintCommand(in TweenParams tweenParams, in float4 start, in float4 end)
+        public TweenURPTintCommand(in TweenParams tweenParams, in float4 start, in float4 end)
         {
             TweenParams = tweenParams;
             Start = start;

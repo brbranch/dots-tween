@@ -17,7 +17,7 @@ using Unity.U2D.Entities;
 [assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenRotationGenerateSystem.GenerateJob))]
 [assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenScaleGenerateSystem.GenerateJob))]
 [assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenNonUniformScaleGenerateSystem.GenerateJob))]
-[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenTintGenerateSystem.GenerateJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenURPTintGenerateSystem.GenerateJob))]
 
 namespace DotsTween.Tweens
 {
@@ -121,5 +121,5 @@ namespace DotsTween.Tweens
     internal partial class TweenNonUniformScaleGenerateSystem : TweenGenerateSystem<TweenNonUniformScaleCommand, TweenNonUniformScale, PostTransformScale, float3> { }
 
     [BurstCompile]
-    internal partial class TweenTintGenerateSystem : TweenGenerateSystem<TweenTintCommand, TweenTint, URPMaterialPropertyBaseColor, float4> {}
+    internal partial class TweenURPTintGenerateSystem : TweenGenerateSystem<TweenURPTintCommand, TweenURPTint, URPMaterialPropertyBaseColor, float4> {}
 }

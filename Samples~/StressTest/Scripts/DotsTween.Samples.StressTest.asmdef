@@ -5,7 +5,8 @@
         "Unity.Entities",
         "Unity.Entities.Hybrid",
         "Unity.Mathematics",
-        "Unity.Burst"
+        "Unity.Burst",
+        "Unity.Entities.Graphics"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -14,12 +15,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [
-        {
-            "name": "com.unity.rendering.hybrid",
-            "expression": "",
-            "define": "ENTITYTWEEN_HYBRID_RENDERER"
-        }
-    ],
+    "versionDefines": [],
     "noEngineReferences": false
 }
