@@ -1,15 +1,16 @@
 ﻿using Unity.Entities;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace DotsTween.Tweens
 {
-    public struct TweenTint : IComponentData, ITweenId, ITweenInfo<Color>
+    public struct TweenURPTint : IComponentData, ITweenId, ITweenInfo<float4>
     {
         public int Id;
-        public Color Start;
-        public Color End;
+        public float4 Start;
+        public float4 End;
 
-        public TweenTint(in int id, in Color start, in Color end)
+        public TweenURPTint(in int id, in float4 start, in float4 end)
         {
             Id = id;
             Start = start;
@@ -26,18 +27,18 @@ namespace DotsTween.Tweens
             return Id;
         }
 
-        public void SetTweenInfo(in Color start, in Color end)
+        public void SetTweenInfo(in float4 start, in float4 end)
         {
             Start = start;
             End = end;
         }
 
-        public Color GetTweenStart()
+        public float4 GetTweenStart()
         {
             return Start;
         }
 
-        public Color GetTweenEnd()
+        public float4 GetTweenEnd()
         {
             return End;
         }

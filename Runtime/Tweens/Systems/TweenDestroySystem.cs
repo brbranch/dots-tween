@@ -9,10 +9,7 @@ using Unity.Jobs;
 [assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenRotationDestroySystem.DestroyJob))]
 [assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenScaleDestroySystem.DestroyJob))]
 [assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenNonUniformScaleDestroySystem.DestroyJob))]
-
-#if UNITY_TINY_ALL_0_31_0 || UNITY_2D_ENTITIES
-[assembly: RegisterGenericJobType(typeof(Timespawn.EntityTween.Tweens.TweenTintDestroySystem.DestroyJob))]
-#endif
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenTintDestroySystem.DestroyJob))]
 
 namespace DotsTween.Tweens
 {
@@ -128,7 +125,7 @@ namespace DotsTween.Tweens
     [BurstCompile]
     internal partial class TweenNonUniformScaleDestroySystem : TweenDestroySystem<TweenNonUniformScale> { }
 
-#if UNITY_TINY_ALL_0_31_0 || UNITY_2D_ENTITIES
-    internal class TweenTintDestroySystem : TweenDestroySystem<TweenTint> {}
-#endif
+    [BurstCompile]
+    internal partial class TweenTintDestroySystem : TweenDestroySystem<TweenURPTint> {}
+
 }

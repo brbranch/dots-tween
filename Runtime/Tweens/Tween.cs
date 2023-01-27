@@ -1,17 +1,13 @@
-﻿using System.Runtime.CompilerServices;
-using DotsTween.Math;
+﻿using DotsTween.Math;
 using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
-
-[assembly: InternalsVisibleTo("Timespawn.EntityTween.Tests")]
 
 namespace DotsTween.Tweens
 {
     public static class Tween
     {
-        public const byte Infinite = TweenState.LOOP_COUNT_INFINITE;
-
+        #region Move
         public static void Move(
             in EntityManager entityManager,
             in Entity entity,
@@ -103,7 +99,9 @@ namespace DotsTween.Tweens
             TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
             parallelWriter.AddComponent(sortKey, entity, new TweenTranslationCommand(tweenParams, start, end));
         }
-
+#endregion
+        
+        #region Rotate
         public static void Rotate(
             in EntityManager entityManager,
             in Entity entity,
@@ -195,7 +193,9 @@ namespace DotsTween.Tweens
             TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
             parallelWriter.AddComponent(sortKey, entity, new TweenRotationCommand(tweenParams, start, end));
         }
+#endregion
 
+        #region Scale
         public static void Scale(
             in EntityManager entityManager,
             in Entity entity,
@@ -287,7 +287,9 @@ namespace DotsTween.Tweens
             TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
             parallelWriter.AddComponent(sortKey, entity, new TweenScaleCommand(tweenParams, start, end));
         }
-
+        #endregion
+        
+        #region NonUniformScale
         public static void NonUniformScale(
             in EntityManager entityManager,
             in Entity entity,
@@ -379,28 +381,30 @@ namespace DotsTween.Tweens
             TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
             parallelWriter.AddComponent(sortKey, entity, new TweenNonUniformScaleCommand(tweenParams, start, end));
         }
-
-        public static void Tint(
+        #endregion
+        
+        #region URPTint
+        public static void URPTint(
             in EntityManager entityManager,
             in Entity entity,
             in Color start,
             in Color end,
             in TweenParams tweenParams)
         {
-            Tint(entityManager, entity, start, end, tweenParams.Duration, EaseType.Linear, tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
+            URPTint(entityManager, entity, start, end, tweenParams.Duration, EaseType.Linear, tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
         }
 
-        public static void Tint(
+        public static void URPTint(
             in EntityCommandBuffer commandBuffer,
             in Entity entity,
             in Color start,
             in Color end,
             in TweenParams tweenParams)
         {
-            Tint(commandBuffer, entity, start, end, tweenParams.Duration, EaseType.Linear, tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
+            URPTint(commandBuffer, entity, start, end, tweenParams.Duration, EaseType.Linear, tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
         }
 
-        public static void Tint(
+        public static void URPTint(
             in EntityCommandBuffer.ParallelWriter parallelWriter,
             in int sortKey,
             in Entity entity,
@@ -408,10 +412,41 @@ namespace DotsTween.Tweens
             in Color end,
             in TweenParams tweenParams)
         {
-            Tint(parallelWriter, sortKey, entity, start, end, tweenParams.Duration, EaseType.Linear, tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
+            URPTint(parallelWriter, sortKey, entity, start, end, tweenParams.Duration, EaseType.Linear, tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
         }
 
-        public static void Tint(
+        public static void URPTint(
+            in EntityCommandBuffer.ParallelWriter parallelWriter,
+            in int sortKey,
+            in Entity entity,
+            in float4 start,
+            in float4 end,
+            in TweenParams tweenParams)
+        {
+            URPTint(parallelWriter, sortKey, entity, start, end, tweenParams.Duration, EaseType.Linear, tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
+        }
+        
+        public static void URPTint(
+            in EntityManager entityManager,
+            in Entity entity,
+            in float4 start,
+            in float4 end,
+            in TweenParams tweenParams)
+        {
+            URPTint(entityManager, entity, start, end, tweenParams.Duration, EaseType.Linear, tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
+        }
+
+        public static void URPTint(
+            in EntityCommandBuffer commandBuffer,
+            in Entity entity,
+            in float4 start,
+            in float4 end,
+            in TweenParams tweenParams)
+        {
+            URPTint(commandBuffer, entity, start, end, tweenParams.Duration, EaseType.Linear, tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay);
+        }
+
+        public static void URPTint(
             in EntityManager entityManager,
             in Entity entity,
             in Color start,
@@ -428,10 +463,10 @@ namespace DotsTween.Tweens
             }
 
             TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
-            entityManager.AddComponentData(entity, new TweenTintCommand(tweenParams, start, end));
+            entityManager.AddComponentData(entity, new TweenURPTintCommand(tweenParams, start.ToFloat4(), end.ToFloat4()));
         }
 
-        public static void Tint(
+        public static void URPTint(
             in EntityCommandBuffer commandBuffer,
             in Entity entity,
             in Color start,
@@ -448,10 +483,10 @@ namespace DotsTween.Tweens
             }
 
             TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
-            commandBuffer.AddComponent(entity, new TweenTintCommand(tweenParams, start, end));
+            commandBuffer.AddComponent(entity, new TweenURPTintCommand(tweenParams, start.ToFloat4(), end.ToFloat4()));
         }
 
-        public static void Tint(
+        public static void URPTint(
             in EntityCommandBuffer.ParallelWriter parallelWriter,
             in int sortKey,
             in Entity entity,
@@ -469,9 +504,72 @@ namespace DotsTween.Tweens
             }
 
             TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
-            parallelWriter.AddComponent(sortKey, entity, new TweenTintCommand(tweenParams, start, end));
+            parallelWriter.AddComponent(sortKey, entity, new TweenURPTintCommand(tweenParams, start.ToFloat4(), end.ToFloat4()));
         }
 
+        public static void URPTint(
+            in EntityManager entityManager,
+            in Entity entity,
+            in float4 start,
+            in float4 end,
+            in float duration,
+            in EaseType easeType = EaseType.Linear,
+            in bool isPingPong = false,
+            in int loopCount = 1,
+            in float startDelay = 0.0f)
+        {
+            if (!CheckParams(loopCount))
+            {
+                return;
+            }
+
+            TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
+            entityManager.AddComponentData(entity, new TweenURPTintCommand(tweenParams, start, end));
+        }
+
+        public static void URPTint(
+            in EntityCommandBuffer commandBuffer,
+            in Entity entity,
+            in float4 start,
+            in float4 end,
+            in float duration,
+            in EaseType easeType = EaseType.Linear,
+            in bool isPingPong = false,
+            in int loopCount = 1,
+            in float startDelay = 0.0f)
+        {
+            if (!CheckParams(loopCount))
+            {
+                return;
+            }
+
+            TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
+            commandBuffer.AddComponent(entity, new TweenURPTintCommand(tweenParams, start, end));
+        }
+
+        public static void URPTint(
+            in EntityCommandBuffer.ParallelWriter parallelWriter,
+            in int sortKey,
+            in Entity entity,
+            in float4 start,
+            in float4 end,
+            in float duration,
+            in EaseType easeType = EaseType.Linear,
+            in bool isPingPong = false,
+            in int loopCount = 1,
+            in float startDelay = 0.0f)
+        {
+            if (!CheckParams(loopCount))
+            {
+                return;
+            }
+
+            TweenParams tweenParams = new TweenParams(duration, easeType, isPingPong, loopCount, startDelay);
+            parallelWriter.AddComponent(sortKey, entity, new TweenURPTintCommand(tweenParams, start, end));
+        }
+        #endregion
+        
+        #region Controls
         public static void Pause(in EntityManager entityManager, in Entity entity)
         {
             entityManager.AddComponent<TweenPause>(entity);
@@ -521,5 +619,6 @@ namespace DotsTween.Tweens
         {
             return loopCount is >= byte.MinValue and <= byte.MaxValue;
         }
+        #endregion
     }
 }
