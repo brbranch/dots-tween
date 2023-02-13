@@ -1,9 +1,8 @@
 ﻿using DotsTween.Math;
-using DotsTween.Tweens;
 using Unity.Burst;
 using Unity.Entities;
 
-namespace DotsTween
+namespace DotsTween.Tweens
 {
     [BurstCompile]
     [UpdateInGroup(typeof(TweenSimulationSystemGroup))]

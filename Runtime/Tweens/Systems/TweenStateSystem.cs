@@ -31,13 +31,13 @@ namespace DotsTween.Tweens
                     {
                         TweenState tween = tweenBuffer[i];
 
-                        bool isInfiniteLoop = tween.LoopCount == TweenState.LOOP_COUNT_INFINITE;
+                        bool isInfiniteLoop = tween.PlayCount == TweenState.LOOP_COUNT_INFINITE;
                         float normalizedTime = tween.GetNormalizedTime();
                         if (tween.IsReverting && normalizedTime <= 0.0f)
                         {
                             if (!isInfiniteLoop)
                             {
-                                tween.LoopCount--;
+                                --tween.PlayCount;
                             }
 
                             tween.IsReverting = false;
@@ -54,17 +54,17 @@ namespace DotsTween.Tweens
                             {
                                 if (!isInfiniteLoop)
                                 {
-                                    tween.LoopCount--;
+                                    --tween.PlayCount;
                                 }
 
-                                if (isInfiniteLoop || tween.LoopCount > 0)
+                                if (isInfiniteLoop || tween.PlayCount > 0)
                                 {
                                     tween.CurrentTime = 0.0f;
                                 }
                             }
                         }
 
-                        if (!isInfiniteLoop && tween.LoopCount == 0)
+                        if (!isInfiniteLoop && tween.PlayCount < 0)
                         {
                             if (newDestroyCommandBuffer.IsCreated)
                             {

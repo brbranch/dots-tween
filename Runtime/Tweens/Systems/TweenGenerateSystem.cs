@@ -7,12 +7,6 @@ using Unity.Mathematics;
 using Unity.Rendering;
 using Unity.Transforms;
 
-#if UNITY_TINY_ALL_0_31_0
-using Unity.Tiny;
-#elif UNITY_2D_ENTITIES
-using Unity.U2D.Entities;
-#endif
-
 [assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenTranslationGenerateSystem.GenerateJob))]
 [assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenRotationGenerateSystem.GenerateJob))]
 [assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenScaleGenerateSystem.GenerateJob))]
@@ -65,8 +59,16 @@ namespace DotsTween.Tweens
                         ParallelWriter.AddComponent<TTarget>(chunkIndex, entity);
                     }
 
-                    TweenState tween = new TweenState(command.GetTweenParams(), ElapsedTime, chunkIndex, TweenInfoTypeIndex);
+                    var tweenParams = command.GetTweenParams();
+                    TweenState tween = new TweenState(tweenParams, ElapsedTime, chunkIndex, TweenInfoTypeIndex);
                     ParallelWriter.AppendToBuffer(chunkIndex, entity, tween);
+
+                    PerformComponentOperationsOnStart(
+                        ref ParallelWriter,
+                        chunkIndex,
+                        ref entity,
+                        ref tweenParams
+                    );
 
                     TTweenInfo info = default;
                     info.SetTweenId(tween.Id);
@@ -75,6 +77,21 @@ namespace DotsTween.Tweens
 
                     ParallelWriter.RemoveComponent<TTweenCommand>(chunkIndex, entity);
                 }
+            }
+
+            private void PerformComponentOperationsOnStart(ref EntityCommandBuffer.ParallelWriter parallelWriter, int sortKey, ref Entity entity, ref TweenParams settings)
+            {
+                if (settings.AddOnStart != default)
+                    parallelWriter.AddComponent(sortKey, entity, settings.AddOnStart);
+                
+                if (settings.RemoveOnStart != default)
+                    parallelWriter.RemoveComponent(sortKey, entity, settings.RemoveOnStart);
+                
+                if (settings.EnableOnStart != default)
+                    parallelWriter.SetComponentEnabled(sortKey, entity, settings.EnableOnStart, true);
+                
+                if (settings.DisableOnStart != default)
+                    parallelWriter.SetComponentEnabled(sortKey, entity, settings.DisableOnStart, false);
             }
         }
 

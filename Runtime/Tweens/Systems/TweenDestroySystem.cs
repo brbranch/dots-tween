@@ -39,7 +39,7 @@ namespace DotsTween.Tweens
                 for (int i = 0; i < entities.Length; i++)
                 {
                     Entity entity = entities[i];
-
+                    
                     bool shouldDestroy = false;
                     DynamicBuffer<TweenDestroyCommand> destroyBuffer = destroyBuffers[i];
                     for (int j = destroyBuffer.Length - 1; j >= 0; j--)
@@ -64,6 +64,12 @@ namespace DotsTween.Tweens
                         TweenState tween = tweenBuffer[j];
                         if (infos[i].GetTweenId() == tween.Id)
                         {
+                            PerformComponentOperationsOnEnd(
+                                chunkIndex,
+                                ref entity,
+                                ref ParallelWriter,
+                                tweenBuffer[j].Settings);
+                            
                             tweenBuffer.RemoveAt(j);
                             ParallelWriter.RemoveComponent<TTweenInfo>(chunkIndex, entity);
                             break;
@@ -81,6 +87,25 @@ namespace DotsTween.Tweens
                     }
                 }
             }
+
+            private void PerformComponentOperationsOnEnd(
+                int chunkIndex,
+                ref Entity e,
+                ref EntityCommandBuffer.ParallelWriter ecb,
+                TweenParams settings)
+            {
+                if(settings.AddOnComplete != default)
+                    ecb.AddComponent(chunkIndex, e, settings.AddOnComplete);
+            
+                if(settings.RemoveOnComplete != default)
+                    ecb.RemoveComponent(chunkIndex, e, settings.RemoveOnComplete);
+            
+                if(settings.EnableOnComplete != default)
+                    ecb.SetComponentEnabled(chunkIndex, e, settings.EnableOnComplete, true);
+            
+                if(settings.DisableOnComplete != default)
+                    ecb.SetComponentEnabled(chunkIndex, e, settings.DisableOnComplete, false);
+            }
         }
 
         private EntityQuery tweenInfoQuery;
@@ -91,7 +116,8 @@ namespace DotsTween.Tweens
             tweenInfoQuery = GetEntityQuery(
                 ComponentType.ReadOnly<TTweenInfo>(),
                 ComponentType.ReadOnly<TweenState>(),
-                ComponentType.ReadOnly<TweenDestroyCommand>());
+                ComponentType.ReadOnly<TweenDestroyCommand>(),
+                ComponentType.Exclude<Timeline>());
         }
 
         [BurstCompile]

@@ -1,13 +1,13 @@
 {
   "name": "com.dyonng.dotstween",
-  "version": "0.7.2",
+  "version": "0.8.0",
   "displayName": "DOTS Tween",
   "description": "Tween library for Unity ECS/DOTS.",
   "unity": "2022.2",
   "dependencies": {
     "com.unity.collections": "2.1.0-pre.6",
     "com.unity.entities": "1.0.0-pre.15",
-    "com.unity.burst": "1.8.2",
+    "com.unity.burst": "1.8.3",
     "com.unity.mathematics": "1.2.6",
     "com.unity.entities.graphics": "1.0.0-pre.15"
   },

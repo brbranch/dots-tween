@@ -69,7 +69,7 @@ Now uses Entities Graphics library from Unity.
 
 - `"com.unity.collections": "2.1.0-pre.6"`
 - `"com.unity.entities": "1.0.0-pre.15"`
-- `"com.unity.burst": "1.8.2"`
+- `"com.unity.burst": "1.8.3"`
 - `"com.unity.mathematics": "1.2.6"`
 - `"com.unity.entities.graphics": "1.0.0-pre.15"`
 
@@ -97,26 +97,24 @@ The main entry point of the library is the `Tween` class. All functionality have
 float3 start = new float3(0.0f, 0.0f, 0.0f);
 float3 end = new float3(1.0f, 1.0f, 1.0f);
 float duration = 5.0f;
-bool isPingPong = false;
-int loopCount = 1;
 
-Tween.Move(entityManager, entity, start, end, duration, EaseType.Linear, isPingPong, loopCount);
-Tween.Move(commandBuffer, entity, start, end, duration, EaseType.Linear, isPingPong, loopCount);
-Tween.Move(parallelWriter, sortKey, entity, start, end, duration, EaseType.Linear, isPingPong, loopCount);
+Tween.Move.FromTo(ref entityManager, entity, start, end, new TweenParams { Duration = duration });
+Tween.Move.FromTo(ref commandBuffer, entity, start, end, new TweenParams { Duration = duration });
+Tween.Move.FromTo(ref parallelWriter, sortKey, entity, start, end, new TweenParams { Duration = duration });
 ```
 
 ### Stop the entity
 
 ```cs
-Tween.Stop(entityManager, entity);
+Tween.Controls.Stop(entityManager, entity);
 ```
 
 ### Loop infinitely
 
-When `loopCount` is 0, it means loop the tween infinitely. It's recommended to use `Tween.Infinite` in case it changes in the future.
+When `LoopCount` is -1, it means loop the tween infinitely. It's recommended to use `Tween.Infinite` in case it changes in the future.
 
 ```cs
-Tween.Move(entityManager, entity, start, end, duration, EaseDesc.Linear, isPingPong, Tween.Infinite);
+Tween.Move.FromTo(ref entityManager, entity, start, end, new TweenParams { Duration = duration, LoopCount = Tween.Infinite });
 ```
 
 ### Check if the entity is tweening
@@ -158,7 +156,7 @@ For example, `TweenTranslationSystem` takes `TweenState` and `TweenTranslation` 
 
 ### Checking State
 
-`TweenStateSystem` iterates all `TweenState` components checking if they're about to be looped, ping-ponged or destroyed. The tween will loop infinitely when its `TweenState.LoopCount == 0`; however, if it just ticked to 0 from 1, the system will mark it as pending destroy with `TweenDestroyCommand`;
+`TweenStateSystem` iterates all `TweenState` components checking if they're about to be looped, ping-ponged or destroyed. The tween will loop infinitely when its `TweenState.LoopCount < 0`; however, if it just ticked to -1 from 0, the system will mark it as pending destroy with `TweenDestroyCommand`;
 
 ### Destroying
 

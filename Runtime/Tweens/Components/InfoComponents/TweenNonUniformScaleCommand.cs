@@ -1,11 +1,12 @@
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.Transforms;
 
 namespace DotsTween.Tweens
 {
     [BurstCompile]
-    internal struct TweenNonUniformScaleCommand : IComponentData, ITweenParams, ITweenInfo<float3>
+    internal struct TweenNonUniformScaleCommand : ITweenCommand, ITweenInfo<float3>
     {
         public TweenParams TweenParams;
         public float3 Start;

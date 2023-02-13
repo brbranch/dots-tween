@@ -1,9 +1,8 @@
-﻿using DotsTween.Tweens;
-using Unity.Entities;
+﻿using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Rendering;
 
-namespace DotsTween
+namespace DotsTween.Tweens
 {
     [UpdateInGroup(typeof(TweenApplySystemGroup))]
     internal partial class TweenURPTintSystem : SystemBase

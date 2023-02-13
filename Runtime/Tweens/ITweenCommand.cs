@@ -1,8 +1,9 @@
-﻿namespace DotsTween.Tweens
+﻿using Unity.Entities;
+
+namespace DotsTween.Tweens
 {
-    internal interface ITweenParams
+    public interface ITweenCommand : IComponentData, ITweenParams
     {
-        void SetTweenParams(in TweenParams tweenParams);
-        TweenParams GetTweenParams();
+        
     }
 }

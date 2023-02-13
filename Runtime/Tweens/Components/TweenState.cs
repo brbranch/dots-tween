@@ -8,39 +8,31 @@ namespace DotsTween.Tweens
     [BurstCompile]
     public struct TweenState : IBufferElementData, ITweenId
     {
-        internal const byte LOOP_COUNT_INFINITE = 0;
+        internal const short LOOP_COUNT_INFINITE = -1;
 
+        public TweenParams Settings;
+
+        public EaseType EaseType => Settings.EaseType;
+        public float Duration => Settings.Duration;
+        public bool IsPingPong => Settings.IsPingPong;
+        
         public int Id;
-        public EaseType EaseType;
-        public float Duration;
         public float CurrentTime;
         public float EasePercentage;
-        public bool IsPingPong;
-        public byte LoopCount;
+        public short PlayCount;
         public bool IsReverting;
 
-        internal TweenState(
-            in EaseType easeType,
-            in float duration, 
-            in bool isPingPong, 
-            in byte loopCount, 
-            in float delayedStartTime, 
-            in double elapsedTime, 
-            in int chunkIndex, 
-            in int tweenInfoTypeIndex) : this()
-        {
-            EaseType = easeType;
-            Duration = duration;
-            IsPingPong = isPingPong;
-            LoopCount = loopCount;
+        // Cleanup and Sequencing with Timelines
+        // public bool AutoKill;
+        public bool IsComplete => CurrentTime >= Duration;
 
-            CurrentTime = -math.max(delayedStartTime, 0.0f);
+        internal TweenState(in TweenParams tweenParams, in double elapsedTime, in int chunkIndex, in int tweenInfoTypeIndex) : this()
+        {
+            Settings = tweenParams;
+            PlayCount = tweenParams.LoopCount >= 0 ? (short)(tweenParams.LoopCount + 1) : LOOP_COUNT_INFINITE;
+
+            CurrentTime = -math.max(tweenParams.StartDelay, 0.0f);
             Id = GenerateId(elapsedTime, chunkIndex, tweenInfoTypeIndex);
-        }
-
-        internal TweenState(in TweenParams tweenParams, in double elapsedTime, in int chunkIndex, in int tweenInfoTypeIndex)
-            : this(tweenParams.EaseType, tweenParams.Duration, tweenParams.IsPingPong, tweenParams.LoopCount, tweenParams.StartDelay, elapsedTime, chunkIndex, tweenInfoTypeIndex)
-        {
         }
 
         [BurstCompile]
@@ -76,7 +68,7 @@ namespace DotsTween.Tweens
                 hashCode = (hashCode * 397) ^ ((byte)EaseType).GetHashCode();
                 hashCode = (hashCode * 397) ^ Duration.GetHashCode();
                 hashCode = (hashCode * 397) ^ IsPingPong.GetHashCode();
-                hashCode = (hashCode * 397) ^ LoopCount.GetHashCode();
+                hashCode = (hashCode * 397) ^ PlayCount.GetHashCode();
                 hashCode = (hashCode * 397) ^ elapsedTime.GetHashCode();
                 hashCode = (hashCode * 397) ^ entityInQueryIndex;
                 hashCode = (hashCode * 397) ^ tweenInfoTypeIndex;

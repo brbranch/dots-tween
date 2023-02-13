@@ -1,6 +1,6 @@
 ﻿namespace DotsTween.Tweens
 {
-    internal interface ITweenInfo<T>
+    public interface ITweenInfo<T>
     {
         void SetTweenInfo(in T start, in T end);
         T GetTweenStart();
