@@ -1,6 +1,9 @@
 # Entity Tween
 
-[//]: # (![GitHub release &#40;latest SemVer&#41;]&#40;https://img.shields.io/github/v/release/nagachiang/entity-tween?sort=semver&#41; ![Unity]&#40;https://github.com/NagaChiang/entity-tween/workflows/Unity/badge.svg&#41;)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/dyonng/dots-tween)
+![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/dyonng/dots-tween/develop)  
+![GitHub](https://img.shields.io/github/license/dyonng/dots-tween)
+![GitHub repo size](https://img.shields.io/github/repo-size/dyonng/dots-tween)
 
 Entity compatible tween library for Unity ECS/DOTS.
 Now uses Entities Graphics library from Unity.
