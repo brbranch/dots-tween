@@ -73,3 +73,6 @@ crashlytics-build.properties
 
 /Runtime/obj
 /Runtime/obj.meta
+LICENSE.meta
+README.md.meta
+CHANGELOG.md.meta

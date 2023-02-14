@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.7.2] - 2023.01.26
+
+### Changed
+
+- Added URP Material Base Colour Tinting
+
 ## [0.7.1] - 2023.01.15
 
 ### Changed
