@@ -1,7 +1,5 @@
 ﻿using System.Runtime.InteropServices;
 using DotsTween.Math;
-using Unity.Collections;
-using Unity.Entities;
 
 namespace DotsTween.Tweens
 {
@@ -15,16 +13,9 @@ namespace DotsTween.Tweens
 
         public float TimelineStartPosition { get; private set; }
         public float TimelineEndPosition { get; private set; }
-        
-        public ComponentType AddOnComplete;
-        public ComponentType RemoveOnComplete;
-        public ComponentType EnableOnComplete;
-        public ComponentType DisableOnComplete;
-        
-        public ComponentType AddOnStart;
-        public ComponentType RemoveOnStart;
-        public ComponentType EnableOnStart;
-        public ComponentType DisableOnStart;
+
+        public ComponentOperations OnComplete;
+        public ComponentOperations OnStart;
 
         public TweenParams(
             in float duration,

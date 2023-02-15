@@ -6,7 +6,7 @@ namespace DotsTween.Tweens
 {
     [BurstCompile]
     [WriteGroup(typeof(LocalTransform))]
-    public struct TweenScale : IComponentData, ITweenId, ITweenInfo<float>
+    internal struct TweenScale : IComponentData, ITweenId, ITweenInfo<float>
     {
         public int Id;
         public float Start;

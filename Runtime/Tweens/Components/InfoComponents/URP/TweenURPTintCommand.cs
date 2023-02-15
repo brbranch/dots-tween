@@ -1,11 +1,9 @@
-﻿using Unity.Burst;
-using Unity.Entities;
+﻿using Unity.Entities;
 using Unity.Mathematics;
-using Unity.Rendering;
 
 namespace DotsTween.Tweens
 {
-    internal struct TweenURPTintCommand : ITweenCommand, ITweenInfo<float4>
+    public struct TweenURPTintCommand : IComponentData, ITweenParams, ITweenInfo<float4>
     {
         public TweenParams TweenParams;
         public float4 Start;

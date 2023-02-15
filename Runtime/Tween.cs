@@ -1,4 +1,6 @@
 ﻿using DotsTween.Math;
+using DotsTween.Timelines;
+using DotsTween.Tweens;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -6,64 +8,64 @@ using Unity.Rendering;
 using Unity.Transforms;
 using UnityEngine;
 
-namespace DotsTween.Tweens
+namespace DotsTween
 {
     [BurstCompile]
-    public static class Tween
+    public static partial class Tween
     {
         [BurstCompile]
         public static class Controls
         {
             [BurstCompile]
-            public static void Pause(in EntityManager entityManager, in Entity entity)
+            public static void Pause(ref EntityManager entityManager, in Entity entity)
             {
                 entityManager.AddComponent<TweenPause>(entity);
             }
 
             [BurstCompile]
-            public static void Pause(in EntityCommandBuffer commandBuffer, in Entity entity)
+            public static void Pause(ref EntityCommandBuffer commandBuffer, in Entity entity)
             {
                 commandBuffer.AddComponent<TweenPause>(entity);
             }
 
             [BurstCompile]
-            public static void Pause(in EntityCommandBuffer.ParallelWriter parallelWriter, in int sortKey, in Entity entity)
+            public static void Pause(ref EntityCommandBuffer.ParallelWriter parallelWriter, in int sortKey, in Entity entity)
             {
                 parallelWriter.AddComponent<TweenPause>(sortKey, entity);
             }
 
             [BurstCompile]
-            public static void Resume(in EntityManager entityManager, in Entity entity)
+            public static void Resume(ref EntityManager entityManager, in Entity entity)
             {
                 entityManager.AddComponent<TweenResumeCommand>(entity);
             }
 
             [BurstCompile]
-            public static void Resume(in EntityCommandBuffer commandBuffer, in Entity entity)
+            public static void Resume(ref EntityCommandBuffer commandBuffer, in Entity entity)
             {
                 commandBuffer.AddComponent<TweenResumeCommand>(entity);
             }
 
             [BurstCompile]
-            public static void Resume(in EntityCommandBuffer.ParallelWriter parallelWriter, in int sortKey, in Entity entity)
+            public static void Resume(ref EntityCommandBuffer.ParallelWriter parallelWriter, in int sortKey, in Entity entity)
             {
                 parallelWriter.AddComponent<TweenResumeCommand>(sortKey, entity);
             }
 
             [BurstCompile]
-            public static void Stop(in EntityManager entityManager, in Entity entity)
+            public static void Stop(ref EntityManager entityManager, in Entity entity)
             {
                 entityManager.AddComponent<TweenStopCommand>(entity);
             }
 
             [BurstCompile]
-            public static void Stop(in EntityCommandBuffer commandBuffer, in Entity entity)
+            public static void Stop(ref EntityCommandBuffer commandBuffer, in Entity entity)
             {
                 commandBuffer.AddComponent<TweenStopCommand>(entity);
             }
 
             [BurstCompile]
-            public static void Stop(in EntityCommandBuffer.ParallelWriter parallelWriter, in int sortKey, in Entity entity)
+            public static void Stop(ref EntityCommandBuffer.ParallelWriter parallelWriter, in int sortKey, in Entity entity)
             {
                 parallelWriter.AddComponent<TweenStopCommand>(sortKey, entity);
             }
@@ -487,6 +489,71 @@ namespace DotsTween.Tweens
                 {
                     currentValue = state.EntityManager.GetComponentData<URPMaterialPropertyBaseColor>(entity).Value;
                 }
+            }
+        }
+        
+        public static class Timeline
+        {
+            public static TimelineComponent Create() => new TimelineComponent();
+
+            public static void Pause(EntityManager entityManager, int timelinePlaybackId)
+            {
+                var e = entityManager.CreateEntity();
+                entityManager.AddComponentData(e, new TimelineControlCommand()
+                {
+                    Command = TimelineControlCommands.Pause,
+                    TimelinePlaybackId = timelinePlaybackId,
+                });
+            }
+
+            public static void Pause(ref EntityCommandBuffer ecb, int timelinePlaybackId)
+            {
+                var e = ecb.CreateEntity();
+                ecb.AddComponent(e, new TimelineControlCommand()
+                {
+                    Command = TimelineControlCommands.Pause,
+                    TimelinePlaybackId = timelinePlaybackId,
+                });
+            }
+
+            public static void Resume(EntityManager entityManager, int timelinePlaybackId)
+            {
+                var e = entityManager.CreateEntity();
+                entityManager.AddComponentData(e, new TimelineControlCommand()
+                {
+                    Command = TimelineControlCommands.Resume,
+                    TimelinePlaybackId = timelinePlaybackId,
+                });
+            }
+
+            public static void Resume(ref EntityCommandBuffer ecb, int timelinePlaybackId)
+            {
+                var e = ecb.CreateEntity();
+                ecb.AddComponent(e, new TimelineControlCommand()
+                {
+                    Command = TimelineControlCommands.Resume,
+                    TimelinePlaybackId = timelinePlaybackId,
+                });
+            }
+
+            public static void Stop(EntityManager entityManager, int timelinePlaybackId)
+            {
+                var e = entityManager.CreateEntity();
+                entityManager.AddComponentData(e, new TimelineControlCommand()
+                {
+                    Command = TimelineControlCommands.Stop,
+                    TimelinePlaybackId = timelinePlaybackId,
+                });
+            }
+
+            public static void Stop(ref EntityCommandBuffer ecb, int timelinePlaybackId)
+            {
+                var e = ecb.CreateEntity();
+                ecb.AddComponent(e, new TimelineControlCommand()
+                {
+                    Command = TimelineControlCommands.Stop,
+                    TimelinePlaybackId = timelinePlaybackId,
+                });
             }
         }
     }

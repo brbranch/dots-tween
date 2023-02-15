@@ -1,12 +1,11 @@
 ﻿using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
-using Unity.Transforms;
 
 namespace DotsTween.Tweens
 {
     [BurstCompile]
-    internal struct TweenRotationCommand : ITweenCommand, ITweenInfo<quaternion>
+    public struct TweenRotationCommand : IComponentData, ITweenParams, ITweenInfo<quaternion>
     {
         public TweenParams TweenParams;
         public quaternion Start;

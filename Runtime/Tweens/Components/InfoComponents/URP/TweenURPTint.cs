@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 namespace DotsTween.Tweens
 {
-    public struct TweenURPTint : IComponentData, ITweenId, ITweenInfo<float4>
+    internal struct TweenURPTint : IComponentData, ITweenId, ITweenInfo<float4>
     {
         public int Id;
         public float4 Start;

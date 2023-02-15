@@ -29,7 +29,7 @@ namespace DotsTween.Tweens
         internal TweenState(in TweenParams tweenParams, in double elapsedTime, in int chunkIndex, in int tweenInfoTypeIndex) : this()
         {
             Settings = tweenParams;
-            PlayCount = tweenParams.LoopCount >= 0 ? (short)(tweenParams.LoopCount + 1) : LOOP_COUNT_INFINITE;
+            PlayCount = tweenParams.LoopCount >= 0 ? tweenParams.LoopCount : LOOP_COUNT_INFINITE;
 
             CurrentTime = -math.max(tweenParams.StartDelay, 0.0f);
             Id = GenerateId(elapsedTime, chunkIndex, tweenInfoTypeIndex);

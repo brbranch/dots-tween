@@ -7,7 +7,7 @@ namespace DotsTween.Tweens
 {
     [BurstCompile]
     [WriteGroup(typeof(LocalTransform))]
-    public struct TweenRotation : IComponentData, ITweenId, ITweenInfo<quaternion>
+    internal struct TweenRotation : IComponentData, ITweenId, ITweenInfo<quaternion>
     {
         public int Id;
         public quaternion Start;

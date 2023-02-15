@@ -103,7 +103,7 @@ float duration = 5.0f;
 
 Tween.Move.FromTo(ref entityManager, entity, start, end, new TweenParams { Duration = duration });
 Tween.Move.FromTo(ref commandBuffer, entity, start, end, new TweenParams { Duration = duration });
-Tween.Move.FromTo(ref parallelWriter, sortKey, entity, start, end, new TweenParams { Duration = duration });
+Tween.Move.FromTo(ref parallelWriter, entity, sortKey, start, end, new TweenParams { Duration = duration });
 ```
 
 ### Stop the entity
@@ -118,6 +118,40 @@ When `LoopCount` is -1, it means loop the tween infinitely. It's recommended to 
 
 ```cs
 Tween.Move.FromTo(ref entityManager, entity, start, end, new TweenParams { Duration = duration, LoopCount = Tween.Infinite });
+```
+
+### Perform Component Operations On Start/Complete
+
+Tweens with infinite LoopCounts do not support `OnComplete` component operations.
+
+```csharp
+Tween.Scale.FromTo(ref entityManager, entity, start, end, new TweenParams
+{
+    Duration = duration,
+    LoopCount = 2,
+    OnStart = new ComponentOperations
+    {
+        Add = ComponentType.ReadOnly<AnotherTag>(),
+    },
+    OnComplete = new ComponentOperations
+    {
+        Add = ComponentType.ReadOnly<ExampleTag>(),
+        Remove = ComponentType.ReadOnly<AnotherTag>(),
+    }
+});
+```
+
+### Creating and Playing Timelines
+
+Tweens with infinite LoopCounts are not supported within a timeline.
+
+```csharp
+Tween.Timeline.Create()
+    .Append(obj, new TweenScaleCommand(new TweenParams { Duration = 1.5f }, 1f, 2.2f))
+    .Insert(2f, obj, new TweenTranslationCommand(new TweenParams { Duration = 1f }, float3.zero, new float3(1f, 2f, 3f)))
+    .SetStartDelay(0.5f)
+    .AddOnComplete(new ComponentOperations { Add = ComponentType.ReadOnly<ExampleTag>() })
+    .Play(ref entityCommandBuffer);
 ```
 
 ### Check if the entity is tweening

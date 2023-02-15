@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.8.0] - 2023.02.15
+
+### Breaking Changes
+
+- Updated Namespaces and tween function naming.
+- The `Tween` static class is now seperated into categories. `Tween.Move()` -> `Tween.Move.FromTo()`
+
+### Added
+
+- Timelines (called Sequences in DOTween)
+  - This also introduces a new SystemGroup `TimelineSimulationSystemGroup`; runs before `TweenSimulationSystemGroup`
+  - Can be accessed using `Tween.Timelines`
+- Ability to tween `From` and `To`. Example: `Tween.Move.To()`
+  - The original function is now called `FromTo`. Example: `Tween.Rotate.FromTo()`
+- Ability to perform "Component Operations" when starting and/or completing a tween.
+
 ## [0.7.2] - 2023.01.26
 
 ### Changed

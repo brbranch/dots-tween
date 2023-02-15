@@ -13,7 +13,7 @@ namespace DotsTween.Samples.StressTest
         public float MoveDuration = 5;
         public EaseType MoveEaseType = EaseType.QuadraticInOut;
         public bool MoveIsPingPong = true;
-        public ushort MoveLoopCount = 0;
+        public short MoveLoopCount = -1;
         public float StartMoveRadius = 2;
         public float EndMoveRadius = 5;
         
@@ -21,7 +21,7 @@ namespace DotsTween.Samples.StressTest
         public float RotateDuration = 5;
         public EaseType RotateEaseType = EaseType.QuadraticInOut;
         public bool RotateIsPingPong = true;
-        public ushort RotateLoopCount = 0;
+        public short RotateLoopCount = -1;
         public float MinRotateDegree = 160;
         public float MaxRotateDegree = 200;
         
@@ -29,7 +29,7 @@ namespace DotsTween.Samples.StressTest
         public float ScaleDuration = 5;
         public EaseType ScaleEaseType = EaseType.QuadraticInOut;
         public bool ScaleIsPingPong = true;
-        public ushort ScaleLoopCount = 0;
+        public short ScaleLoopCount = -1;
         public float MinStartScale = 0.1f;
         public float MaxStartScale = 0.15f;
         public float MinEndScale = 0.2f;
@@ -76,21 +76,21 @@ namespace DotsTween.Samples.StressTest
         public float MoveDuration;
         public EaseType MoveEaseType;
         public bool MoveIsPingPong;
-        public ushort MoveLoopCount;
+        public short MoveLoopCount;
         public float StartMoveRadius;
         public float EndMoveRadius;
 
         public float RotateDuration;
         public EaseType RotateEaseType;
         public bool RotateIsPingPong;
-        public ushort RotateLoopCount;
+        public short RotateLoopCount;
         public float MinRotateDegree;
         public float MaxRotateDegree;
 
         public float ScaleDuration;
         public EaseType ScaleEaseType;
         public bool ScaleIsPingPong;
-        public ushort ScaleLoopCount;
+        public short ScaleLoopCount;
         public float MinStartScale;
         public float MaxStartScale;
         public float MinEndScale;

@@ -2,8 +2,8 @@
 
 namespace DotsTween.Tweens
 {
-    public interface ITweenCommand : IComponentData, ITweenParams
-    {
-        
-    }
+    // public interface ITweenCommand : IComponentData, ITweenParams
+    // {
+    //     
+    // }
 }

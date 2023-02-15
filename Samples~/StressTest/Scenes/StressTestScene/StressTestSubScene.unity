@@ -173,21 +173,21 @@ MonoBehaviour:
   MoveEaseType: 3
   MoveEaseExponent: 2
   MoveIsPingPong: 1
-  MoveLoopCount: 0
+  MoveLoopCount: -1
   StartMoveRadius: 2
   EndMoveRadius: 5
   RotateDuration: 5
   RotateEaseType: 3
   RotateEaseExponent: 2
   RotateIsPingPong: 1
-  RotateLoopCount: 0
+  RotateLoopCount: -1
   MinRotateDegree: 160
   MaxRotateDegree: 200
   ScaleDuration: 5
   ScaleEaseType: 3
   ScaleEaseExponent: 2
   ScaleIsPingPong: 1
-  ScaleLoopCount: 0
+  ScaleLoopCount: -1
   MinStartScale: 0.1
   MaxStartScale: 0.15
   MinEndScale: 0.2

@@ -62,13 +62,7 @@ namespace DotsTween.Tweens
                     var tweenParams = command.GetTweenParams();
                     TweenState tween = new TweenState(tweenParams, ElapsedTime, chunkIndex, TweenInfoTypeIndex);
                     ParallelWriter.AppendToBuffer(chunkIndex, entity, tween);
-
-                    PerformComponentOperationsOnStart(
-                        ref ParallelWriter,
-                        chunkIndex,
-                        ref entity,
-                        ref tweenParams
-                    );
+                    tweenParams.OnStart.Perform(ref ParallelWriter, chunkIndex, entity);
 
                     TTweenInfo info = default;
                     info.SetTweenId(tween.Id);
@@ -77,21 +71,6 @@ namespace DotsTween.Tweens
 
                     ParallelWriter.RemoveComponent<TTweenCommand>(chunkIndex, entity);
                 }
-            }
-
-            private void PerformComponentOperationsOnStart(ref EntityCommandBuffer.ParallelWriter parallelWriter, int sortKey, ref Entity entity, ref TweenParams settings)
-            {
-                if (settings.AddOnStart != default)
-                    parallelWriter.AddComponent(sortKey, entity, settings.AddOnStart);
-                
-                if (settings.RemoveOnStart != default)
-                    parallelWriter.RemoveComponent(sortKey, entity, settings.RemoveOnStart);
-                
-                if (settings.EnableOnStart != default)
-                    parallelWriter.SetComponentEnabled(sortKey, entity, settings.EnableOnStart, true);
-                
-                if (settings.DisableOnStart != default)
-                    parallelWriter.SetComponentEnabled(sortKey, entity, settings.DisableOnStart, false);
             }
         }
 

@@ -7,7 +7,7 @@ namespace DotsTween.Tweens
 {
     [BurstCompile]
     [WriteGroup(typeof(PostTransformScale))]
-    public struct TweenNonUniformScale : IComponentData, ITweenId, ITweenInfo<float3>
+    internal struct TweenNonUniformScale : IComponentData, ITweenId, ITweenInfo<float3>
     {
         public int Id;
         public float3 Start;
