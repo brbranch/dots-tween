@@ -11,7 +11,15 @@ using Unity.Jobs;
 [assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenNonUniformScaleDestroySystem.DestroyJob))]
 
 #if DOTS_TWEEN_URP
-[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenTintDestroySystem.DestroyJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenURPTintDestroySystem.DestroyJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenURPFadeDestroySystem.DestroyJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenURPBumpScaleDestroySystem.DestroyJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenURPCutoffDestroySystem.DestroyJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenURPEmissionColorDestroySystem.DestroyJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenURPMetallicDestroySystem.DestroyJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenURPOcclusionStrengthDestroySystem.DestroyJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenURPSmoothnessDestroySystem.DestroyJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenURPSpecularColorDestroySystem.DestroyJob))]
 #elif DOTS_TWEEN_HDRP
 #endif
 
@@ -118,21 +126,21 @@ namespace DotsTween.Tweens
         }
     }
 
-    [BurstCompile]
-    internal partial class TweenTranslationDestroySystem : TweenDestroySystem<TweenTranslation> { }
-
-    [BurstCompile]
-    internal partial class TweenRotationDestroySystem : TweenDestroySystem<TweenRotation> { }
-
-    [BurstCompile]
-    internal partial class TweenScaleDestroySystem : TweenDestroySystem<TweenScale> { }
-
-    [BurstCompile]
-    internal partial class TweenNonUniformScaleDestroySystem : TweenDestroySystem<TweenNonUniformScale> { }
+    [BurstCompile] internal partial class TweenTranslationDestroySystem : TweenDestroySystem<TweenTranslation> { }
+    [BurstCompile] internal partial class TweenRotationDestroySystem : TweenDestroySystem<TweenRotation> { }
+    [BurstCompile] internal partial class TweenScaleDestroySystem : TweenDestroySystem<TweenScale> { }
+    [BurstCompile] internal partial class TweenNonUniformScaleDestroySystem : TweenDestroySystem<TweenNonUniformScale> { }
 
 #if DOTS_TWEEN_URP
-    [BurstCompile]
-    internal partial class TweenTintDestroySystem : TweenDestroySystem<TweenURPTint> {}
+    [BurstCompile] internal partial class TweenURPTintDestroySystem : TweenDestroySystem<TweenURPTint> {}
+    [BurstCompile] internal partial class TweenURPFadeDestroySystem : TweenDestroySystem<TweenURPFade> {}
+    [BurstCompile] internal partial class TweenURPBumpScaleDestroySystem : TweenDestroySystem<TweenURPBumpScale> {}
+    [BurstCompile] internal partial class TweenURPCutoffDestroySystem : TweenDestroySystem<TweenURPCutoff> {}
+    [BurstCompile] internal partial class TweenURPEmissionColorDestroySystem : TweenDestroySystem<TweenURPEmissionColor> {}
+    [BurstCompile] internal partial class TweenURPMetallicDestroySystem : TweenDestroySystem<TweenURPMetallic> {}
+    [BurstCompile] internal partial class TweenURPOcclusionStrengthDestroySystem : TweenDestroySystem<TweenURPOcclusionStrength> {}
+    [BurstCompile] internal partial class TweenURPSmoothnessDestroySystem : TweenDestroySystem<TweenURPSmoothness> {}
+    [BurstCompile] internal partial class TweenURPSpecularColorDestroySystem : TweenDestroySystem<TweenURPSpecularColor> {}
 #elif DOTS_TWEEN_HDRP
 #endif
 }

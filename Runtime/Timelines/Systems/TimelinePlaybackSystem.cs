@@ -36,6 +36,14 @@ namespace DotsTween.Timelines.Systems
                 TryToDestroyTimeline(timeline, entity, ref ecb);
             }
         }
+        
+        private void PerformComponentOperations(ref EntityCommandBuffer ecb, in List<(Entity, ComponentOperations)> operations)
+        {
+            foreach (var (target, operation) in operations)
+            {
+                operation.Perform(ref ecb, target);
+            }
+        }
 
         private void TryToDestroyTimeline(TimelineComponent timeline, Entity entity, ref EntityCommandBuffer ecb)
         {
@@ -77,19 +85,35 @@ namespace DotsTween.Timelines.Systems
                     ecb.AddComponent<TweenNonUniformScaleCommand>(timelineElement.Target, scaleCommand);
                     break;
 #if DOTS_TWEEN_URP
-                case TweenURPTintCommand tintCommand:
-                    ecb.AddComponent<TweenURPTintCommand>(timelineElement.Target, tintCommand);
+                case TweenURPTintCommand tint:
+                    ecb.AddComponent<TweenURPTintCommand>(timelineElement.Target, tint);
+                    break;
+                case TweenURPFadeCommand fade:
+                    ecb.AddComponent<TweenURPFadeCommand>(timelineElement.Target, fade);
+                    break;
+                case TweenURPBumpScaleCommand bumpScale:
+                    ecb.AddComponent<TweenURPBumpScaleCommand>(timelineElement.Target, bumpScale);
+                    break;
+                case TweenURPCutoffCommand cutoff:
+                    ecb.AddComponent<TweenURPCutoffCommand>(timelineElement.Target, cutoff);
+                    break;
+                case TweenURPEmissionColorCommand emissionColour:
+                    ecb.AddComponent<TweenURPEmissionColorCommand>(timelineElement.Target, emissionColour);
+                    break;
+                case TweenURPMetallicCommand metallic:
+                    ecb.AddComponent<TweenURPMetallicCommand>(timelineElement.Target, metallic);
+                    break;
+                case TweenURPOcclusionStrengthCommand occlusionStrength:
+                    ecb.AddComponent<TweenURPOcclusionStrengthCommand>(timelineElement.Target, occlusionStrength);
+                    break;
+                case TweenURPSmoothnessCommand smoothness:
+                    ecb.AddComponent<TweenURPSmoothnessCommand>(timelineElement.Target, smoothness);
+                    break;
+                case TweenURPSpecularColorCommand specColour:
+                    ecb.AddComponent<TweenURPSpecularColorCommand>(timelineElement.Target, specColour);
                     break;
 #elif DOTS_TWEEN_HDRP
 #endif
-            }
-        }
-        
-        private void PerformComponentOperations(ref EntityCommandBuffer ecb, in List<(Entity, ComponentOperations)> operations)
-        {
-            foreach (var (target, operation) in operations)
-            {
-                operation.Perform(ref ecb, target);
             }
         }
     }
