@@ -2,7 +2,6 @@
 using DotsTween.Tweens;
 using Unity.Entities;
 using Unity.Mathematics;
-using UnityEngine;
 using Random = Unity.Mathematics.Random;
 
 namespace DotsTween.Samples.StressTest
@@ -46,8 +45,6 @@ namespace DotsTween.Samples.StressTest
                         IsPingPong = cmd.ScaleIsPingPong,
                         LoopCount = cmd.ScaleLoopCount
                     });
-                    
-                    Tween.URP.Tint.FromTo(ref parallelWriter, entityInQueryIndex, obj, Color.white, Color.green, 1f);
                 }
 
                 parallelWriter.RemoveComponent<StressTestCommand>(entityInQueryIndex, entity);

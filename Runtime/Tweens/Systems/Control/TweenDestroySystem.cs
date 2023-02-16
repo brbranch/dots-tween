@@ -9,7 +9,11 @@ using Unity.Jobs;
 [assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenRotationDestroySystem.DestroyJob))]
 [assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenScaleDestroySystem.DestroyJob))]
 [assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenNonUniformScaleDestroySystem.DestroyJob))]
+
+#if DOTS_TWEEN_URP
 [assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenTintDestroySystem.DestroyJob))]
+#elif DOTS_TWEEN_HDRP
+#endif
 
 namespace DotsTween.Tweens
 {
@@ -126,7 +130,9 @@ namespace DotsTween.Tweens
     [BurstCompile]
     internal partial class TweenNonUniformScaleDestroySystem : TweenDestroySystem<TweenNonUniformScale> { }
 
+#if DOTS_TWEEN_URP
     [BurstCompile]
     internal partial class TweenTintDestroySystem : TweenDestroySystem<TweenURPTint> {}
-
+#elif DOTS_TWEEN_HDRP
+#endif
 }

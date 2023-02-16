@@ -11,7 +11,11 @@ using Unity.Transforms;
 [assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenRotationGenerateSystem.GenerateJob))]
 [assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenScaleGenerateSystem.GenerateJob))]
 [assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenNonUniformScaleGenerateSystem.GenerateJob))]
+
+#if DOTS_TWEEN_URP
 [assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenURPTintGenerateSystem.GenerateJob))]
+#elif DOTS_TWEEN_HDRP
+#endif
 
 namespace DotsTween.Tweens
 {
@@ -116,6 +120,9 @@ namespace DotsTween.Tweens
     [BurstCompile]
     internal partial class TweenNonUniformScaleGenerateSystem : TweenGenerateSystem<TweenNonUniformScaleCommand, TweenNonUniformScale, PostTransformScale, float3> { }
 
+#if DOTS_TWEEN_URP
     [BurstCompile]
     internal partial class TweenURPTintGenerateSystem : TweenGenerateSystem<TweenURPTintCommand, TweenURPTint, URPMaterialPropertyBaseColor, float4> {}
+#elif  DOTS_TWEEN_HDRP
+#endif
 }

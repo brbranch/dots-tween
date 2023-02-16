@@ -76,9 +76,12 @@ namespace DotsTween.Timelines.Systems
                 case TweenNonUniformScaleCommand scaleCommand:
                     ecb.AddComponent<TweenNonUniformScaleCommand>(timelineElement.Target, scaleCommand);
                     break;
+#if DOTS_TWEEN_URP
                 case TweenURPTintCommand tintCommand:
                     ecb.AddComponent<TweenURPTintCommand>(timelineElement.Target, tintCommand);
                     break;
+#elif DOTS_TWEEN_HDRP
+#endif
             }
         }
         
