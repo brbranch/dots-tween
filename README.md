@@ -54,19 +54,32 @@ Now uses Entities Graphics library from Unity.
 
 ## Features
 
-- Tween support
-    - `Translation.Value`
-    - `Rotation.Value`
-    - `Scale.Value`
-    - `NonUniformScale.Value`
-    - `URPMaterialPropertyBaseColor.Value`
 - Pause, resume and stop tweens on an entity
 - Multiple types of active tweens on the same entity at the same time
-- Ping-pong
+- Ping-pong (on tweens)
 - Loop
 - Start delay
-- URP Support
+- Timelines
 - Ease library (from [easings.net](https://easings.net))
+
+## Tweening Support
+
+### Transform
+ - Translation
+ - Rotation
+ - Scale (Uniform)
+ - NonUniformScale
+
+### URP
+ - Base Color
+ - Base Color Alpha Fading
+ - Specular Color
+ - Emission Color
+ - Metallic
+ - Cutoff
+ - Bump Scale
+ - Occlusion Strength
+ - Smoothness
 
 ## Dependencies
 
@@ -101,9 +114,9 @@ float3 start = new float3(0.0f, 0.0f, 0.0f);
 float3 end = new float3(1.0f, 1.0f, 1.0f);
 float duration = 5.0f;
 
-Tween.Move.FromTo(ref entityManager, entity, start, end, new TweenParams { Duration = duration });
-Tween.Move.FromTo(ref commandBuffer, entity, start, end, new TweenParams { Duration = duration });
-Tween.Move.FromTo(ref parallelWriter, entity, sortKey, start, end, new TweenParams { Duration = duration });
+Tween.Move.FromTo(ref entityManager, entity, start, end, duration);
+Tween.Move.FromTo(ref commandBuffer, entity, start, end, duration);
+Tween.Move.FromTo(ref parallelWriter, entity, sortKey, start, end, duration);
 ```
 
 ### Stop the entity
@@ -117,7 +130,7 @@ Tween.Controls.Stop(entityManager, entity);
 When `LoopCount` is -1, it means loop the tween infinitely. It's recommended to use `Tween.Infinite` in case it changes in the future.
 
 ```cs
-Tween.Move.FromTo(ref entityManager, entity, start, end, new TweenParams { Duration = duration, LoopCount = Tween.Infinite });
+Tween.Move.FromTo(ref entityManager, entity, start, end, duration, new TweenParams { LoopCount = Tween.Infinite });
 ```
 
 ### Perform Component Operations On Start/Complete
@@ -125,9 +138,8 @@ Tween.Move.FromTo(ref entityManager, entity, start, end, new TweenParams { Durat
 Tweens with infinite LoopCounts do not support `OnComplete` component operations.
 
 ```csharp
-Tween.Scale.FromTo(ref entityManager, entity, start, end, new TweenParams
+Tween.Scale.FromTo(ref entityManager, entity, start, end, duration, new TweenParams
 {
-    Duration = duration,
     LoopCount = 2,
     OnStart = new ComponentOperations
     {
@@ -146,9 +158,11 @@ Tween.Scale.FromTo(ref entityManager, entity, start, end, new TweenParams
 Tweens with infinite LoopCounts are not supported within a timeline.
 
 ```csharp
+var duration = 1.5f;
+
 Tween.Timeline.Create()
-    .Append(obj, new TweenScaleCommand(new TweenParams { Duration = 1.5f }, 1f, 2.2f))
-    .Insert(2f, obj, new TweenTranslationCommand(new TweenParams { Duration = 1f }, float3.zero, new float3(1f, 2f, 3f)))
+    .Append(obj, new TweenScaleCommand(1f, 2.2f, duration))
+    .Insert(2f, obj, new TweenTranslationCommand(float3.zero, new float3(1f, 2f, 3f), duration))
     .SetStartDelay(0.5f)
     .AddOnComplete(new ComponentOperations { Add = ComponentType.ReadOnly<ExampleTag>() })
     .Play(ref entityCommandBuffer);
@@ -169,7 +183,7 @@ if (EntityManager.HasComponent<TweenState>(entity))
 
 ### Command
 
-When starting a tween by calling `Tween`'s functions (e.g. `Tween.Move()`), it creates a tween command component of its kind (e.g. `TweenTranslationCommand`) containing the tweening data on the target entity.
+When starting a tween by calling `Tween`'s functions (e.g. `Tween.Move.FromTo()`), it creates a tween command component of its kind (e.g. `TweenTranslationCommand`) containing the tweening data on the target entity.
 
 If starting multiple tweens with the same type consequently, the command component will be overridden by the last one, which means only the last tween will be successfully triggered.
 

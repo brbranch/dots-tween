@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.8.1] - 2023.02.16
+
+### Breaking Changes
+
+- Updated ParallelWriter overloads to have `sortKey` before `entity`
+- `TweenParams` is now the last function parameter of Tween Commands
+- `duration` is now a required parameter when creating a tween
+
+### Added
+
+- A bunch of URP tweens
+  - Base Color Alpha Fading
+  - Specular Color
+  - Emission Color
+  - Metallic
+  - Cutoff
+  - Bump Scale
+  - Occlusion Strength
+  - Smoothness
+
+### Internal Changes
+- Cleaned up and organized everything into a better folder structure (in my opinion at least)
+- Now using `static partial class` for the tween shortcuts so we can separate them into different files. 
+
 ## [0.8.0] - 2023.02.15
 
 ### Breaking Changes

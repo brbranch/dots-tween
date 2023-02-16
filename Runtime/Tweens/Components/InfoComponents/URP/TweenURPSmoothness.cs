@@ -1,19 +1,18 @@
 ﻿using Unity.Burst;
 using Unity.Entities;
-using Unity.Mathematics;
 using Unity.Rendering;
 
 namespace DotsTween.Tweens
 {
     [BurstCompile]
-    [WriteGroup(typeof(URPMaterialPropertyBaseColor))]
-    internal struct TweenURPTint : IComponentData, ITweenId, ITweenInfo<float4>
+    [WriteGroup(typeof(URPMaterialPropertySmoothness))]
+    internal struct TweenURPSmoothness : IComponentData, ITweenId, ITweenInfo<float>
     {
         public int Id;
-        public float4 Start;
-        public float4 End;
+        public float Start;
+        public float End;
 
-        public TweenURPTint(in int id, in float4 start, in float4 end)
+        public TweenURPSmoothness(in int id, in float start, in float end)
         {
             Id = id;
             Start = start;
@@ -30,18 +29,18 @@ namespace DotsTween.Tweens
             return Id;
         }
 
-        public void SetTweenInfo(in float4 start, in float4 end)
+        public void SetTweenInfo(in float start, in float end)
         {
             Start = start;
             End = end;
         }
 
-        public float4 GetTweenStart()
+        public float GetTweenStart()
         {
             return Start;
         }
 
-        public float4 GetTweenEnd()
+        public float GetTweenEnd()
         {
             return End;
         }

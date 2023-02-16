@@ -2,6 +2,7 @@
 using DotsTween.Tweens;
 using Unity.Entities;
 using Unity.Mathematics;
+using UnityEngine;
 using Random = Unity.Mathematics.Random;
 
 namespace DotsTween.Samples.StressTest
@@ -22,18 +23,16 @@ namespace DotsTween.Samples.StressTest
 
                     float3 moveStart = random.NextFloat3Direction() * cmd.StartMoveRadius;
                     float3 moveEnd = random.NextFloat3Direction() * cmd.EndMoveRadius;
-                    Tween.Move.FromTo(ref parallelWriter, obj, entityInQueryIndex, moveStart, moveEnd, new TweenParams
+                    Tween.Move.FromTo(ref parallelWriter, entityInQueryIndex, obj, moveStart, moveEnd, cmd.MoveDuration, new TweenParams
                     {
-                        Duration = cmd.MoveDuration,
                         EaseType = cmd.MoveEaseType,
                         IsPingPong = cmd.MoveIsPingPong,
                         LoopCount = cmd.MoveLoopCount
                     });
 
                     quaternion rotateEnd = quaternion.AxisAngle(random.NextFloat3Direction(), random.NextFloat(cmd.MinRotateDegree, cmd.MaxRotateDegree));
-                    Tween.Rotate.FromTo(ref parallelWriter, obj, entityInQueryIndex, quaternion.identity, rotateEnd, new TweenParams
+                    Tween.Rotate.FromTo(ref parallelWriter, entityInQueryIndex, obj, quaternion.identity, rotateEnd, cmd.RotateDuration, new TweenParams
                     {
-                        Duration = cmd.RotateDuration,
                         EaseType = cmd.RotateEaseType,
                         IsPingPong = cmd.RotateIsPingPong,
                         LoopCount = cmd.RotateLoopCount
@@ -41,18 +40,19 @@ namespace DotsTween.Samples.StressTest
                     
                     float scaleStart = random.NextFloat(cmd.MinStartScale, cmd.MaxStartScale);
                     float scaleEnd = random.NextFloat(cmd.MinEndScale, cmd.MaxEndScale);
-                    Tween.Scale.FromTo(ref parallelWriter, obj, entityInQueryIndex, scaleStart, scaleEnd, new TweenParams
+                    Tween.Scale.FromTo(ref parallelWriter, entityInQueryIndex, obj, scaleStart, scaleEnd, cmd.ScaleDuration, new TweenParams
                     {
-                        Duration = cmd.ScaleDuration,
                         EaseType = cmd.ScaleEaseType,
                         IsPingPong = cmd.ScaleIsPingPong,
                         LoopCount = cmd.ScaleLoopCount
                     });
+                    
+                    Tween.URP.Tint.FromTo(ref parallelWriter, entityInQueryIndex, obj, Color.white, Color.green, 1f);
                 }
 
                 parallelWriter.RemoveComponent<StressTestCommand>(entityInQueryIndex, entity);
             }).ScheduleParallel();
-
+            
             endSimECBSystem.AddJobHandleForProducer(Dependency);
         }
     }

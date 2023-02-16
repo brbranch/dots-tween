@@ -57,17 +57,28 @@ namespace DotsTween.Timelines.Systems
 
         private void TryToStartPlayingTimelineElement(TimelineElement timelineElement, TimelineComponent timeline, ref EntityCommandBuffer ecb)
         {
-            if (timelineElement.StartTime <= timeline.CurrentTime && !timeline.ActiveElements.Contains(timelineElement))
+            if (!(timelineElement.StartTime <= timeline.CurrentTime) || timeline.ActiveElements.Contains(timelineElement)) return;
+            
+            timeline.ActiveElements.Add(timelineElement);
+            var command = timelineElement.Command;
+
+            switch (command)
             {
-                timeline.ActiveElements.Add(timelineElement);
-
-                var command = timelineElement.Command;
-
-                if (command is TweenTranslationCommand translationCommand) ecb.AddComponent<TweenTranslationCommand>(timelineElement.Target, translationCommand);
-                else if (command is TweenScaleCommand tweenScaleCommand) ecb.AddComponent<TweenScaleCommand>(timelineElement.Target, tweenScaleCommand);
-                else if (command is TweenRotationCommand rotationCommand) ecb.AddComponent<TweenRotationCommand>(timelineElement.Target, rotationCommand);
-                else if (command is TweenNonUniformScaleCommand scaleCommand) ecb.AddComponent<TweenNonUniformScaleCommand>(timelineElement.Target, scaleCommand);
-                else if (command is TweenURPTintCommand tintCommand) ecb.AddComponent<TweenURPTintCommand>(timelineElement.Target, tintCommand);
+                case TweenTranslationCommand translationCommand:
+                    ecb.AddComponent<TweenTranslationCommand>(timelineElement.Target, translationCommand);
+                    break;
+                case TweenScaleCommand tweenScaleCommand:
+                    ecb.AddComponent<TweenScaleCommand>(timelineElement.Target, tweenScaleCommand);
+                    break;
+                case TweenRotationCommand rotationCommand:
+                    ecb.AddComponent<TweenRotationCommand>(timelineElement.Target, rotationCommand);
+                    break;
+                case TweenNonUniformScaleCommand scaleCommand:
+                    ecb.AddComponent<TweenNonUniformScaleCommand>(timelineElement.Target, scaleCommand);
+                    break;
+                case TweenURPTintCommand tintCommand:
+                    ecb.AddComponent<TweenURPTintCommand>(timelineElement.Target, tintCommand);
+                    break;
             }
         }
         

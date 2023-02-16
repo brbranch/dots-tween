@@ -5,7 +5,7 @@ namespace DotsTween.Tweens
 {
     public struct TweenParams
     {
-        public float Duration;
+        public float Duration { get; internal set; }
         public EaseType EaseType;
         [MarshalAs(UnmanagedType.U1)] public bool IsPingPong;
         public short LoopCount;
@@ -16,20 +16,6 @@ namespace DotsTween.Tweens
 
         public ComponentOperations OnComplete;
         public ComponentOperations OnStart;
-
-        public TweenParams(
-            in float duration,
-            in EaseType easeType = EaseType.Linear) : this()
-        {
-            Duration = duration;
-            EaseType = easeType;
-            IsPingPong = false;
-            LoopCount = 0;
-            StartDelay = 0f;
-            
-            TimelineStartPosition = 0f;
-            TimelineEndPosition = 0f;
-        }
 
         public void SetTimelinePositions(float startTime, float endTime)
         {

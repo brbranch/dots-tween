@@ -7,12 +7,12 @@ namespace DotsTween.Tweens
 {
     [BurstCompile]
     [UpdateInGroup(typeof(TweenApplySystemGroup))]
-    internal partial class TweenURPTintSystem : SystemBase
+    internal partial class TweenURPMetallicSystem : SystemBase
     {
         [BurstCompile]
         protected override void OnCreate()
         {
-            RequireForUpdate<TweenURPTint>();
+            RequireForUpdate<TweenURPMetallic>();
         }
 
         [BurstCompile]
@@ -20,12 +20,12 @@ namespace DotsTween.Tweens
         {
             Entities
                 .WithNone<TweenPause>()
-                .ForEach((ref URPMaterialPropertyBaseColor baseColor, in DynamicBuffer<TweenState> tweenBuffer, in TweenURPTint tweenInfo) =>
+                .ForEach((ref URPMaterialPropertyMetallic sheen, in DynamicBuffer<TweenState> tweenBuffer, in TweenURPMetallic tweenInfo) =>
                 {
                     foreach (var tween in tweenBuffer)
                     {
                         if (tween.Id != tweenInfo.Id) continue;
-                        baseColor.Value = math.lerp(tweenInfo.Start, tweenInfo.End, tween.EasePercentage);
+                        sheen.Value = math.lerp(tweenInfo.Start, tweenInfo.End, tween.EasePercentage);
                     }
                 }).ScheduleParallel();
         }

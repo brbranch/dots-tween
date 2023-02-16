@@ -6,14 +6,14 @@ using Unity.Rendering;
 namespace DotsTween.Tweens
 {
     [BurstCompile]
-    [WriteGroup(typeof(URPMaterialPropertyBaseColor))]
-    internal struct TweenURPTint : IComponentData, ITweenId, ITweenInfo<float4>
+    [WriteGroup(typeof(URPMaterialPropertySpecColor))]
+    internal struct TweenURPSpecularColor : IComponentData, ITweenId, ITweenInfo<float4>
     {
         public int Id;
         public float4 Start;
         public float4 End;
 
-        public TweenURPTint(in int id, in float4 start, in float4 end)
+        public TweenURPSpecularColor(in int id, in float4 start, in float4 end)
         {
             Id = id;
             Start = start;
