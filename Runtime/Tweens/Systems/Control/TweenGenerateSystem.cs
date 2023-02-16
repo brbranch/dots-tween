@@ -23,6 +23,25 @@ using Unity.Transforms;
 [assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenURPSmoothnessGenerateSystem.GenerateJob))]
 [assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenURPSpecularColorGenerateSystem.GenerateJob))]
 #elif DOTS_TWEEN_HDRP
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPAlphaCutoffGenerateSystem.GenerateJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPAmbientOcclusionRemapMaxGenerateSystem.GenerateJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPAmbientOcclusionRemapMinGenerateSystem.GenerateJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPDetailAlbedoScaleGenerateSystem.GenerateJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPDetailNormalScaleGenerateSystem.GenerateJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPDetailSmoothnessScaleGenerateSystem.GenerateJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPDiffusionProfileHashGenerateSystem.GenerateJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPEmissiveColorGenerateSystem.GenerateJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPMetallicGenerateSystem.GenerateJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPSmoothnessGenerateSystem.GenerateJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPSmoothnessRemapMaxGenerateSystem.GenerateJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPSmoothnessRemapMinGenerateSystem.GenerateJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPSpecularColorGenerateSystem.GenerateJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPThicknessGenerateSystem.GenerateJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPThicknessRemapGenerateSystem.GenerateJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPTintGenerateSystem.GenerateJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPTintUnlitGenerateSystem.GenerateJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPFadeGenerateSystem.GenerateJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPFadeUnlitGenerateSystem.GenerateJob))]
 #endif
 
 namespace DotsTween.Tweens
@@ -132,5 +151,24 @@ namespace DotsTween.Tweens
     [BurstCompile] internal partial class TweenURPSmoothnessGenerateSystem : TweenGenerateSystem<TweenURPSmoothnessCommand, TweenURPSmoothness, URPMaterialPropertySmoothness, float> {}
     [BurstCompile] internal partial class TweenURPSpecularColorGenerateSystem : TweenGenerateSystem<TweenURPSpecularColorCommand, TweenURPSpecularColor, URPMaterialPropertySpecColor, float4> {}
 #elif  DOTS_TWEEN_HDRP
+    [BurstCompile] internal partial class TweenHDRPAlphaCutoffGenerateSystem : TweenGenerateSystem<TweenHDRPAlphaCutoffCommand, TweenHDRPAlphaCutoff, HDRPMaterialPropertyAlphaCutoff, float> {}
+    [BurstCompile] internal partial class TweenHDRPAmbientOcclusionRemapMaxGenerateSystem : TweenGenerateSystem<TweenHDRPAmbientOcclusionRemapMaxCommand, TweenHDRPAmbientOcclusionRemapMax, HDRPMaterialPropertyAORemapMax, float> {}
+    [BurstCompile] internal partial class TweenHDRPAmbientOcclusionRemapMinGenerateSystem : TweenGenerateSystem<TweenHDRPAmbientOcclusionRemapMinCommand, TweenHDRPAmbientOcclusionRemapMin, HDRPMaterialPropertyAORemapMin, float> {}
+    [BurstCompile] internal partial class TweenHDRPDetailAlbedoScaleGenerateSystem : TweenGenerateSystem<TweenHDRPDetailAlbedoScaleCommand, TweenHDRPDetailAlbedoScale, HDRPMaterialPropertyDetailAlbedoScale, float> {}
+    [BurstCompile] internal partial class TweenHDRPDetailNormalScaleGenerateSystem : TweenGenerateSystem<TweenHDRPDetailNormalScaleCommand, TweenHDRPDetailNormalScale, HDRPMaterialPropertyDetailNormalScale, float> {}
+    [BurstCompile] internal partial class TweenHDRPDetailSmoothnessScaleGenerateSystem : TweenGenerateSystem<TweenHDRPDetailSmoothnessScaleCommand, TweenHDRPDetailSmoothnessScale, HDRPMaterialPropertyDetailSmoothnessScale, float> {}
+    [BurstCompile] internal partial class TweenHDRPDiffusionProfileHashGenerateSystem : TweenGenerateSystem<TweenHDRPDiffusionProfileHashCommand, TweenHDRPDiffusionProfileHash, HDRPMaterialPropertyDiffusionProfileHash, float> {}
+    [BurstCompile] internal partial class TweenHDRPEmissiveColorGenerateSystem : TweenGenerateSystem<TweenHDRPEmissiveColorCommand, TweenHDRPEmissiveColor, HDRPMaterialPropertyEmissiveColor, float3> {}
+    [BurstCompile] internal partial class TweenHDRPMetallicGenerateSystem : TweenGenerateSystem<TweenHDRPMetallicCommand, TweenHDRPMetallic, HDRPMaterialPropertyMetallic, float> {}
+    [BurstCompile] internal partial class TweenHDRPSmoothnessGenerateSystem : TweenGenerateSystem<TweenHDRPSmoothnessCommand, TweenHDRPSmoothness, HDRPMaterialPropertySmoothness, float> {}
+    [BurstCompile] internal partial class TweenHDRPSmoothnessRemapMaxGenerateSystem : TweenGenerateSystem<TweenHDRPSmoothnessRemapMaxCommand, TweenHDRPSmoothnessRemapMax, HDRPMaterialPropertySmoothnessRemapMax, float> {}
+    [BurstCompile] internal partial class TweenHDRPSmoothnessRemapMinGenerateSystem : TweenGenerateSystem<TweenHDRPSmoothnessRemapMinCommand, TweenHDRPSmoothnessRemapMin, HDRPMaterialPropertySmoothnessRemapMin, float> {}
+    [BurstCompile] internal partial class TweenHDRPSpecularColorGenerateSystem : TweenGenerateSystem<TweenHDRPSpecularColorCommand, TweenHDRPSpecularColor, HDRPMaterialPropertySpecularColor, float4> {}
+    [BurstCompile] internal partial class TweenHDRPThicknessGenerateSystem : TweenGenerateSystem<TweenHDRPThicknessCommand, TweenHDRPThickness, HDRPMaterialPropertyThickness, float> {}
+    [BurstCompile] internal partial class TweenHDRPThicknessRemapGenerateSystem : TweenGenerateSystem<TweenHDRPThicknessRemapCommand, TweenHDRPThicknessRemap, HDRPMaterialPropertyThicknessRemap, float4> {}
+    [BurstCompile] internal partial class TweenHDRPTintGenerateSystem : TweenGenerateSystem<TweenHDRPTintCommand, TweenHDRPTint, HDRPMaterialPropertyBaseColor, float4> {}
+    [BurstCompile] internal partial class TweenHDRPTintUnlitGenerateSystem : TweenGenerateSystem<TweenHDRPTintUnlitCommand, TweenHDRPTintUnlit, HDRPMaterialPropertyUnlitColor, float4> {}
+    [BurstCompile] internal partial class TweenHDRPFadeGenerateSystem : TweenGenerateSystem<TweenHDRPFadeCommand, TweenHDRPFade, HDRPMaterialPropertyBaseColor, float> {}
+    [BurstCompile] internal partial class TweenHDRPFadeUnlitGenerateSystem : TweenGenerateSystem<TweenHDRPFadeUnlitCommand, TweenHDRPFadeUnlit, HDRPMaterialPropertyUnlitColor, float> {}
 #endif
 }

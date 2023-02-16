@@ -21,6 +21,25 @@ using Unity.Jobs;
 [assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenURPSmoothnessDestroySystem.DestroyJob))]
 [assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenURPSpecularColorDestroySystem.DestroyJob))]
 #elif DOTS_TWEEN_HDRP
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPAlphaCutoffDestroySystem.DestroyJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPAmbientOcclusionRemapMaxDestroySystem.DestroyJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPAmbientOcclusionRemapMinDestroySystem.DestroyJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPDetailAlbedoScaleDestroySystem.DestroyJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPDetailNormalScaleDestroySystem.DestroyJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPDetailSmoothnessScaleDestroySystem.DestroyJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPDiffusionProfileHashDestroySystem.DestroyJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPEmissiveColorDestroySystem.DestroyJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPMetallicDestroySystem.DestroyJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPSmoothnessDestroySystem.DestroyJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPSmoothnessRemapMaxDestroySystem.DestroyJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPSmoothnessRemapMinDestroySystem.DestroyJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPSpecularColorDestroySystem.DestroyJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPThicknessDestroySystem.DestroyJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPThicknessRemapDestroySystem.DestroyJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPTintDestroySystem.DestroyJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPTintUnlitDestroySystem.DestroyJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPFadeDestroySystem.DestroyJob))]
+[assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenHDRPFadeUnlitDestroySystem.DestroyJob))]
 #endif
 
 namespace DotsTween.Tweens
@@ -142,5 +161,24 @@ namespace DotsTween.Tweens
     [BurstCompile] internal partial class TweenURPSmoothnessDestroySystem : TweenDestroySystem<TweenURPSmoothness> {}
     [BurstCompile] internal partial class TweenURPSpecularColorDestroySystem : TweenDestroySystem<TweenURPSpecularColor> {}
 #elif DOTS_TWEEN_HDRP
+    [BurstCompile] internal partial class TweenHDRPAlphaCutoffDestroySystem : TweenDestroySystem<TweenHDRPAlphaCutoff> {}
+    [BurstCompile] internal partial class TweenHDRPAmbientOcclusionRemapMaxDestroySystem : TweenDestroySystem<TweenHDRPAmbientOcclusionRemapMax> {}
+    [BurstCompile] internal partial class TweenHDRPAmbientOcclusionRemapMinDestroySystem : TweenDestroySystem<TweenHDRPAmbientOcclusionRemapMin> {}
+    [BurstCompile] internal partial class TweenHDRPDetailAlbedoScaleDestroySystem : TweenDestroySystem<TweenHDRPDetailAlbedoScale> {}
+    [BurstCompile] internal partial class TweenHDRPDetailNormalScaleDestroySystem : TweenDestroySystem<TweenHDRPDetailNormalScale> {}
+    [BurstCompile] internal partial class TweenHDRPDetailSmoothnessScaleDestroySystem : TweenDestroySystem<TweenHDRPDetailSmoothnessScale> {}
+    [BurstCompile] internal partial class TweenHDRPDiffusionProfileHashDestroySystem : TweenDestroySystem<TweenHDRPDiffusionProfileHash> {}
+    [BurstCompile] internal partial class TweenHDRPEmissiveColorDestroySystem : TweenDestroySystem<TweenHDRPEmissiveColor> {}
+    [BurstCompile] internal partial class TweenHDRPMetallicDestroySystem : TweenDestroySystem<TweenHDRPMetallic> {}
+    [BurstCompile] internal partial class TweenHDRPSmoothnessDestroySystem : TweenDestroySystem<TweenHDRPSmoothness> {}
+    [BurstCompile] internal partial class TweenHDRPSmoothnessRemapMaxDestroySystem : TweenDestroySystem<TweenHDRPSmoothnessRemapMax> {}
+    [BurstCompile] internal partial class TweenHDRPSmoothnessRemapMinDestroySystem : TweenDestroySystem<TweenHDRPSmoothnessRemapMin> {}
+    [BurstCompile] internal partial class TweenHDRPSpecularColorDestroySystem : TweenDestroySystem<TweenHDRPSpecularColor> {}
+    [BurstCompile] internal partial class TweenHDRPThicknessDestroySystem : TweenDestroySystem<TweenHDRPThickness> {}
+    [BurstCompile] internal partial class TweenHDRPThicknessRemapDestroySystem : TweenDestroySystem<TweenHDRPThicknessRemap> {}
+    [BurstCompile] internal partial class TweenHDRPTintDestroySystem : TweenDestroySystem<TweenHDRPTint> {}
+    [BurstCompile] internal partial class TweenHDRPTintUnlitDestroySystem : TweenDestroySystem<TweenHDRPTintUnlit> {}
+    [BurstCompile] internal partial class TweenHDRPFadeDestroySystem : TweenDestroySystem<TweenHDRPFade> {}
+    [BurstCompile] internal partial class TweenHDRPFadeUnlitDestroySystem : TweenDestroySystem<TweenHDRPFadeUnlit> {}
 #endif
 }

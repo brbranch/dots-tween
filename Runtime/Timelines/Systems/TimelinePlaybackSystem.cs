@@ -113,6 +113,63 @@ namespace DotsTween.Timelines.Systems
                     ecb.AddComponent<TweenURPSpecularColorCommand>(timelineElement.Target, specColour);
                     break;
 #elif DOTS_TWEEN_HDRP
+                case TweenHDRPAlphaCutoffCommand alphaCutoffCommand:
+                    ecb.AddComponent<TweenHDRPAlphaCutoffCommand>(timelineElement.Target, alphaCutoffCommand);
+                    break;
+                case TweenHDRPAmbientOcclusionRemapMaxCommand ambientOcclusionRemapMaxCommand:
+                    ecb.AddComponent<TweenHDRPAmbientOcclusionRemapMaxCommand>(timelineElement.Target, ambientOcclusionRemapMaxCommand);
+                    break;
+                case TweenHDRPAmbientOcclusionRemapMinCommand ambientOcclusionRemapMinCommand:
+                    ecb.AddComponent<TweenHDRPAmbientOcclusionRemapMinCommand>(timelineElement.Target, ambientOcclusionRemapMinCommand);
+                    break;
+                case TweenHDRPDetailAlbedoScaleCommand detailAlbedoScaleCommand:
+                    ecb.AddComponent<TweenHDRPDetailAlbedoScaleCommand>(timelineElement.Target, detailAlbedoScaleCommand);
+                    break;
+                case TweenHDRPDetailNormalScaleCommand detailNormalScaleCommand:
+                    ecb.AddComponent<TweenHDRPDetailNormalScaleCommand>(timelineElement.Target, detailNormalScaleCommand);
+                    break;
+                case TweenHDRPDetailSmoothnessScaleCommand detailSmoothnessScaleCommand:
+                    ecb.AddComponent<TweenHDRPDetailSmoothnessScaleCommand>(timelineElement.Target, detailSmoothnessScaleCommand);
+                    break;
+                case TweenHDRPDiffusionProfileHashCommand diffusionProfileHashCommand:
+                    ecb.AddComponent<TweenHDRPDiffusionProfileHashCommand>(timelineElement.Target, diffusionProfileHashCommand);
+                    break;
+                case TweenHDRPEmissiveColorCommand emissiveColorCommand:
+                    ecb.AddComponent<TweenHDRPEmissiveColorCommand>(timelineElement.Target, emissiveColorCommand);
+                    break;
+                case TweenHDRPFadeCommand fadeCommand:
+                    ecb.AddComponent<TweenHDRPFadeCommand>(timelineElement.Target, fadeCommand);
+                    break;
+                case TweenHDRPFadeUnlitCommand fadeUnlitCommand:
+                    ecb.AddComponent<TweenHDRPFadeUnlitCommand>(timelineElement.Target, fadeUnlitCommand);
+                    break;
+                case TweenHDRPMetallicCommand metallicCommand:
+                    ecb.AddComponent<TweenHDRPMetallicCommand>(timelineElement.Target, metallicCommand);
+                    break;
+                case TweenHDRPSmoothnessCommand smoothnessCommand:
+                    ecb.AddComponent<TweenHDRPSmoothnessCommand>(timelineElement.Target, smoothnessCommand);
+                    break;
+                case TweenHDRPSmoothnessRemapMaxCommand smoothnessRemapMaxCommand:
+                    ecb.AddComponent<TweenHDRPSmoothnessRemapMaxCommand>(timelineElement.Target, smoothnessRemapMaxCommand);
+                    break;
+                case TweenHDRPSmoothnessRemapMinCommand smoothnessRemapMinCommand:
+                    ecb.AddComponent<TweenHDRPSmoothnessRemapMinCommand>(timelineElement.Target, smoothnessRemapMinCommand);
+                    break;
+                case TweenHDRPSpecularColorCommand specularColorCommand:
+                    ecb.AddComponent<TweenHDRPSpecularColorCommand>(timelineElement.Target, specularColorCommand);
+                    break;
+                case TweenHDRPThicknessCommand thicknessCommand:
+                    ecb.AddComponent<TweenHDRPThicknessCommand>(timelineElement.Target, thicknessCommand);
+                    break;
+                case TweenHDRPThicknessRemapCommand thicknessRemapCommand:
+                    ecb.AddComponent<TweenHDRPThicknessRemapCommand>(timelineElement.Target, thicknessRemapCommand);
+                    break;
+                case TweenHDRPTintCommand tintCommand:
+                    ecb.AddComponent<TweenHDRPTintCommand>(timelineElement.Target, tintCommand);
+                    break;
+                case TweenHDRPTintUnlitCommand tintUnlitCommand:
+                    ecb.AddComponent<TweenHDRPTintUnlitCommand>(timelineElement.Target, tintUnlitCommand);
+                    break;
 #endif
             }
         }
