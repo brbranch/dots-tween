@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.8.2] - 2023.02.16
+
+### Changed
+- Added conditional compilation for URP `#if DOTS_TWEEN_URP`
+
 ## [0.8.1] - 2023.02.16
 
 ### Breaking Changes

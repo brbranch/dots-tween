@@ -1,4 +1,5 @@
-﻿using Unity.Burst;
+﻿#if DOTS_TWEEN_URP
+using Unity.Burst;
 using Unity.Entities;
 
 namespace DotsTween.Tweens
@@ -45,3 +46,4 @@ namespace DotsTween.Tweens
         }
     }
 }
+#endif
