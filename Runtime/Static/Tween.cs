@@ -14,6 +14,11 @@ namespace DotsTween
         public static partial class URP
         {
         }
+#elif DOTS_TWEEN_HDRP
+        [BurstCompile]
+        public static partial class HDRP
+        {
+        }
 #endif
     }
 }

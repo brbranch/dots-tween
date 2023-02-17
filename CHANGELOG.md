@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.8.3] - 2023.02.17
+
+### Added
+- Added conditional compilation for HDRP `#if DOTS_TWEEN_HDRP`
+- A bunch of HDRP Tweens
+
+### Fixed
+- Fixed current value checking with URP Tween functions
+
 ## [0.8.2] - 2023.02.16
 
 ### Changed

@@ -2,6 +2,7 @@
 using DotsTween.Tweens;
 using Unity.Burst;
 using Unity.Entities;
+using Unity.Rendering;
 using Unity.Transforms;
 
 namespace DotsTween
@@ -76,7 +77,7 @@ namespace DotsTween
                 [BurstCompile]
                 private static void GetCurrentValue(out float currentValue, ref SystemState state, in Entity entity)
                 {
-                    currentValue = state.EntityManager.GetComponentData<LocalTransform>(entity).Scale;
+                    currentValue = state.EntityManager.GetComponentData<URPMaterialPropertyBaseColor>(entity).Value.w;
                 }
             }
         }

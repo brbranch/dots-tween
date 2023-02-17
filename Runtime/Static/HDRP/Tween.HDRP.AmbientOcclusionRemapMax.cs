@@ -1,4 +1,4 @@
-﻿#if DOTS_TWEEN_URP
+#if DOTS_TWEEN_HDRP
 using DotsTween.Tweens;
 using Unity.Burst;
 using Unity.Entities;
@@ -9,27 +9,27 @@ namespace DotsTween
 {
     public static partial class Tween
     {
-        public static partial class URP
+        public static partial class HDRP
         {
             [BurstCompile]
-            public static class Cutoff
+            public static class AmbientOcclusionRemapMax
             {
                 [BurstCompile]
                 public static void FromTo(ref SystemState state, in Entity entity, in float start, in float end, in float duration, in TweenParams tweenParams = default)
                 {
-                    state.EntityManager.AddComponentData(entity, new TweenURPCutoffCommand(start, end, duration, tweenParams));
+                    state.EntityManager.AddComponentData(entity, new TweenHDRPAmbientOcclusionRemapMaxCommand(start, end, duration, tweenParams));
                 }
 
                 [BurstCompile]
                 public static void FromTo(ref EntityCommandBuffer ecb, in Entity entity, in float start, in float end, in float duration, in TweenParams tweenParams = default)
                 {
-                    ecb.AddComponent(entity, new TweenURPCutoffCommand(start, end, duration, tweenParams));
+                    ecb.AddComponent(entity, new TweenHDRPAmbientOcclusionRemapMaxCommand(start, end, duration, tweenParams));
                 }
 
                 [BurstCompile]
                 public static void FromTo(ref EntityCommandBuffer.ParallelWriter ecb, in int sortKey, in Entity entity, in float start, in float end, in float duration, in TweenParams tweenParams = default)
                 {
-                    ecb.AddComponent(sortKey, entity, new TweenURPCutoffCommand(start, end, duration, tweenParams));
+                    ecb.AddComponent(sortKey, entity, new TweenHDRPAmbientOcclusionRemapMaxCommand(start, end, duration, tweenParams));
                 }
 
                 [BurstCompile]
@@ -77,7 +77,7 @@ namespace DotsTween
                 [BurstCompile]
                 private static void GetCurrentValue(out float currentValue, ref SystemState state, in Entity entity)
                 {
-                    currentValue = state.EntityManager.GetComponentData<URPMaterialPropertyCutoff>(entity).Value;
+                    currentValue = state.EntityManager.GetComponentData<HDRPMaterialPropertyAORemapMax>(entity).Value;
                 }
             }
         }

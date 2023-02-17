@@ -1,4 +1,4 @@
-﻿#if DOTS_TWEEN_URP
+#if DOTS_TWEEN_HDRP
 using DotsTween.Math;
 using DotsTween.Tweens;
 using Unity.Burst;
@@ -11,27 +11,27 @@ namespace DotsTween
 {
     public static partial class Tween
     {
-        public static partial class URP
+        public static partial class HDRP
         {
             [BurstCompile]
-            public static class EmissionColor
+            public static class ThicknessRemap
             {
                 [BurstCompile]
                 public static void FromTo(ref SystemState state, in Entity entity, in float4 start, in float4 end, in float duration, in TweenParams tweenParams = default)
                 {
-                    state.EntityManager.AddComponentData(entity, new TweenURPEmissionColorCommand(start, end, duration, tweenParams));
+                    state.EntityManager.AddComponentData(entity, new TweenHDRPThicknessRemapCommand(start, end, duration, tweenParams));
                 }
 
                 [BurstCompile]
                 public static void FromTo(ref EntityCommandBuffer ecb, in Entity entity, in float4 start, in float4 end, in float duration, in TweenParams tweenParams = default)
                 {
-                    ecb.AddComponent(entity, new TweenURPEmissionColorCommand(start, end, duration, tweenParams));
+                    ecb.AddComponent(entity, new TweenHDRPThicknessRemapCommand(start, end, duration, tweenParams));
                 }
 
                 [BurstCompile]
                 public static void FromTo(ref EntityCommandBuffer.ParallelWriter ecb, in int sortKey, in Entity entity, in float4 start, in float4 end, in float duration, in TweenParams tweenParams = default)
                 {
-                    ecb.AddComponent(sortKey, entity, new TweenURPEmissionColorCommand(start, end, duration, tweenParams));
+                    ecb.AddComponent(sortKey, entity, new TweenHDRPThicknessRemapCommand(start, end, duration, tweenParams));
                 }
 
                 [BurstCompile]
@@ -79,19 +79,19 @@ namespace DotsTween
                 [BurstCompile]
                 public static void FromTo(ref SystemState state, in Entity entity, in Color start, in Color end, in float duration, in TweenParams tweenParams = default)
                 {
-                    state.EntityManager.AddComponentData(entity, new TweenURPEmissionColorCommand(start.ToFloat4(), end.ToFloat4(), duration, tweenParams));
+                    state.EntityManager.AddComponentData(entity, new TweenHDRPThicknessRemapCommand(start.ToFloat4(), end.ToFloat4(), duration, tweenParams));
                 }
 
                 [BurstCompile]
                 public static void FromTo(ref EntityCommandBuffer ecb, in Entity entity, in Color start, in Color end, in float duration, in TweenParams tweenParams = default)
                 {
-                    ecb.AddComponent(entity, new TweenURPEmissionColorCommand(start.ToFloat4(), end.ToFloat4(), duration, tweenParams));
+                    ecb.AddComponent(entity, new TweenHDRPThicknessRemapCommand(start.ToFloat4(), end.ToFloat4(), duration, tweenParams));
                 }
 
                 [BurstCompile]
                 public static void FromTo(ref EntityCommandBuffer.ParallelWriter ecb, in int sortKey, in Entity entity, in Color start, in Color end, in float duration, in TweenParams tweenParams = default)
                 {
-                    ecb.AddComponent(sortKey, entity, new TweenURPEmissionColorCommand(start.ToFloat4(), end.ToFloat4(), duration, tweenParams));
+                    ecb.AddComponent(sortKey, entity, new TweenHDRPThicknessRemapCommand(start.ToFloat4(), end.ToFloat4(), duration, tweenParams));
                 }
 
                 [BurstCompile]
@@ -139,7 +139,7 @@ namespace DotsTween
                 [BurstCompile]
                 private static void GetCurrentValue(out float4 currentValue, ref SystemState state, in Entity entity)
                 {
-                    currentValue = state.EntityManager.GetComponentData<URPMaterialPropertyEmissionColor>(entity).Value;
+                    currentValue = state.EntityManager.GetComponentData<HDRPMaterialPropertyThicknessRemap>(entity).Value;
                 }
             }
         }

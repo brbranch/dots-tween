@@ -71,7 +71,7 @@ Now uses Entities Graphics library from Unity.
  - NonUniformScale
 
 ### URP
- - Base Color
+ - Base Color Tinting
  - Base Color Alpha Fading
  - Specular Color
  - Emission Color
@@ -80,6 +80,27 @@ Now uses Entities Graphics library from Unity.
  - Bump Scale
  - Occlusion Strength
  - Smoothness
+
+### HDRP
+ - Base Color Tinting
+ - Base Color Alpha Fading
+ - Unlit Color Tinting
+ - Unlit Color Alpha Fading
+ - AlphaCutoff
+ - AmbientOcclusionRemapMax
+ - AmbientOcclusionRemapMin
+ - DetailAlbedoScale
+ - DetailNormalScale
+ - DetailSmoothnessScale
+ - DiffusionProfileHash
+ - EmissiveColor
+ - Metallic
+ - Smoothness
+ - SmoothnessRemapMax
+ - SmoothnessRemapMin
+ - SpecularColor
+ - Thickness
+ - ThicknessRemap
 
 ## Dependencies
 

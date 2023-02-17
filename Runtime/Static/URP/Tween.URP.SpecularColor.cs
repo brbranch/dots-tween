@@ -139,7 +139,7 @@ namespace DotsTween
                 [BurstCompile]
                 private static void GetCurrentValue(out float4 currentValue, ref SystemState state, in Entity entity)
                 {
-                    currentValue = state.EntityManager.GetComponentData<URPMaterialPropertyBaseColor>(entity).Value;
+                    currentValue = state.EntityManager.GetComponentData<URPMaterialPropertySpecColor>(entity).Value;
                 }
             }
         }
