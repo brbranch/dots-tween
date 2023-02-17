@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.8.4] 2023.02.17
+
+### Changed
+- reverted previous ignore of meta files
+
 ## [0.8.3] - 2023.02.17
 
 ### Added
