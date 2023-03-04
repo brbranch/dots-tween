@@ -12,12 +12,15 @@ Now uses Entities Graphics library from Unity.
 
 - [Demonstration](#demonstration)
 - [Features](#features)
+- [Tweening Support](#tweening-support)
 - [Dependencies](#dependencies)
 - [Installation](#installation)
 - [Examples](#examples)
   - [Move the entity](#move-the-entity)
   - [Stop the entity](#stop-the-entity)
   - [Loop infinitely](#loop-infinitely)
+  - [Perform Component Operations On Start/Complete](#perform-component-operations-on-startcomplete)
+  - [Creating and Playing Timelines](#creating-and-playing-timelines)
   - [Check if the entity is tweening](#check-if-the-entity-is-tweening)
 - [Workflow](#workflow)
   - [Command](#command)
@@ -39,7 +42,7 @@ Now uses Entities Graphics library from Unity.
 - 70000 tweening entities
     - `Translation`
     - `Rotation`
-    - `NonUniformScale`
+    - `Scale`
 - Burst
     - Leak Detection: Off
     - Safety Checks: Off
@@ -67,6 +70,7 @@ Now uses Entities Graphics library from Unity.
 ### Transform
  - Translation
  - Rotation
+ - Spline Translation (with optional Rotation)
  - Scale (Uniform)
  - NonUniformScale
 
@@ -104,11 +108,14 @@ Now uses Entities Graphics library from Unity.
 
 ## Dependencies
 
-- `"com.unity.collections": "2.1.0-pre.6"`
-- `"com.unity.entities": "1.0.0-pre.15"`
-- `"com.unity.burst": "1.8.3"`
-- `"com.unity.mathematics": "1.2.6"`
-- `"com.unity.entities.graphics": "1.0.0-pre.15"`
+ - "com.unity.collections": "2.1.0-pre.11",
+ - "com.unity.entities": "1.0.0-pre.47",
+ - "com.unity.burst": "1.8.3",
+ - "com.unity.mathematics": "1.2.6",
+ - "com.unity.entities.graphics": "1.0.0-pre.44"
+
+### For Spline Support
+ - "com.unity.splines" : "2.1.0"
 
 ## Installation
 

@@ -48,5 +48,7 @@ namespace DotsTween.Tweens
         {
             return End;
         }
+
+        [BurstCompile] public void Cleanup() { }
     }
 }

@@ -5,5 +5,6 @@
         void SetTweenInfo(in T start, in T end);
         T GetTweenStart();
         T GetTweenEnd();
+        void Cleanup();
     }
 }

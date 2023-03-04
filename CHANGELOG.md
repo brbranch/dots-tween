@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.8.5] 2023.03.04
+
+### Added
+- Unity Spline movement support
+
 ## [0.8.4] 2023.02.17
 
 ### Changed

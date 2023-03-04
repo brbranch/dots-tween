@@ -99,7 +99,7 @@ namespace DotsTween.Tweens
                     info.SetTweenId(tween.Id);
                     info.SetTweenInfo(command.GetTweenStart(), command.GetTweenEnd());
                     ParallelWriter.AddComponent(chunkIndex, entity, info);
-
+                    command.Cleanup();
                     ParallelWriter.RemoveComponent<TTweenCommand>(chunkIndex, entity);
                 }
             }
@@ -150,7 +150,7 @@ namespace DotsTween.Tweens
     [BurstCompile] internal partial class TweenURPOcclusionStrengthGenerateSystem : TweenGenerateSystem<TweenURPOcclusionStrengthCommand, TweenURPOcclusionStrength, URPMaterialPropertyOcclusionStrength, float> {}
     [BurstCompile] internal partial class TweenURPSmoothnessGenerateSystem : TweenGenerateSystem<TweenURPSmoothnessCommand, TweenURPSmoothness, URPMaterialPropertySmoothness, float> {}
     [BurstCompile] internal partial class TweenURPSpecularColorGenerateSystem : TweenGenerateSystem<TweenURPSpecularColorCommand, TweenURPSpecularColor, URPMaterialPropertySpecColor, float4> {}
-#elif  DOTS_TWEEN_HDRP
+#elif DOTS_TWEEN_HDRP
     [BurstCompile] internal partial class TweenHDRPAlphaCutoffGenerateSystem : TweenGenerateSystem<TweenHDRPAlphaCutoffCommand, TweenHDRPAlphaCutoff, HDRPMaterialPropertyAlphaCutoff, float> {}
     [BurstCompile] internal partial class TweenHDRPAmbientOcclusionRemapMaxGenerateSystem : TweenGenerateSystem<TweenHDRPAmbientOcclusionRemapMaxCommand, TweenHDRPAmbientOcclusionRemapMax, HDRPMaterialPropertyAORemapMax, float> {}
     [BurstCompile] internal partial class TweenHDRPAmbientOcclusionRemapMinGenerateSystem : TweenGenerateSystem<TweenHDRPAmbientOcclusionRemapMinCommand, TweenHDRPAmbientOcclusionRemapMin, HDRPMaterialPropertyAORemapMin, float> {}
