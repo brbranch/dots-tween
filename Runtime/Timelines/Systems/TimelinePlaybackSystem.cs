@@ -171,6 +171,11 @@ namespace DotsTween.Timelines.Systems
                     ecb.AddComponent<TweenHDRPTintUnlitCommand>(timelineElement.Target, tintUnlitCommand);
                     break;
 #endif
+#if DOTS_TWEEN_SPLINES
+                case TweenSplineMovementCommand splineMovementCommand:
+                    ecb.AddComponent<TweenSplineMovementCommand>(timelineElement.Target, splineMovementCommand);
+                    break;
+#endif
             }
         }
     }
