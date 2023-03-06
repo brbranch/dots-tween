@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.8.7] 2023.03.06
+
+### Fixed
+- Fixed an issue with one of the Timeline Play methods being not burst compatible.
+
 ## [0.8.6] 2023.03.06
 
 ### Changed
