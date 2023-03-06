@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.8.6] 2023.03.06
+
+### Changed
+- Timelines are now unmanaged and burst compatible.
+
 ## [0.8.5] 2023.03.04
 
 ### Added

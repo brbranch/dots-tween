@@ -1,4 +1,5 @@
-﻿using DotsTween.Tweens;
+﻿using System.Runtime.InteropServices;
+using DotsTween.Tweens;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
@@ -11,22 +12,23 @@ namespace DotsTween.Timelines
     [BurstCompile]
     public struct TimelineComponent : IComponentData, INativeDisposable
     {
-        internal int PlaybackId { get; private set; }
-        internal float Duration { get; private set; }
-        internal float StartDelay { get; private set; }
-        internal float LoopDelay { get; private set; }
-        internal int LoopCount { get; set; }
+        internal int PlaybackId;
+        internal float Duration;
+        internal float StartDelay;
+        internal float LoopDelay;
+        internal int LoopCount;
         
         internal NativeList<TimelineComponentOperationTuple> OnStart;
         internal NativeList<TimelineComponentOperationTuple> OnComplete;
-        internal NativeList<int> ActiveElementIds;
-        internal NativeList<ComponentType> TimelineElementTypes;
-        internal UnsafeAppendBuffer TimelineElements;
+        private NativeHashSet<int> ActiveElementIds;
+        private NativeList<ComponentType> TimelineElementTypes;
+        private UnsafeAppendBuffer TimelineElements;
         
         internal float CurrentTime;
-        internal bool IsPlaying;
+        [MarshalAs(UnmanagedType.U1)] internal bool IsPlaying;
         
         public float DurationWithLoopDelay => Duration + LoopDelay;
+        public int Size => TimelineElements.Length;
 
         internal TimelineComponent(float startDelay = 0f)
         {
@@ -40,7 +42,7 @@ namespace DotsTween.Timelines
             
             OnStart = new NativeList<TimelineComponentOperationTuple>(Allocator.Persistent);
             OnComplete = new NativeList<TimelineComponentOperationTuple>(Allocator.Persistent);
-            ActiveElementIds = new NativeList<int>(Allocator.Persistent);
+            ActiveElementIds = new NativeHashSet<int>(1, Allocator.Persistent);
             TimelineElementTypes = new NativeList<ComponentType>(Allocator.Persistent);
             TimelineElements = new UnsafeAppendBuffer(1, 4, Allocator.Persistent);
         }
@@ -59,7 +61,7 @@ namespace DotsTween.Timelines
 
             float totalDuration = tweenParams.Duration * (tweenParams.LoopCount + 1); // +1 for first non-loop playback
             tweenParams.StartDelay = 0;
-            tweenParams.SetTimelinePositions(atPosition, totalDuration);
+            tweenParams.SetTimelinePositions(atPosition, atPosition + totalDuration);
 
             if (tweenParams.TimelineEndPosition > Duration)
             {
@@ -184,6 +186,26 @@ namespace DotsTween.Timelines
         }
 
         [BurstCompile]
+        public int Play(ref EntityCommandBuffer.ParallelWriter parallelWriter, in int sortKey)
+        {
+            var e = parallelWriter.CreateEntity(sortKey);
+            
+            SetupPlaybackId(ref e, sortKey);
+            parallelWriter.AddComponent(sortKey, e, this);
+            return PlaybackId;
+        }
+
+        [BurstCompile]
+        public int Play(EntityManager entityManager, ref EntityCommandBuffer.ParallelWriter parallelWriter, in int sortKey)
+        {
+            var e = entityManager.CreateEntity();
+            
+            SetupPlaybackId(ref e, sortKey);
+            parallelWriter.AddComponent(sortKey, e, this);
+            return PlaybackId;
+        }
+
+        [BurstCompile]
         public void Dispose()
         {
             OnStart.Dispose();
@@ -206,20 +228,31 @@ namespace DotsTween.Timelines
         }
 
         [BurstCompile]
-        private void SetupPlaybackId(ref Entity e, in int extraHash)
+        internal void SetupPlaybackId(ref Entity e, in int extraHash)
         {
             unchecked
             {
-                int hashCode = TimelineElements.GetHashCode();
+                int hashCode = extraHash.GetHashCode();
                 hashCode = (hashCode * 421) ^ Duration.GetHashCode();
                 hashCode = (hashCode * 421) ^ LoopCount.GetHashCode();
-                hashCode = (hashCode * 421) ^ extraHash.GetHashCode();
                 hashCode = (hashCode * 421) ^ DurationWithLoopDelay.GetHashCode();
                 hashCode = (hashCode * 421) ^ StartDelay.GetHashCode();
                 hashCode = (hashCode * 421) ^ e.Index.GetHashCode();
                 hashCode = (hashCode * 421) ^ e.Version.GetHashCode();
+
+                foreach (var type in TimelineElementTypes)
+                {
+                    hashCode = (hashCode * 421) ^ type.GetHashCode();
+                }
+                
                 PlaybackId = hashCode;
             }
         }
+
+        internal void AddTimelineElementIdToActive(int timelineElementId) => ActiveElementIds.Add(timelineElementId);
+        internal void RemoveTimelineElementIdFromActive(int timelineElementId) => ActiveElementIds.Remove(timelineElementId);
+        internal bool IsTimelineElementActive(int timelineElementId) => ActiveElementIds.Contains(timelineElementId);
+        internal UnsafeAppendBuffer.Reader GetTimelineReader() => TimelineElements.AsReader();
+        internal ComponentType GetTimelineElementType(int index) => TimelineElementTypes[index];
     }
 }

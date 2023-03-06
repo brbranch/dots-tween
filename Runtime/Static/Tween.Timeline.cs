@@ -9,8 +9,8 @@ namespace DotsTween
         [BurstCompile]
         public static class Timeline
         {
-            [BurstDiscard]
-            public static TimelineComponent Create() => new(0f);
+            [BurstCompile]
+            public static void Create(out TimelineComponent timelineComponent) => timelineComponent = new TimelineComponent(0f);
 
             [BurstCompile]
             public static void Pause(ref EntityManager entityManager, int timelinePlaybackId)

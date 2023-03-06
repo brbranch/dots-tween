@@ -47,8 +47,11 @@ namespace DotsTween.Tweens
         {
             return SplineTweenInfo;
         }
-        
-        [BurstCompile] public void Cleanup() { }
+
+        [BurstCompile] public void Cleanup()
+        {
+            SplineTweenInfo.Dispose();            
+        }
     }
 }
 #endif

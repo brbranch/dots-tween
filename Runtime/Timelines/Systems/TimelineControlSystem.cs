@@ -63,14 +63,14 @@ namespace DotsTween.Timelines.Systems
         {
             ecb.AddComponent<TimelinePausedTag>(timelineEntity);
 
-            var bufferReader = timeline.TimelineElements.AsReader();
+            var bufferReader = timeline.GetTimelineReader();
             var index = 0;
                 
-            while (!bufferReader.EndOfBuffer && index < timeline.TimelineElementTypes.Length)
+            while (!bufferReader.EndOfBuffer && index < timeline.Size)
             {
-                var timelineElement = TimelineSystemCommandTypeHelper.DereferenceNextTimelineElement(timeline.TimelineElementTypes[index], ref bufferReader);
+                var timelineElement = TimelineSystemCommandTypeHelper.DereferenceNextTimelineElement(timeline.GetTimelineElementType(index), ref bufferReader);
                 ++index;
-                if (timeline.ActiveElementIds.Contains(timelineElement.GetId()))
+                if (timeline.IsTimelineElementActive(timelineElement.GetId()))
                 {
                     Tween.Controls.Pause(ref ecb, timelineElement.GetTargetEntity());
                 }
@@ -82,14 +82,14 @@ namespace DotsTween.Timelines.Systems
         {
             ecb.RemoveComponent<TimelinePausedTag>(timelineEntity);
 
-            var bufferReader = timeline.TimelineElements.AsReader();
+            var bufferReader = timeline.GetTimelineReader();
             var index = 0;
-                
-            while (!bufferReader.EndOfBuffer && index < timeline.TimelineElementTypes.Length)
+
+            while (!bufferReader.EndOfBuffer && index < timeline.Size)
             {
-                var timelineElement = TimelineSystemCommandTypeHelper.DereferenceNextTimelineElement(timeline.TimelineElementTypes[index], ref bufferReader);
+                var timelineElement = TimelineSystemCommandTypeHelper.DereferenceNextTimelineElement(timeline.GetTimelineElementType(index), ref bufferReader);
                 ++index;
-                if (timeline.ActiveElementIds.Contains(timelineElement.GetId()))
+                if (timeline.IsTimelineElementActive(timelineElement.GetId()))
                 {
                     Tween.Controls.Resume(ref ecb, timelineElement.GetTargetEntity());
                 }

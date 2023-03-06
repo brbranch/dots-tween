@@ -119,13 +119,15 @@ Now uses Entities Graphics library from Unity.
 
 ## Installation
 
-Entity Tween is a Unity package. You can [install it from the git URL](https://docs.unity3d.com/2020.1/Documentation/Manual/upm-ui-giturl.html) in Unity package manager.
+Entity Tween is a Unity package. You can [install it from the git URL](https://docs.unity3d.com/2022.1/Documentation/Manual/upm-ui-giturl.html) in Unity package manager.
 
 Or, you can edit `Packages/manifest.json` manually, adding git URL as a dependency:
 
 ```json
-"dependencies": {
-    "com.dyonng.dotstween": "https://github.com/dyonng/dots-tween.git"
+{
+    "dependencies": {
+        "com.dyonng.dotstween": "https://github.com/dyonng/dots-tween.git"
+    }
 }
 ```
 
@@ -188,12 +190,12 @@ Tweens with infinite LoopCounts are not supported within a timeline.
 ```csharp
 var duration = 1.5f;
 
-Tween.Timeline.Create()
-    .Append(obj, new TweenScaleCommand(1f, 2.2f, duration))
-    .Insert(2f, obj, new TweenTranslationCommand(float3.zero, new float3(1f, 2f, 3f), duration))
-    .SetStartDelay(0.5f)
-    .AddOnComplete(new ComponentOperations { Add = ComponentType.ReadOnly<ExampleTag>() })
-    .Play(ref entityCommandBuffer);
+Tween.Timeline.Create(out var timeline);
+timeline.Append(obj, new TweenScaleCommand(1f, 2.2f, duration))
+timeline.Insert(2f, obj, new TweenTranslationCommand(float3.zero, new float3(1f, 2f, 3f), duration))
+timeline.SetStartDelay(0.5f)
+timeline.AddOnComplete(new ComponentOperations { Add = ComponentType.ReadOnly<ExampleTag>() })
+timeline.Play(ref entityCommandBuffer);
 ```
 
 ### Check if the entity is tweening

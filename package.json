@@ -1,6 +1,6 @@
 {
   "name": "com.dyonng.dotstween",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "displayName": "DOTS Tween",
   "description": "Tween library for Unity ECS/DOTS.",
   "unity": "2022.2",

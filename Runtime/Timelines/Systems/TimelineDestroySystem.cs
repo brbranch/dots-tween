@@ -1,5 +1,4 @@
 ﻿using Unity.Burst;
-using Unity.Collections;
 using Unity.Entities;
 
 namespace DotsTween.Timelines.Systems
@@ -22,13 +21,13 @@ namespace DotsTween.Timelines.Systems
             
             foreach (var (timelineRef, destroyTag, entity) in SystemAPI.Query<RefRW<TimelineComponent>, TimelineDestroyTag>().WithEntityAccess())
             {
-                var bufferReader = timelineRef.ValueRO.TimelineElements.AsReader();
+                var bufferReader = timelineRef.ValueRW.GetTimelineReader();
                 var index = 0;
                 
-                while (!bufferReader.EndOfBuffer && index < timelineRef.ValueRO.TimelineElementTypes.Length)
+                while (!bufferReader.EndOfBuffer && index < timelineRef.ValueRO.Size)
                 {
-                    var timelineElement = TimelineSystemCommandTypeHelper.DereferenceNextTimelineElement(timelineRef.ValueRO.TimelineElementTypes[index], ref bufferReader);
-                    if (timelineRef.ValueRO.ActiveElementIds.Contains(timelineElement.GetId()))
+                    var timelineElement = TimelineSystemCommandTypeHelper.DereferenceNextTimelineElement(timelineRef.ValueRO.GetTimelineElementType(index), ref bufferReader);
+                    if (timelineRef.ValueRO.IsTimelineElementActive(timelineElement.GetId()))
                     {
                         Tween.Controls.Stop(ref ecb, timelineElement.GetTargetEntity());
                     }

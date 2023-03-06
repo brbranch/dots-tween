@@ -11,8 +11,8 @@ namespace DotsTween.Tweens
         public short LoopCount;
         public float StartDelay;
 
-        public float TimelineStartPosition { get; private set; }
-        public float TimelineEndPosition { get; private set; }
+        internal float TimelineStartPosition;
+        internal float TimelineEndPosition;
 
         public ComponentOperations OnComplete;
         public ComponentOperations OnStart;

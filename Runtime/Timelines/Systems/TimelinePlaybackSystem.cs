@@ -1,5 +1,4 @@
-﻿using DotsTween.Tweens;
-using Unity.Burst;
+﻿using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 
@@ -32,13 +31,14 @@ namespace DotsTween.Timelines.Systems
                     PerformComponentOperations(ref ecb, ref timeline.ValueRW.OnStart);
                 }
 
-                var bufferReader = timeline.ValueRW.TimelineElements.AsReader();
+                var bufferReader = timeline.ValueRW.GetTimelineReader();
                 var index = 0;
                 
-                while (!bufferReader.EndOfBuffer && index < timeline.ValueRO.TimelineElementTypes.Length)
+                while (!bufferReader.EndOfBuffer && index < timeline.ValueRO.Size)
                 {
-                    var timelineElement = TimelineSystemCommandTypeHelper.DereferenceNextTimelineElement(timeline.ValueRO.TimelineElementTypes[index], ref bufferReader);
-                    TryToStartPlayingTimelineElement(ref timelineElement, ref timeline.ValueRW, ref ecb);
+                    var componentType = timeline.ValueRO.GetTimelineElementType(index);
+                    var timelineElement = TimelineSystemCommandTypeHelper.DereferenceNextTimelineElement(componentType, ref bufferReader);
+                    TryToStartPlayingTimelineElement(componentType, ref timelineElement, ref timeline.ValueRW, ref ecb);
                     TryToRemoveTimelineElementIdFromActiveList(ref timelineElement, ref timeline.ValueRW);
                     ++index;
                 }
@@ -77,13 +77,16 @@ namespace DotsTween.Timelines.Systems
         }
 
         [BurstCompile]
-        private void TryToStartPlayingTimelineElement(ref ITimelineElement timelineElement, ref TimelineComponent timeline, ref EntityCommandBuffer ecb)
+        private void TryToStartPlayingTimelineElement(in ComponentType componentType, ref ITimelineElement timelineElement, ref TimelineComponent timeline, ref EntityCommandBuffer ecb)
         {
-            if (!(timelineElement.GetStartTime() <= timeline.CurrentTime) || timeline.ActiveElementIds.Contains(timelineElement.GetId())) return;
+            var pastStartTime = timelineElement.GetStartTime() <= timeline.CurrentTime;
+            var alreadyPlaying = timeline.IsTimelineElementActive(timelineElement.GetId());
+            var hasAlreadyPlayed = timelineElement.GetEndTime() <= timeline.CurrentTime;
             
-            timeline.ActiveElementIds.Add(timelineElement.GetId());
-            var command = timelineElement.GetCommand();
-            ecb.AddComponent(timelineElement.GetTargetEntity(), command);
+            if (!pastStartTime || alreadyPlaying || hasAlreadyPlayed) return;
+            
+            timeline.AddTimelineElementIdToActive(timelineElement.GetId());
+            TimelineSystemCommandTypeHelper.Add(ref ecb, componentType, ref timelineElement);
         }
         
         [BurstCompile]
@@ -91,7 +94,7 @@ namespace DotsTween.Timelines.Systems
         {
             if (timeline.CurrentTime >= timelineElement.GetEndTime())
             {
-                timeline.ActiveElementIds.RemoveAt(timeline.ActiveElementIds.IndexOf(timelineElement.GetId()));
+                timeline.RemoveTimelineElementIdFromActive(timelineElement.GetId());
             }
         }
     }
