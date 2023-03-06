@@ -1,7 +1,9 @@
-﻿using Unity.Entities;
+﻿using Unity.Burst;
+using Unity.Entities;
 
 namespace DotsTween.Timelines
 {
+    [BurstCompile]
     internal struct TimelineControlCommand : IComponentData
     {
         public int TimelinePlaybackId;

@@ -1,14 +1,17 @@
-﻿using Unity.Collections;
+﻿using Unity.Burst;
+using Unity.Collections;
 using Unity.Entities;
 
 namespace DotsTween.Timelines.Systems
 {
     [UpdateInGroup(typeof(TimelineSimulationSystemGroup), OrderFirst = true)]
     [RequireMatchingQueriesForUpdate]
+    [BurstCompile]
     internal partial class TimelineControlSystem : SystemBase
     {
         private EntityQuery timelineQuery;
         
+        [BurstCompile]
         protected override void OnCreate()
         {
             RequireForUpdate<TimelineComponent>();
@@ -17,6 +20,7 @@ namespace DotsTween.Timelines.Systems
             timelineQuery = SystemAPI.QueryBuilder().WithAll<TimelineComponent>().Build();
         }
 
+        [BurstCompile]
         protected override void OnUpdate()
         {
             if (timelineQuery.IsEmpty) return;
@@ -35,11 +39,11 @@ namespace DotsTween.Timelines.Systems
                     switch (control.Command)
                     {
                         case TimelineControlCommands.Pause:
-                            PauseTimeline(ref ecb, timelineEntity, timeline);
+                            PauseTimeline(ref ecb, timelineEntity, ref timeline);
                             break;
                         
                         case TimelineControlCommands.Resume:
-                            ResumeTimeline(ref ecb, timelineEntity, timeline);
+                            ResumeTimeline(ref ecb, timelineEntity, ref timeline);
                             break;
                             
                         case TimelineControlCommands.Stop:
@@ -54,26 +58,45 @@ namespace DotsTween.Timelines.Systems
             }
         }
 
-        private void PauseTimeline(ref EntityCommandBuffer ecb, Entity timelineEntity, TimelineComponent timelineComponent)
+        [BurstCompile]
+        private void PauseTimeline(ref EntityCommandBuffer ecb, Entity timelineEntity, ref TimelineComponent timeline)
         {
             ecb.AddComponent<TimelinePausedTag>(timelineEntity);
 
-            foreach (var timelineElement in timelineComponent.ActiveElements)
+            var bufferReader = timeline.TimelineElements.AsReader();
+            var index = 0;
+                
+            while (!bufferReader.EndOfBuffer && index < timeline.TimelineElementTypes.Length)
             {
-                Tween.Controls.Pause(ref ecb, timelineElement.Target);
+                var timelineElement = TimelineSystemCommandTypeHelper.DereferenceNextTimelineElement(timeline.TimelineElementTypes[index], ref bufferReader);
+                ++index;
+                if (timeline.ActiveElementIds.Contains(timelineElement.GetId()))
+                {
+                    Tween.Controls.Pause(ref ecb, timelineElement.GetTargetEntity());
+                }
             }
         }
 
-        private void ResumeTimeline(ref EntityCommandBuffer ecb, Entity timelineEntity, TimelineComponent timelineComponent)
+        [BurstCompile]
+        private void ResumeTimeline(ref EntityCommandBuffer ecb, Entity timelineEntity, ref TimelineComponent timeline)
         {
             ecb.RemoveComponent<TimelinePausedTag>(timelineEntity);
 
-            foreach (var timelineElement in timelineComponent.ActiveElements)
+            var bufferReader = timeline.TimelineElements.AsReader();
+            var index = 0;
+                
+            while (!bufferReader.EndOfBuffer && index < timeline.TimelineElementTypes.Length)
             {
-                Tween.Controls.Resume(ref ecb, timelineElement.Target);
+                var timelineElement = TimelineSystemCommandTypeHelper.DereferenceNextTimelineElement(timeline.TimelineElementTypes[index], ref bufferReader);
+                ++index;
+                if (timeline.ActiveElementIds.Contains(timelineElement.GetId()))
+                {
+                    Tween.Controls.Resume(ref ecb, timelineElement.GetTargetEntity());
+                }
             }
         }
 
+        [BurstCompile]
         private void StopTimeline(ref EntityCommandBuffer ecb, Entity timelineEntity)
         {
             ecb.AddComponent<TimelineDestroyTag>(timelineEntity);

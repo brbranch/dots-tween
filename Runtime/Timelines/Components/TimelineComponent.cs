@@ -1,29 +1,52 @@
-﻿using System.Collections.Generic;
-using DotsTween.Tweens;
+﻿using DotsTween.Tweens;
+using Unity.Burst;
+using Unity.Collections;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.Entities;
+using Unity.Jobs;
 using UnityEngine;
 
 namespace DotsTween.Timelines
 {
-    public class TimelineComponent : IComponentData
+    [BurstCompile]
+    public struct TimelineComponent : IComponentData, INativeDisposable
     {
-        public int PlaybackId { get; private set; }
-        public float Duration { get; private set; }
-        public float StartDelay { get; private set; }
-        public float LoopDelay { get; private set; }
-        public int LoopCount { get; internal set; }
+        internal int PlaybackId { get; private set; }
+        internal float Duration { get; private set; }
+        internal float StartDelay { get; private set; }
+        internal float LoopDelay { get; private set; }
+        internal int LoopCount { get; set; }
         
-        internal readonly List<(Entity, ComponentOperations)> OnStart = new();
-        internal readonly List<(Entity, ComponentOperations)> OnComplete = new();
-        internal readonly List<TimelineElement> TimelineElements = new();
-        internal readonly List<TimelineElement> ActiveElements = new();
+        internal NativeList<TimelineComponentOperationTuple> OnStart;
+        internal NativeList<TimelineComponentOperationTuple> OnComplete;
+        internal NativeList<int> ActiveElementIds;
+        internal NativeList<ComponentType> TimelineElementTypes;
+        internal UnsafeAppendBuffer TimelineElements;
         
         internal float CurrentTime;
         internal bool IsPlaying;
         
         public float DurationWithLoopDelay => Duration + LoopDelay;
 
-        public TimelineComponent Insert<T>(float atPosition, Entity target, T command) where T : IComponentData, ITweenParams
+        internal TimelineComponent(float startDelay = 0f)
+        {
+            CurrentTime = 0;
+            IsPlaying = false;
+            PlaybackId = 0;
+            Duration = 0;
+            StartDelay = 0;
+            LoopDelay = 0;
+            LoopCount = 0;
+            
+            OnStart = new NativeList<TimelineComponentOperationTuple>(Allocator.Persistent);
+            OnComplete = new NativeList<TimelineComponentOperationTuple>(Allocator.Persistent);
+            ActiveElementIds = new NativeList<int>(Allocator.Persistent);
+            TimelineElementTypes = new NativeList<ComponentType>(Allocator.Persistent);
+            TimelineElements = new UnsafeAppendBuffer(1, 4, Allocator.Persistent);
+        }
+
+        [BurstCompile]
+        public void Insert<T>(float atPosition, in Entity target, in T command) where T : unmanaged, IComponentData, ITweenParams
         {
             TweenParams tweenParams = command.GetTweenParams();
             atPosition += tweenParams.StartDelay;
@@ -44,25 +67,24 @@ namespace DotsTween.Timelines
             }
 
             command.SetTweenParams(tweenParams);
-            TimelineElements.Add(new TimelineElement
-            {
-                Target = target,
-                Command = command,
-                StartTime = atPosition,
-                EndTime = tweenParams.TimelineEndPosition,
-            });
-            return this;
+            TimelineElements.Add(new TimelineElement<T>(target, atPosition, tweenParams.TimelineEndPosition, command));
+            TimelineElementTypes.Add(ComponentType.ReadOnly<T>());
         }
         
-        public TimelineComponent Append<T>(Entity target, T command) where T : IComponentData, ITweenParams
+        [BurstCompile]
+        public void Append<T>(in Entity target, in T command) where T : unmanaged, IComponentData, ITweenParams
         {
-            return Insert(Duration, target, command);
+            Insert(Duration, target, command);
         }
 
-        public TimelineComponent AddOnComplete(ComponentOperations onComplete, Entity target)
+        [BurstCompile]
+        public void AddOnComplete(in ComponentOperations onComplete, in Entity target)
         {
-            OnComplete.Add((target, onComplete));
-            return this;
+            OnComplete.Add(new TimelineComponentOperationTuple
+            {
+                Operations = onComplete,
+                Target = target,
+            });
         }
 
         /// <summary>
@@ -71,10 +93,14 @@ namespace DotsTween.Timelines
         /// <param name="onStart"></param>
         /// <param name="target"></param>
         /// <returns></returns>
-        public TimelineComponent AddOnStart(ComponentOperations onStart, Entity target)
+        [BurstCompile]
+        public void AddOnStart(in ComponentOperations onStart, in Entity target)
         {
-            OnStart.Add((target, onStart));
-            return this;
+            OnStart.Add(new TimelineComponentOperationTuple
+            {
+                Operations = onStart,
+                Target = target,
+            });
         }
 
         /// <summary>
@@ -82,11 +108,11 @@ namespace DotsTween.Timelines
         /// </summary>
         /// <param name="delay"></param>
         /// <returns></returns>
-        public TimelineComponent SetStartDelay(float delay)
+        [BurstCompile]
+        public void SetStartDelay(float delay)
         {
             StartDelay = delay;
             CurrentTime = -delay;
-            return this;
         }
 
         /// <summary>
@@ -94,10 +120,10 @@ namespace DotsTween.Timelines
         /// </summary>
         /// <param name="delay"></param>
         /// <returns></returns>
-        public TimelineComponent SetLoopDelay(float delay)
+        [BurstCompile]
+        public void SetLoopDelay(float delay)
         {
             LoopDelay = delay;
-            return this;
         }
 
         /// <summary>
@@ -105,10 +131,10 @@ namespace DotsTween.Timelines
         /// </summary>
         /// <param name="loopCount"></param>
         /// <returns></returns>
-        public TimelineComponent SetLoopCount(int loopCount)
+        [BurstCompile]
+        public void SetLoopCount(int loopCount)
         {
             LoopCount = loopCount;
-            return this;
         }
 
         /// <summary>
@@ -117,6 +143,7 @@ namespace DotsTween.Timelines
         /// </summary>
         /// <param name="state"></param>
         /// <returns></returns>
+        [BurstCompile]
         public int Play(ref SystemState state)
         {
             var e = state.EntityManager.CreateEntity();
@@ -131,6 +158,7 @@ namespace DotsTween.Timelines
         /// </summary>
         /// <param name="entityCommandBuffer"></param>
         /// /// <returns></returns>
+        [BurstCompile]
         public int Play(ref EntityCommandBuffer entityCommandBuffer)
         {
             var e = entityCommandBuffer.CreateEntity();
@@ -146,6 +174,7 @@ namespace DotsTween.Timelines
         /// <param name="entityManager"></param>
         /// <param name="entityCommandBuffer"></param>
         /// <returns></returns>
+        [BurstCompile]
         public int Play(EntityManager entityManager, ref EntityCommandBuffer entityCommandBuffer)
         {
             var e = entityCommandBuffer.CreateEntity();
@@ -154,6 +183,29 @@ namespace DotsTween.Timelines
             return PlaybackId;
         }
 
+        [BurstCompile]
+        public void Dispose()
+        {
+            OnStart.Dispose();
+            OnComplete.Dispose();
+            ActiveElementIds.Dispose();
+            TimelineElementTypes.Dispose();
+            TimelineElements.Dispose();
+        }
+
+        [BurstCompile]
+        public JobHandle Dispose(JobHandle inputDeps)
+        {
+            NativeArray<JobHandle> disposeJobs = new NativeArray<JobHandle>(5, Allocator.TempJob);
+            disposeJobs[0] = OnStart.Dispose(inputDeps);
+            disposeJobs[1] = OnComplete.Dispose(inputDeps);
+            disposeJobs[2] = ActiveElementIds.Dispose(inputDeps);
+            disposeJobs[3] = TimelineElementTypes.Dispose(inputDeps);
+            disposeJobs[4] = TimelineElements.Dispose(inputDeps);
+            return JobHandle.CombineDependencies(disposeJobs);
+        }
+
+        [BurstCompile]
         private void SetupPlaybackId(ref Entity e, in int extraHash)
         {
             unchecked

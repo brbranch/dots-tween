@@ -1,57 +1,70 @@
-﻿using System.Collections.Generic;
-using DotsTween.Tweens;
+﻿using DotsTween.Tweens;
+using Unity.Burst;
+using Unity.Collections;
 using Unity.Entities;
 
 namespace DotsTween.Timelines.Systems
 {
     [UpdateInGroup(typeof(TimelineSimulationSystemGroup))]
+    [BurstCompile]
     public partial class TimelinePlaybackSystem : SystemBase
     {
+        [BurstCompile]
         protected override void OnCreate()
         {
             RequireForUpdate<TimelineComponent>();
         }
 
+        [BurstCompile]
         protected override void OnUpdate()
         {
             var deltaTime = SystemAPI.Time.DeltaTime;
             var ecb = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(CheckedStateRef.WorldUnmanaged);
             
-            foreach (var (timeline, entity) in SystemAPI.Query<TimelineComponent>().WithNone<TimelinePausedTag>().WithEntityAccess())
+            foreach (var (timeline, timelineEntity) in SystemAPI.Query<RefRW<TimelineComponent>>().WithNone<TimelinePausedTag>().WithEntityAccess())
             {
-                timeline.CurrentTime += deltaTime;
+                timeline.ValueRW.CurrentTime += deltaTime;
                 
                 // Perform Component operations after the initial Timeline Delay (if any)
-                if (!timeline.IsPlaying && timeline.CurrentTime >= 0f)
+                if (timeline.ValueRO is { IsPlaying: false, CurrentTime: >= 0f })
                 {
-                    timeline.IsPlaying = true;
-                    PerformComponentOperations(ref ecb, timeline.OnStart);
+                    timeline.ValueRW.IsPlaying = true;
+                    PerformComponentOperations(ref ecb, ref timeline.ValueRW.OnStart);
                 }
 
-                foreach (var timelineElement in timeline.TimelineElements)
+                var bufferReader = timeline.ValueRW.TimelineElements.AsReader();
+                var index = 0;
+                
+                while (!bufferReader.EndOfBuffer && index < timeline.ValueRO.TimelineElementTypes.Length)
                 {
-                    TryToStartPlayingTimelineElement(timelineElement, timeline, ref ecb);
+                    var timelineElement = TimelineSystemCommandTypeHelper.DereferenceNextTimelineElement(timeline.ValueRO.TimelineElementTypes[index], ref bufferReader);
+                    TryToStartPlayingTimelineElement(ref timelineElement, ref timeline.ValueRW, ref ecb);
+                    TryToRemoveTimelineElementIdFromActiveList(ref timelineElement, ref timeline.ValueRW);
+                    ++index;
                 }
 
-                TryToDestroyTimeline(timeline, entity, ref ecb);
+                TryToDestroyTimeline(ref timeline.ValueRW, timelineEntity, ref ecb);
             }
         }
-        
-        private void PerformComponentOperations(ref EntityCommandBuffer ecb, in List<(Entity, ComponentOperations)> operations)
+
+        [BurstCompile]
+        private void PerformComponentOperations(ref EntityCommandBuffer ecb, ref NativeList<TimelineComponentOperationTuple> operations)
         {
-            foreach (var (target, operation) in operations)
+            foreach (var tuple in operations)
             {
-                operation.Perform(ref ecb, target);
+                tuple.Operations.Perform(ref ecb, tuple.Target);
             }
         }
 
-        private void TryToDestroyTimeline(TimelineComponent timeline, Entity entity, ref EntityCommandBuffer ecb)
+        [BurstCompile]
+        private void TryToDestroyTimeline(ref TimelineComponent timeline, Entity timelineEntity, ref EntityCommandBuffer ecb)
         {
             if (timeline.CurrentTime < timeline.DurationWithLoopDelay) return;
 
             if (timeline.LoopCount == 0)
             {
-                PerformComponentOperations(ref ecb, timeline.OnComplete);
+                PerformComponentOperations(ref ecb, ref timeline.OnComplete);
+                ecb.AddComponent<TimelineDestroyTag>(timelineEntity);
                 return;
             }
 
@@ -63,119 +76,22 @@ namespace DotsTween.Timelines.Systems
             timeline.CurrentTime = 0f;
         }
 
-        private void TryToStartPlayingTimelineElement(TimelineElement timelineElement, TimelineComponent timeline, ref EntityCommandBuffer ecb)
+        [BurstCompile]
+        private void TryToStartPlayingTimelineElement(ref ITimelineElement timelineElement, ref TimelineComponent timeline, ref EntityCommandBuffer ecb)
         {
-            if (!(timelineElement.StartTime <= timeline.CurrentTime) || timeline.ActiveElements.Contains(timelineElement)) return;
+            if (!(timelineElement.GetStartTime() <= timeline.CurrentTime) || timeline.ActiveElementIds.Contains(timelineElement.GetId())) return;
             
-            timeline.ActiveElements.Add(timelineElement);
-            var command = timelineElement.Command;
-
-            switch (command)
+            timeline.ActiveElementIds.Add(timelineElement.GetId());
+            var command = timelineElement.GetCommand();
+            ecb.AddComponent(timelineElement.GetTargetEntity(), command);
+        }
+        
+        [BurstCompile]
+        private void TryToRemoveTimelineElementIdFromActiveList(ref ITimelineElement timelineElement, ref TimelineComponent timeline)
+        {
+            if (timeline.CurrentTime >= timelineElement.GetEndTime())
             {
-                case TweenTranslationCommand translationCommand:
-                    ecb.AddComponent<TweenTranslationCommand>(timelineElement.Target, translationCommand);
-                    break;
-                case TweenScaleCommand tweenScaleCommand:
-                    ecb.AddComponent<TweenScaleCommand>(timelineElement.Target, tweenScaleCommand);
-                    break;
-                case TweenRotationCommand rotationCommand:
-                    ecb.AddComponent<TweenRotationCommand>(timelineElement.Target, rotationCommand);
-                    break;
-                case TweenNonUniformScaleCommand scaleCommand:
-                    ecb.AddComponent<TweenNonUniformScaleCommand>(timelineElement.Target, scaleCommand);
-                    break;
-#if DOTS_TWEEN_URP
-                case TweenURPTintCommand tint:
-                    ecb.AddComponent<TweenURPTintCommand>(timelineElement.Target, tint);
-                    break;
-                case TweenURPFadeCommand fade:
-                    ecb.AddComponent<TweenURPFadeCommand>(timelineElement.Target, fade);
-                    break;
-                case TweenURPBumpScaleCommand bumpScale:
-                    ecb.AddComponent<TweenURPBumpScaleCommand>(timelineElement.Target, bumpScale);
-                    break;
-                case TweenURPCutoffCommand cutoff:
-                    ecb.AddComponent<TweenURPCutoffCommand>(timelineElement.Target, cutoff);
-                    break;
-                case TweenURPEmissionColorCommand emissionColour:
-                    ecb.AddComponent<TweenURPEmissionColorCommand>(timelineElement.Target, emissionColour);
-                    break;
-                case TweenURPMetallicCommand metallic:
-                    ecb.AddComponent<TweenURPMetallicCommand>(timelineElement.Target, metallic);
-                    break;
-                case TweenURPOcclusionStrengthCommand occlusionStrength:
-                    ecb.AddComponent<TweenURPOcclusionStrengthCommand>(timelineElement.Target, occlusionStrength);
-                    break;
-                case TweenURPSmoothnessCommand smoothness:
-                    ecb.AddComponent<TweenURPSmoothnessCommand>(timelineElement.Target, smoothness);
-                    break;
-                case TweenURPSpecularColorCommand specColour:
-                    ecb.AddComponent<TweenURPSpecularColorCommand>(timelineElement.Target, specColour);
-                    break;
-#elif DOTS_TWEEN_HDRP
-                case TweenHDRPAlphaCutoffCommand alphaCutoffCommand:
-                    ecb.AddComponent<TweenHDRPAlphaCutoffCommand>(timelineElement.Target, alphaCutoffCommand);
-                    break;
-                case TweenHDRPAmbientOcclusionRemapMaxCommand ambientOcclusionRemapMaxCommand:
-                    ecb.AddComponent<TweenHDRPAmbientOcclusionRemapMaxCommand>(timelineElement.Target, ambientOcclusionRemapMaxCommand);
-                    break;
-                case TweenHDRPAmbientOcclusionRemapMinCommand ambientOcclusionRemapMinCommand:
-                    ecb.AddComponent<TweenHDRPAmbientOcclusionRemapMinCommand>(timelineElement.Target, ambientOcclusionRemapMinCommand);
-                    break;
-                case TweenHDRPDetailAlbedoScaleCommand detailAlbedoScaleCommand:
-                    ecb.AddComponent<TweenHDRPDetailAlbedoScaleCommand>(timelineElement.Target, detailAlbedoScaleCommand);
-                    break;
-                case TweenHDRPDetailNormalScaleCommand detailNormalScaleCommand:
-                    ecb.AddComponent<TweenHDRPDetailNormalScaleCommand>(timelineElement.Target, detailNormalScaleCommand);
-                    break;
-                case TweenHDRPDetailSmoothnessScaleCommand detailSmoothnessScaleCommand:
-                    ecb.AddComponent<TweenHDRPDetailSmoothnessScaleCommand>(timelineElement.Target, detailSmoothnessScaleCommand);
-                    break;
-                case TweenHDRPDiffusionProfileHashCommand diffusionProfileHashCommand:
-                    ecb.AddComponent<TweenHDRPDiffusionProfileHashCommand>(timelineElement.Target, diffusionProfileHashCommand);
-                    break;
-                case TweenHDRPEmissiveColorCommand emissiveColorCommand:
-                    ecb.AddComponent<TweenHDRPEmissiveColorCommand>(timelineElement.Target, emissiveColorCommand);
-                    break;
-                case TweenHDRPFadeCommand fadeCommand:
-                    ecb.AddComponent<TweenHDRPFadeCommand>(timelineElement.Target, fadeCommand);
-                    break;
-                case TweenHDRPFadeUnlitCommand fadeUnlitCommand:
-                    ecb.AddComponent<TweenHDRPFadeUnlitCommand>(timelineElement.Target, fadeUnlitCommand);
-                    break;
-                case TweenHDRPMetallicCommand metallicCommand:
-                    ecb.AddComponent<TweenHDRPMetallicCommand>(timelineElement.Target, metallicCommand);
-                    break;
-                case TweenHDRPSmoothnessCommand smoothnessCommand:
-                    ecb.AddComponent<TweenHDRPSmoothnessCommand>(timelineElement.Target, smoothnessCommand);
-                    break;
-                case TweenHDRPSmoothnessRemapMaxCommand smoothnessRemapMaxCommand:
-                    ecb.AddComponent<TweenHDRPSmoothnessRemapMaxCommand>(timelineElement.Target, smoothnessRemapMaxCommand);
-                    break;
-                case TweenHDRPSmoothnessRemapMinCommand smoothnessRemapMinCommand:
-                    ecb.AddComponent<TweenHDRPSmoothnessRemapMinCommand>(timelineElement.Target, smoothnessRemapMinCommand);
-                    break;
-                case TweenHDRPSpecularColorCommand specularColorCommand:
-                    ecb.AddComponent<TweenHDRPSpecularColorCommand>(timelineElement.Target, specularColorCommand);
-                    break;
-                case TweenHDRPThicknessCommand thicknessCommand:
-                    ecb.AddComponent<TweenHDRPThicknessCommand>(timelineElement.Target, thicknessCommand);
-                    break;
-                case TweenHDRPThicknessRemapCommand thicknessRemapCommand:
-                    ecb.AddComponent<TweenHDRPThicknessRemapCommand>(timelineElement.Target, thicknessRemapCommand);
-                    break;
-                case TweenHDRPTintCommand tintCommand:
-                    ecb.AddComponent<TweenHDRPTintCommand>(timelineElement.Target, tintCommand);
-                    break;
-                case TweenHDRPTintUnlitCommand tintUnlitCommand:
-                    ecb.AddComponent<TweenHDRPTintUnlitCommand>(timelineElement.Target, tintUnlitCommand);
-                    break;
-#endif
-#if DOTS_TWEEN_SPLINES
-                case TweenSplineMovementCommand splineMovementCommand:
-                    ecb.AddComponent<TweenSplineMovementCommand>(timelineElement.Target, splineMovementCommand);
-                    break;
-#endif
+                timeline.ActiveElementIds.RemoveAt(timeline.ActiveElementIds.IndexOf(timelineElement.GetId()));
             }
         }
     }
