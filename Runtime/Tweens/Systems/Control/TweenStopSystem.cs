@@ -19,31 +19,38 @@ namespace DotsTween.Tweens
         protected override void OnUpdate()
         {
             var destroyBufferFromEntity = GetBufferLookup<TweenDestroyCommand>(true);
-
+            
             EndSimulationEntityCommandBufferSystem endSimEcbSystem = World.GetOrCreateSystemManaged<EndSimulationEntityCommandBufferSystem>();
             EntityCommandBuffer.ParallelWriter parallelWriter = endSimEcbSystem.CreateCommandBuffer().AsParallelWriter();
 
             Entities
                 .WithReadOnly(destroyBufferFromEntity)
                 .WithAll<TweenStopCommand>()
-                .ForEach((int entityInQueryIndex, Entity entity, ref DynamicBuffer<TweenState> tweenBuffer) =>
+                .ForEach((int entityInQueryIndex, Entity entity, ref DynamicBuffer<TweenStopInfo> stopBuffer, ref DynamicBuffer<TweenState> tweenBuffer) =>
                 {
-                    foreach (var tween in tweenBuffer)
+                    for (int x = stopBuffer.Length - 1; x >= 0; --x)
                     {
-                        if (!destroyBufferFromEntity.HasBuffer(entity))
+                        var resumeInfo = stopBuffer[x];
+
+                        for (int y = 0; y < tweenBuffer.Length; ++y)
                         {
-                            parallelWriter.AddBuffer<TweenDestroyCommand>(entityInQueryIndex, entity);
+                            var tween = tweenBuffer[y];
+
+                            if (resumeInfo.SpecificTweenTarget && resumeInfo.TweenId != tween.Id) continue;
+                            
+                            if (!destroyBufferFromEntity.HasBuffer(entity))
+                            {
+                                parallelWriter.AddBuffer<TweenDestroyCommand>(entityInQueryIndex, entity);
+                            }
+
+                            parallelWriter.AppendToBuffer(entityInQueryIndex, entity, new TweenDestroyCommand(tween.Id));
+                            tweenBuffer[y] = tween;
                         }
-
-                        parallelWriter.AppendToBuffer(entityInQueryIndex, entity, new TweenDestroyCommand(tween.Id));
+                    
+                        stopBuffer.RemoveAt(x);
                     }
-
+                
                     parallelWriter.RemoveComponent<TweenStopCommand>(entityInQueryIndex, entity);
-
-                    if (SystemAPI.HasComponent<TweenPause>(entity))
-                    {
-                        parallelWriter.RemoveComponent<TweenPause>(entityInQueryIndex, entity);
-                    }
                 }).ScheduleParallel();
 
             endSimEcbSystem.AddJobHandleForProducer(Dependency);

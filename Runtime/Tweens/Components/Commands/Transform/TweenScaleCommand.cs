@@ -13,10 +13,10 @@ namespace DotsTween.Tweens
         public TweenScaleCommand(in float start, in float end, in float duration, TweenParams tweenParams = default)
         {
             tweenParams.Duration = duration;
+            tweenParams.Id = tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenScale>().Value);
             TweenParams = tweenParams;
             Start = start;
             End = end;
-            tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenScale>().Value);
         }
 
         [BurstCompile]

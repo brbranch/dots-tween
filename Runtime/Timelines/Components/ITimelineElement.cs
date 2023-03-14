@@ -9,5 +9,6 @@ namespace DotsTween.Timelines
         public float GetStartTime();
         public float GetEndTime();
         public IComponentData GetCommand();
+        public int GetTweenId();
     }
 }

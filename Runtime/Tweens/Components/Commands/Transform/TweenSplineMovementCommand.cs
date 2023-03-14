@@ -16,9 +16,9 @@ namespace DotsTween.Tweens
         public TweenSplineMovementCommand(in SplineTweenInfo info, float duration, TweenParams tweenParams = default)
         {
             tweenParams.Duration = duration;
+            tweenParams.Id = tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenSplineMovement>().Value);
             TweenParams = tweenParams;
             SplineTweenInfo = info;
-            tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenSplineMovement>().Value);
         }
         
         [BurstCompile]

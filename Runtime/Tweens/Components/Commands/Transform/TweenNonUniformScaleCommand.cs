@@ -14,10 +14,10 @@ namespace DotsTween.Tweens
         public TweenNonUniformScaleCommand(in float3 start, in float3 end, in float duration, TweenParams tweenParams = default)
         {
             tweenParams.Duration = duration;
+            tweenParams.Id = tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenNonUniformScale>().Value);
             TweenParams = tweenParams;
             Start = start;
             End = end;
-            tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenNonUniformScale>().Value);
         }
 
         [BurstCompile]

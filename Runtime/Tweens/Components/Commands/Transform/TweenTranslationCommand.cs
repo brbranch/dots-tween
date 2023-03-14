@@ -14,10 +14,10 @@ namespace DotsTween.Tweens
         public TweenTranslationCommand(in float3 start, in float3 end, in float duration, TweenParams tweenParams = default)
         {
             tweenParams.Duration = duration;
+            tweenParams.Id = tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenTranslation>().Value);
             TweenParams = tweenParams;
             Start = start;
             End = end;
-            tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenTranslation>().Value);
         }
 
         [BurstCompile]

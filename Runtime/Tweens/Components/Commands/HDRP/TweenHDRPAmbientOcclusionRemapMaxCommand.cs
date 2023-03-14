@@ -14,10 +14,10 @@ namespace DotsTween.Tweens
         public TweenHDRPAmbientOcclusionRemapMaxCommand(in float start, in float end, in float duration, TweenParams tweenParams = default)
         {
             tweenParams.Duration = duration;
+            tweenParams.Id = tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenHDRPAmbientOcclusionRemapMax>().Value);
             TweenParams = tweenParams;
             Start = start;
             End = end;
-            tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenHDRPAmbientOcclusionRemapMax>().Value);
         }
 
         public void SetTweenInfo(in float start, in float end)

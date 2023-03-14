@@ -13,10 +13,11 @@ namespace DotsTween.Timelines
         public float EndTime { get; }
         public T Command { get; }
         
-        public int GetId() => Id;
+        [BurstCompile] public int GetId() => Id;
+        [BurstCompile] public float GetStartTime() => StartTime;
+        [BurstCompile] public float GetEndTime() => EndTime;
+        [BurstCompile] public int GetTweenId() => Command.GetTweenParams().Id;
         public Entity GetTargetEntity() => Target;
-        public float GetStartTime() => StartTime;
-        public float GetEndTime() => EndTime;
         public IComponentData GetCommand() => Command;
         
         public TimelineElement(in Entity target, in float startTime, in float endTime, in T command)

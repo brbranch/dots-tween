@@ -15,10 +15,10 @@ namespace DotsTween.Tweens
         public TweenHDRPTintUnlitCommand(in float4 start, in float4 end, in float duration, TweenParams tweenParams = default)
         {
             tweenParams.Duration = duration;
+            tweenParams.Id = tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenHDRPTintUnlit>().Value);
             TweenParams = tweenParams;
             Start = start;
             End = end;
-            tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenHDRPTintUnlit>().Value);
         }
 
         public void SetTweenInfo(in float4 start, in float4 end)

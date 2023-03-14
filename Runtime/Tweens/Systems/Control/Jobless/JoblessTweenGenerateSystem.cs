@@ -1,4 +1,5 @@
-﻿using Unity.Burst;
+﻿using System.Runtime.InteropServices;
+using Unity.Burst;
 using Unity.Entities;
 using Unity.Transforms;
 
@@ -22,14 +23,21 @@ namespace DotsTween.Tweens
         protected override void OnUpdate()
         {
             var ecb = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(World.Unmanaged);
-            var tweenInfoTypeIndex = TypeManager.GetTypeIndex(typeof(TTweenCommand));
 
             foreach (var (commandRef, entity) in SystemAPI.Query<RefRO<TTweenCommand>>().WithEntityAccess())
             {
                 var chunk = EntityManager.GetChunk(entity);
-                if (!chunk.Has<TweenState>())
+                
+                bool hasTweenStateBuffer = chunk.Has<TweenState>();
+                bool hasTweenPauseBuffer = chunk.Has<TweenPauseInfo>(); 
+                bool hasTweenResumeBuffer = chunk.Has<TweenResumeInfo>(); 
+                bool hasTweenStopBuffer = chunk.Has<TweenStopInfo>();
+                
+                TryToAddBuffers(out var buffersWereAdded, ref ecb, entity, hasTweenStateBuffer, hasTweenPauseBuffer, hasTweenResumeBuffer, hasTweenStopBuffer);
+                
+                if (buffersWereAdded)
                 {
-                    ecb.AddBuffer<TweenState>(entity);
+                    break;
                 }
 
                 if (!chunk.Has<TTarget>())
@@ -48,6 +56,27 @@ namespace DotsTween.Tweens
                 ecb.AddComponent(entity, info);
                 ecb.RemoveComponent<TTweenCommand>(entity);
             }
+        }
+        
+        [BurstCompile]
+        private void TryToAddBuffers(
+            out bool buffersWereAdded,
+            ref EntityCommandBuffer ecb,
+            in Entity entity,
+            [MarshalAs(UnmanagedType.U1)] bool hasTweenStateBuffer,
+            [MarshalAs(UnmanagedType.U1)] bool hasTweenPauseBuffer,
+            [MarshalAs(UnmanagedType.U1)] bool hasTweenResumeBuffer,
+            [MarshalAs(UnmanagedType.U1)] bool hasTweenStopBuffer)
+        {
+            if (!hasTweenStateBuffer) ecb.AddBuffer<TweenState>(entity);
+            if (!hasTweenPauseBuffer) ecb.AddBuffer<TweenPauseInfo>(entity);
+            if (!hasTweenResumeBuffer) ecb.AddBuffer<TweenResumeInfo>(entity);
+            if (!hasTweenStopBuffer) ecb.AddBuffer<TweenStopInfo>(entity);
+
+            buffersWereAdded = !hasTweenStateBuffer
+                || !hasTweenPauseBuffer
+                || !hasTweenResumeBuffer
+                || !hasTweenStopBuffer;
         }
     }
 #if DOTS_TWEEN_SPLINES

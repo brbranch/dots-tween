@@ -19,17 +19,15 @@ namespace DotsTween.Tweens
         [BurstCompile]
         protected override void OnUpdate()
         {
-            Entities
-                .WithNone<TweenPause>()
-                .ForEach((ref HDRPMaterialPropertyUnlitColor colour, in DynamicBuffer<TweenState> tweenBuffer, in TweenHDRPFadeUnlit tweenInfo) =>
+            Entities.ForEach((ref HDRPMaterialPropertyUnlitColor colour, in DynamicBuffer<TweenState> tweenBuffer, in TweenHDRPFadeUnlit tweenInfo) =>
+            {
+                foreach (var tween in tweenBuffer)
                 {
-                    foreach (var tween in tweenBuffer)
-                    {
-                        if (tween.Id != tweenInfo.Id) continue;
-                        var alpha = math.lerp(tweenInfo.Start, tweenInfo.End, tween.EasePercentage);
-                        colour.Value = new float4(colour.Value.xyz, alpha);
-                    }
-                }).ScheduleParallel();
+                    if (tween.Id != tweenInfo.Id || tween.IsPaused) continue;
+                    var alpha = math.lerp(tweenInfo.Start, tweenInfo.End, tween.EasePercentage);
+                    colour.Value = new float4(colour.Value.xyz, alpha);
+                }
+            }).ScheduleParallel();
         }
     }
 }

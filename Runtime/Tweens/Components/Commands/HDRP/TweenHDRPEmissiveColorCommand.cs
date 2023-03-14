@@ -15,10 +15,10 @@ namespace DotsTween.Tweens
         public TweenHDRPEmissiveColorCommand(in float3 start, in float3 end, in float duration, TweenParams tweenParams = default)
         {
             tweenParams.Duration = duration;
+            tweenParams.Id = tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenHDRPEmissiveColor>().Value);
             TweenParams = tweenParams;
             Start = start;
             End = end;
-            tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenHDRPEmissiveColor>().Value);
         }
 
         public void SetTweenInfo(in float3 start, in float3 end)

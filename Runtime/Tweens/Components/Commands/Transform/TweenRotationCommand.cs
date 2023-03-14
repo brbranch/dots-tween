@@ -14,10 +14,10 @@ namespace DotsTween.Tweens
         public TweenRotationCommand(in quaternion start, in quaternion end, in float duration, TweenParams tweenParams = default)
         {
             tweenParams.Duration = duration;
+            tweenParams.Id = tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenRotation>().Value);
             TweenParams = tweenParams;
             Start = start;
             End = end;
-            tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenRotation>().Value);
         }
 
         [BurstCompile]

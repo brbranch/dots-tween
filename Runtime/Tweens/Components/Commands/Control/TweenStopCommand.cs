@@ -6,6 +6,5 @@ namespace DotsTween.Tweens
     [BurstCompile]
     internal struct TweenStopCommand : IComponentData
     {
-        internal int TweenId;
     }
 }

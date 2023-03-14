@@ -27,10 +27,7 @@ namespace DotsTween.Timelines.Systems
                 while (!bufferReader.EndOfBuffer && index < timelineRef.ValueRO.Size)
                 {
                     var timelineElement = TimelineSystemCommandTypeHelper.DereferenceNextTimelineElement(timelineRef.ValueRO.GetTimelineElementType(index), ref bufferReader);
-                    if (timelineRef.ValueRO.IsTimelineElementActive(timelineElement.GetId()))
-                    {
-                        Tween.Controls.StopAll(ref ecb, timelineElement.GetTargetEntity());
-                    }
+                    Tween.Controls.Stop(ref ecb, timelineElement.GetTargetEntity(), timelineElement.GetTweenId());
                     ++index;
                 }
 

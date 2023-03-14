@@ -24,7 +24,6 @@ namespace DotsTween.Tweens
 
             Entities
                 .WithReadOnly(destroyBufferFromEntity)
-                .WithNone<TweenPause>()
                 .ForEach((Entity entity, int entityInQueryIndex, ref DynamicBuffer<TweenState> tweenBuffer) =>
                 {
                     DynamicBuffer<TweenDestroyCommand> newDestroyCommandBuffer = default;

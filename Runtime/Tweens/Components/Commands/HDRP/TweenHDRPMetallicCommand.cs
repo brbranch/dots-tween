@@ -14,10 +14,10 @@ namespace DotsTween.Tweens
         public TweenHDRPMetallicCommand(in float start, in float end, in float duration, TweenParams tweenParams = default)
         {
             tweenParams.Duration = duration;
+            tweenParams.Id = tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenHDRPMetallic>().Value);
             TweenParams = tweenParams;
             Start = start;
             End = end;
-            tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenHDRPMetallic>().Value);
         }
 
         public void SetTweenInfo(in float start, in float end)

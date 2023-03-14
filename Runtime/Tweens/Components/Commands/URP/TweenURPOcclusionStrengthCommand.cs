@@ -14,10 +14,10 @@ namespace DotsTween.Tweens
         public TweenURPOcclusionStrengthCommand(in float start, in float end, in float duration, TweenParams tweenParams = default)
         {
             tweenParams.Duration = duration;
+            tweenParams.Id = tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenURPOcclusionStrength>().Value);
             TweenParams = tweenParams;
             Start = start;
             End = end;
-            tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenURPOcclusionStrength>().Value);
         }
 
         public void SetTweenInfo(in float start, in float end)

@@ -17,22 +17,19 @@ namespace DotsTween.Tweens
         [BurstCompile]
         protected override void OnUpdate()
         {
-            Entities
-                .WithNone<TweenPause>()
-                .ForEach((ref DynamicBuffer<TweenState> tweenBuffer) =>
+            Entities.ForEach((ref DynamicBuffer<TweenState> tweenBuffer) =>
+            {
+                var deltaTime = SystemAPI.Time.DeltaTime;
+                
+                for (int i = 0; i < tweenBuffer.Length; i++)
                 {
-                    var deltaTime = SystemAPI.Time.DeltaTime;
-                    
-                    for (int i = 0; i < tweenBuffer.Length; i++)
-                    {
-                        TweenState tween = tweenBuffer[i];
-
-                        if (tween.IsPaused) continue;
-                        tween.CurrentTime += tween.IsReverting ? -deltaTime : deltaTime;
-                        tween.EasePercentage = EasingFunctions.Ease(tween.EaseType, tween.GetNormalizedTime());
-                        tweenBuffer[i] = tween;
-                    }
-                }).ScheduleParallel();
+                    TweenState tween = tweenBuffer[i];
+                    if (tween.IsPaused) continue;
+                    tween.CurrentTime += tween.IsReverting ? -deltaTime : deltaTime;
+                    tween.EasePercentage = EasingFunctions.Ease(tween.EaseType, tween.GetNormalizedTime());
+                    tweenBuffer[i] = tween;
+                }
+            }).ScheduleParallel();
         }
     }
 }

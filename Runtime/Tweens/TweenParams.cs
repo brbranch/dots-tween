@@ -8,7 +8,7 @@ namespace DotsTween.Tweens
     public struct TweenParams
     {
         public float Duration { get; internal set; }
-        public int Id { get; private set; }
+        public int Id { get; internal set; }
         
         public EaseType EaseType;
         [MarshalAs(UnmanagedType.U1)] public bool IsPingPong;
@@ -56,22 +56,27 @@ namespace DotsTween.Tweens
         }
         
         [BurstCompile]
-        internal void GenerateId(in int tweenInfoTypeIndex)
+        internal int GenerateId(in int tweenInfoTypeIndex)
         {
             unchecked
             {
-                int hashCode = (int) EaseType;
+                GetNewGuidValue(out var hashCode);
                 hashCode = (hashCode * 397) ^ ((byte)EaseType).GetHashCode();
                 hashCode = (hashCode * 397) ^ Duration.GetHashCode();
                 hashCode = (hashCode * 397) ^ IsPingPong.GetHashCode();
                 hashCode = (hashCode * 397) ^ StartDelay.GetHashCode();
                 hashCode = (hashCode * 397) ^ OnComplete.GetHashCode();
                 hashCode = (hashCode * 397) ^ OnStart.GetHashCode();
-                hashCode = (hashCode * 397) ^ Guid.NewGuid().GetHashCode();
+                hashCode = (hashCode * 397) ^ (int) EaseType;
                 hashCode = (hashCode * 397) ^ tweenInfoTypeIndex;
-
-                Id = hashCode;
+                return hashCode;
             }
+        }
+
+        [BurstDiscard]
+        private static void GetNewGuidValue(out int hashCode)
+        {
+            hashCode = Guid.NewGuid().GetHashCode();
         }
     }
 }

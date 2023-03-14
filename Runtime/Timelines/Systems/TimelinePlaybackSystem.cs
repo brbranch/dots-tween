@@ -20,7 +20,7 @@ namespace DotsTween.Timelines.Systems
             var deltaTime = SystemAPI.Time.DeltaTime;
             var ecb = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(CheckedStateRef.WorldUnmanaged);
             
-            foreach (var (timeline, timelineEntity) in SystemAPI.Query<RefRW<TimelineComponent>>().WithNone<TimelinePausedTag>().WithEntityAccess())
+            foreach (var (timeline, timelineEntity) in SystemAPI.Query<RefRW<TimelineComponent>>().WithNone<TimelinePausedTag, TimelineDestroyTag>().WithEntityAccess())
             {
                 timeline.ValueRW.CurrentTime += deltaTime;
                 

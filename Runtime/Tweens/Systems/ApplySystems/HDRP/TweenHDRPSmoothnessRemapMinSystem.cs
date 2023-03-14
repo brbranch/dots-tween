@@ -19,16 +19,14 @@ namespace DotsTween.Tweens
         [BurstCompile]
         protected override void OnUpdate()
         {
-            Entities
-                .WithNone<TweenPause>()
-                .ForEach((ref HDRPMaterialPropertySmoothnessRemapMin smoothnessRemapMin, in DynamicBuffer<TweenState> tweenBuffer, in TweenHDRPSmoothnessRemapMin tweenInfo) =>
+            Entities.ForEach((ref HDRPMaterialPropertySmoothnessRemapMin smoothnessRemapMin, in DynamicBuffer<TweenState> tweenBuffer, in TweenHDRPSmoothnessRemapMin tweenInfo) =>
+            {
+                foreach (var tween in tweenBuffer)
                 {
-                    foreach (var tween in tweenBuffer)
-                    {
-                        if (tween.Id != tweenInfo.Id) continue;
-                        smoothnessRemapMin.Value = math.lerp(tweenInfo.Start, tweenInfo.End, tween.EasePercentage);
-                    }
-                }).ScheduleParallel();
+                    if (tween.Id != tweenInfo.Id || tween.IsPaused) continue;
+                    smoothnessRemapMin.Value = math.lerp(tweenInfo.Start, tweenInfo.End, tween.EasePercentage);
+                }
+            }).ScheduleParallel();
         }
     }
 }

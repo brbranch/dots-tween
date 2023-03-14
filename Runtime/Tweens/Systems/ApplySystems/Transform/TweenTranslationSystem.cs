@@ -19,19 +19,17 @@ namespace DotsTween.Tweens
         [BurstCompile]
         protected override void OnUpdate()
         {
-            Entities
-                .WithNone<TweenPause>()
-                .ForEach((ref LocalTransform localTransform, in DynamicBuffer<TweenState> tweenBuffer, in TweenTranslation tweenInfo) =>
+            Entities.ForEach((ref LocalTransform localTransform, in DynamicBuffer<TweenState> tweenBuffer, in TweenTranslation tweenInfo) =>
+            {
+                foreach (var tween in tweenBuffer)
                 {
-                    foreach (var tween in tweenBuffer)
+                    if (tween.Id == tweenInfo.Id && !tween.IsPaused)
                     {
-                        if (tween.Id == tweenInfo.Id)
-                        {
-                            localTransform.Position = math.lerp(tweenInfo.Start, tweenInfo.End, tween.EasePercentage);
-                            break;
-                        }
+                        localTransform.Position = math.lerp(tweenInfo.Start, tweenInfo.End, tween.EasePercentage);
+                        break;
                     }
-                }).ScheduleParallel();
+                }
+            }).ScheduleParallel();
         }
     }
 }

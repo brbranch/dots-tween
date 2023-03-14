@@ -19,18 +19,28 @@ namespace DotsTween.Tweens
         {
             var endSimEcbSystem = World.GetOrCreateSystemManaged<EndSimulationEntityCommandBufferSystem>();
             var parallelWriter = endSimEcbSystem.CreateCommandBuffer().AsParallelWriter();
-            var pauseFromEntity = GetComponentLookup<TweenPause>();
 
             Entities
-                .WithReadOnly(pauseFromEntity)
                 .WithAll<TweenResumeCommand>()
-                .ForEach((int entityInQueryIndex, Entity entity) =>
+                .ForEach((int entityInQueryIndex, Entity entity, ref DynamicBuffer<TweenResumeInfo> resumeBuffer, ref DynamicBuffer<TweenState> tweenBuffer) =>
                 {
-                    if (pauseFromEntity.HasComponent(entity))
+                    for (int x = resumeBuffer.Length - 1; x >= 0; --x)
                     {
-                        parallelWriter.RemoveComponent<TweenPause>(entityInQueryIndex, entity);
-                    }
+                        var resumeInfo = resumeBuffer[x];
 
+                        for (int y = 0; y < tweenBuffer.Length; ++y)
+                        {
+                            var tween = tweenBuffer[y];
+
+                            if (resumeInfo.SpecificTweenTarget && resumeInfo.TweenId != tween.Id) continue;
+
+                            tween.IsPaused = false;
+                            tweenBuffer[y] = tween;
+                        }
+                    
+                        resumeBuffer.RemoveAt(x);
+                    }
+                
                     parallelWriter.RemoveComponent<TweenResumeCommand>(entityInQueryIndex, entity);
                 }).ScheduleParallel();
 

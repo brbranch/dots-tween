@@ -4,5 +4,7 @@ using Unity.Entities;
 namespace DotsTween.Tweens
 {
     [BurstCompile]
-    public struct TweenPause : IComponentData { }
+    internal struct TweenPauseCommand : IComponentData
+    {
+    }
 }

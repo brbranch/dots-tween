@@ -1,4 +1,5 @@
-﻿using Unity.Burst;
+﻿using System.Runtime.InteropServices;
+using Unity.Burst;
 using Unity.Burst.Intrinsics;
 using Unity.Collections;
 using Unity.Entities;
@@ -6,6 +7,7 @@ using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Rendering;
 using Unity.Transforms;
+using UnityEngine;
 
 [assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenTranslationGenerateSystem.GenerateJob))]
 [assembly: RegisterGenericJobType(typeof(DotsTween.Tweens.TweenRotationGenerateSystem.GenerateJob))]
@@ -60,14 +62,20 @@ namespace DotsTween.Tweens
             [ReadOnly] public EntityTypeHandle EntityType;
             [ReadOnly] public ComponentTypeHandle<TTweenCommand> TweenCommandType;
             [ReadOnly] public ComponentTypeHandle<TTarget> TargetType;
-            [ReadOnly] public BufferTypeHandle<TweenState> TweenBufferType;
+            [ReadOnly] public BufferTypeHandle<TweenState> TweenStateBufferType;
+            [ReadOnly] public BufferTypeHandle<TweenPauseInfo> TweenPauseBufferType;
+            [ReadOnly] public BufferTypeHandle<TweenResumeInfo> TweenResumeBufferType;
+            [ReadOnly] public BufferTypeHandle<TweenStopInfo> TweenStopBufferType;
 
             public EntityCommandBuffer.ParallelWriter ParallelWriter;
 
             [BurstCompile]
             public void Execute(in ArchetypeChunk chunk, int chunkIndex, bool useEnabledMask, in v128 chunkEnabledMask)
             {
-                bool hasTweenBuffer = chunk.Has(ref TweenBufferType);
+                bool hasTweenStateBuffer = chunk.Has(ref TweenStateBufferType);
+                bool hasTweenPauseBuffer = chunk.Has(ref TweenPauseBufferType); 
+                bool hasTweenResumeBuffer = chunk.Has(ref TweenResumeBufferType); 
+                bool hasTweenStopBuffer = chunk.Has(ref TweenStopBufferType); 
                 bool hasTargetType = chunk.Has(ref TargetType);
 
                 NativeArray<Entity> entities = chunk.GetNativeArray(EntityType);
@@ -77,9 +85,10 @@ namespace DotsTween.Tweens
                     Entity entity = entities[i];
                     TTweenCommand command = commands[i];
 
-                    if (!hasTweenBuffer)
+                    TryToAddBuffers(out var didAddBuffers, chunkIndex, ref entity, hasTweenStateBuffer, hasTweenPauseBuffer, hasTweenResumeBuffer, hasTweenStopBuffer);
+
+                    if (didAddBuffers)
                     {
-                        ParallelWriter.AddBuffer<TweenState>(chunkIndex, entity);
                         break;
                     }
 
@@ -100,6 +109,26 @@ namespace DotsTween.Tweens
                     ParallelWriter.AddComponent(chunkIndex, entity, info);
                     ParallelWriter.RemoveComponent<TTweenCommand>(chunkIndex, entity);
                 }
+            }
+
+            private void TryToAddBuffers(
+                out bool buffersWereAdded,
+                in int chunkIndex,
+                ref Entity entity,
+                [MarshalAs(UnmanagedType.U1)] bool hasTweenStateBuffer,
+                [MarshalAs(UnmanagedType.U1)] bool hasTweenPauseBuffer,
+                [MarshalAs(UnmanagedType.U1)] bool hasTweenResumeBuffer,
+                [MarshalAs(UnmanagedType.U1)] bool hasTweenStopBuffer)
+            {
+                if (!hasTweenStateBuffer) ParallelWriter.AddBuffer<TweenState>(chunkIndex, entity);
+                if (!hasTweenPauseBuffer) ParallelWriter.AddBuffer<TweenPauseInfo>(chunkIndex, entity);
+                if (!hasTweenResumeBuffer) ParallelWriter.AddBuffer<TweenResumeInfo>(chunkIndex, entity);
+                if (!hasTweenStopBuffer) ParallelWriter.AddBuffer<TweenStopInfo>(chunkIndex, entity);
+
+                buffersWereAdded = !hasTweenStateBuffer
+                    || !hasTweenPauseBuffer
+                    || !hasTweenResumeBuffer
+                    || !hasTweenStopBuffer;
             }
         }
 
@@ -122,7 +151,10 @@ namespace DotsTween.Tweens
                 EntityType = GetEntityTypeHandle(),
                 TweenCommandType = GetComponentTypeHandle<TTweenCommand>(true),
                 TargetType = GetComponentTypeHandle<TTarget>(true),
-                TweenBufferType = GetBufferTypeHandle<TweenState>(true),
+                TweenStateBufferType = GetBufferTypeHandle<TweenState>(true),
+                TweenPauseBufferType = GetBufferTypeHandle<TweenPauseInfo>(true),
+                TweenResumeBufferType = GetBufferTypeHandle<TweenResumeInfo>(true),
+                TweenStopBufferType = GetBufferTypeHandle<TweenStopInfo>(true),
                 ParallelWriter = endSimECBSystem.CreateCommandBuffer().AsParallelWriter(),
             };
 

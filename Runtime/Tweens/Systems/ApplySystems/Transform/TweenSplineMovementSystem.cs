@@ -23,7 +23,7 @@ namespace DotsTween.Tweens
             {
                 foreach (var tween in tweenBuffer)
                 {
-                    if (tween.Id != tweenInfo.Id) continue;
+                    if (tween.Id != tweenInfo.Id || tween.IsPaused) continue;
                         
                     float splinePosition = math.lerp(tweenInfo.SplineTweenInfo.NormalizedStartPosition, tweenInfo.SplineTweenInfo.NormalizedEndPosition, tween.EasePercentage);
                     localTransform.LocalPosition = tweenInfo.SplineTweenInfo.Spline.EvaluatePosition(splinePosition);
