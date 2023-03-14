@@ -9,6 +9,12 @@ namespace DotsTween.Tweens
     internal partial class TweenEaseSystem : SystemBase
     {
         [BurstCompile]
+        protected override void OnCreate()
+        {
+            RequireForUpdate<TweenState>();
+        }
+
+        [BurstCompile]
         protected override void OnUpdate()
         {
             Entities
@@ -20,6 +26,8 @@ namespace DotsTween.Tweens
                     for (int i = 0; i < tweenBuffer.Length; i++)
                     {
                         TweenState tween = tweenBuffer[i];
+
+                        if (tween.IsPaused) continue;
                         tween.CurrentTime += tween.IsReverting ? -deltaTime : deltaTime;
                         tween.EasePercentage = EasingFunctions.Ease(tween.EaseType, tween.GetNormalizedTime());
                         tweenBuffer[i] = tween;

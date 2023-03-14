@@ -4,6 +4,7 @@ using Unity.Entities;
 namespace DotsTween.Tweens
 {
     [BurstCompile]
+    [UpdateInGroup(typeof(TweenDestroySystemGroup))]
      internal partial class JoblessTweenDestroySystem<TTweenInfo, TTweenInfoValue> : SystemBase
          where TTweenInfo : unmanaged, IComponentData, ITweenId, ITweenInfo<TTweenInfoValue>
      {
@@ -27,7 +28,7 @@ namespace DotsTween.Tweens
                  for (int j = destroyBuffer.Length - 1; j >= 0; j--)
                  {
                      TweenDestroyCommand command = destroyBuffer[j];
-                     if (infoRef.ValueRO.GetTweenId() == command.Id)
+                     if (infoRef.ValueRO.GetTweenId() == command.TweenId)
                      {
                          shouldDestroy = true;
                          destroyBuffer.RemoveAt(j);

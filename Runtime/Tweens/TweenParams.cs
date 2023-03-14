@@ -1,11 +1,15 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 using DotsTween.Math;
+using Unity.Burst;
 
 namespace DotsTween.Tweens
 {
     public struct TweenParams
     {
         public float Duration { get; internal set; }
+        public int Id { get; private set; }
+        
         public EaseType EaseType;
         [MarshalAs(UnmanagedType.U1)] public bool IsPingPong;
         public short LoopCount;
@@ -17,6 +21,7 @@ namespace DotsTween.Tweens
         public ComponentOperations OnComplete;
         public ComponentOperations OnStart;
 
+        [BurstCompile]
         public void SetTimelinePositions(float startTime, float endTime)
         {
             TimelineStartPosition = startTime;
@@ -48,6 +53,25 @@ namespace DotsTween.Tweens
             }
 
             return msg;
+        }
+        
+        [BurstCompile]
+        internal void GenerateId(in int tweenInfoTypeIndex)
+        {
+            unchecked
+            {
+                int hashCode = (int) EaseType;
+                hashCode = (hashCode * 397) ^ ((byte)EaseType).GetHashCode();
+                hashCode = (hashCode * 397) ^ Duration.GetHashCode();
+                hashCode = (hashCode * 397) ^ IsPingPong.GetHashCode();
+                hashCode = (hashCode * 397) ^ StartDelay.GetHashCode();
+                hashCode = (hashCode * 397) ^ OnComplete.GetHashCode();
+                hashCode = (hashCode * 397) ^ OnStart.GetHashCode();
+                hashCode = (hashCode * 397) ^ Guid.NewGuid().GetHashCode();
+                hashCode = (hashCode * 397) ^ tweenInfoTypeIndex;
+
+                Id = hashCode;
+            }
         }
     }
 }

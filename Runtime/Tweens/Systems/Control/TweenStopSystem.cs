@@ -10,6 +10,12 @@ namespace DotsTween.Tweens
     internal partial class TweenStopSystem : SystemBase
     {
         [BurstCompile]
+        protected override void OnCreate()
+        {
+            RequireForUpdate<TweenStopCommand>();
+        }
+
+        [BurstCompile]
         protected override void OnUpdate()
         {
             var destroyBufferFromEntity = GetBufferLookup<TweenDestroyCommand>(true);

@@ -9,6 +9,12 @@ namespace DotsTween.Tweens
     internal partial class TweenStateSystem : SystemBase
     {
         [BurstCompile]
+        protected override void OnCreate()
+        {
+            RequireForUpdate<TweenState>();
+        }
+
+        [BurstCompile]
         protected override void OnUpdate()
         {
             var destroyBufferFromEntity = GetBufferLookup<TweenDestroyCommand>(true);

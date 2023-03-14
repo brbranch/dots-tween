@@ -57,8 +57,6 @@ namespace DotsTween.Tweens
         [BurstCompile]
         internal struct GenerateJob : IJobChunk
         {
-            [ReadOnly] public int TweenInfoTypeIndex;
-            [ReadOnly] public double ElapsedTime;
             [ReadOnly] public EntityTypeHandle EntityType;
             [ReadOnly] public ComponentTypeHandle<TTweenCommand> TweenCommandType;
             [ReadOnly] public ComponentTypeHandle<TTarget> TargetType;
@@ -91,7 +89,7 @@ namespace DotsTween.Tweens
                     }
 
                     var tweenParams = command.GetTweenParams();
-                    TweenState tween = new TweenState(tweenParams, ElapsedTime, chunkIndex, TweenInfoTypeIndex);
+                    TweenState tween = new TweenState(tweenParams);
                     ParallelWriter.AppendToBuffer(chunkIndex, entity, tween);
                     tweenParams.OnStart.Perform(ref ParallelWriter, chunkIndex, entity);
 
@@ -110,19 +108,17 @@ namespace DotsTween.Tweens
         [BurstCompile]
         protected override void OnCreate()
         {
+            RequireForUpdate<TTweenCommand>();
             tweenCommandQuery = GetEntityQuery(ComponentType.ReadOnly<TTweenCommand>());
         }
 
         [BurstCompile]
         protected override void OnUpdate()
         {
-            double elapsedTime = SystemAPI.Time.ElapsedTime;
             EndSimulationEntityCommandBufferSystem endSimECBSystem = World.GetOrCreateSystemManaged<EndSimulationEntityCommandBufferSystem>();
 
             GenerateJob job = new GenerateJob
             {
-                TweenInfoTypeIndex = TypeManager.GetTypeIndex(typeof(TTweenInfo)),
-                ElapsedTime = elapsedTime,
                 EntityType = GetEntityTypeHandle(),
                 TweenCommandType = GetComponentTypeHandle<TTweenCommand>(true),
                 TargetType = GetComponentTypeHandle<TTarget>(true),

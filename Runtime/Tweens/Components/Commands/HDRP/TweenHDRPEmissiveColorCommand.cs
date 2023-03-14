@@ -18,6 +18,7 @@ namespace DotsTween.Tweens
             TweenParams = tweenParams;
             Start = start;
             End = end;
+            tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenHDRPEmissiveColor>().Value);
         }
 
         public void SetTweenInfo(in float3 start, in float3 end)

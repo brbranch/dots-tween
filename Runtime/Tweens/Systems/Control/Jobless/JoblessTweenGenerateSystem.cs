@@ -21,7 +21,6 @@ namespace DotsTween.Tweens
         [BurstCompile]
         protected override void OnUpdate()
         {
-            double elapsedTime = SystemAPI.Time.ElapsedTime;
             var ecb = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(World.Unmanaged);
             var tweenInfoTypeIndex = TypeManager.GetTypeIndex(typeof(TTweenCommand));
 
@@ -39,7 +38,7 @@ namespace DotsTween.Tweens
                 }
 
                 var tweenParams = commandRef.ValueRO.GetTweenParams();
-                TweenState tween = new TweenState(tweenParams, elapsedTime, entity.Index, tweenInfoTypeIndex);
+                TweenState tween = new TweenState(tweenParams);
                 ecb.AppendToBuffer(entity, tween);
                 tweenParams.OnStart.Perform(ref ecb, entity);
 

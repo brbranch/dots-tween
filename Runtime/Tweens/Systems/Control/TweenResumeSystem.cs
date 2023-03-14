@@ -9,6 +9,12 @@ namespace DotsTween.Tweens
     internal partial class TweenResumeSystem : SystemBase
     {
         [BurstCompile]
+        protected override void OnCreate()
+        {
+            RequireForUpdate<TweenResumeCommand>();
+        }
+
+        [BurstCompile]
         protected override void OnUpdate()
         {
             var endSimEcbSystem = World.GetOrCreateSystemManaged<EndSimulationEntityCommandBufferSystem>();

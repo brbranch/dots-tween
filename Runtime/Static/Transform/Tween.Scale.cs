@@ -11,63 +11,69 @@ namespace DotsTween
         public static class Scale
         {
             [BurstCompile]
-            public static void FromTo(ref SystemState state, in Entity entity, in float start, in float end, in float duration, in TweenParams tweenParams = default)
+            public static int FromTo(ref SystemState state, in Entity entity, in float start, in float end, in float duration, in TweenParams tweenParams = default)
             {
-                state.EntityManager.AddComponentData(entity, new TweenScaleCommand(start, end, duration, tweenParams));
+                var command = new TweenScaleCommand(start, end, duration, tweenParams);
+                state.EntityManager.AddComponentData(entity, command);
+                return command.TweenParams.Id;
             }
 
             [BurstCompile]
-            public static void FromTo(ref EntityCommandBuffer ecb, in Entity entity, in float start, in float end, in float duration, in TweenParams tweenParams = default)
+            public static int FromTo(ref EntityCommandBuffer ecb, in Entity entity, in float start, in float end, in float duration, in TweenParams tweenParams = default)
             {
-                ecb.AddComponent(entity, new TweenScaleCommand(start, end, duration, tweenParams));
+                var command = new TweenScaleCommand(start, end, duration, tweenParams);
+                ecb.AddComponent(entity, command);
+                return command.TweenParams.Id;
             }
 
             [BurstCompile]
-            public static void FromTo(ref EntityCommandBuffer.ParallelWriter ecb, in int sortKey, in Entity entity, in float start, in float end, in float duration, in TweenParams tweenParams = default)
+            public static int FromTo(ref EntityCommandBuffer.ParallelWriter ecb, in int sortKey, in Entity entity, in float start, in float end, in float duration, in TweenParams tweenParams = default)
             {
-                ecb.AddComponent(sortKey, entity, new TweenScaleCommand(start, end, duration, tweenParams));
+                var command = new TweenScaleCommand(start, end, duration, tweenParams);
+                ecb.AddComponent(sortKey, entity, command);
+                return command.TweenParams.Id;
             }
 
             [BurstCompile]
-            public static void To(ref SystemState state, in Entity entity, in float end, in float duration, in TweenParams tweenParams = default)
+            public static int To(ref SystemState state, in Entity entity, in float end, in float duration, in TweenParams tweenParams = default)
             {
                 GetCurrentValue(out var start, ref state, entity);
-                FromTo(ref state, entity, start, end, duration, tweenParams);
+                return FromTo(ref state, entity, start, end, duration, tweenParams);
             }
 
             [BurstCompile]
-            public static void To(ref SystemState state, ref EntityCommandBuffer ecb, in Entity entity, in float end, in float duration, in TweenParams tweenParams = default)
+            public static int To(ref SystemState state, ref EntityCommandBuffer ecb, in Entity entity, in float end, in float duration, in TweenParams tweenParams = default)
             {
                 GetCurrentValue(out var start, ref state, entity);
-                FromTo(ref ecb, entity, start, end, duration, tweenParams);
+                return FromTo(ref ecb, entity, start, end, duration, tweenParams);
             }
 
             [BurstCompile]
-            public static void To(ref SystemState state, ref EntityCommandBuffer.ParallelWriter ecb, in int sortKey, in Entity entity, in float end, in float duration, in TweenParams tweenParams = default)
+            public static int To(ref SystemState state, ref EntityCommandBuffer.ParallelWriter ecb, in int sortKey, in Entity entity, in float end, in float duration, in TweenParams tweenParams = default)
             {
                 GetCurrentValue(out var start, ref state, entity);
-                FromTo(ref ecb, sortKey, entity, start, end, duration, tweenParams);
+                return FromTo(ref ecb, sortKey, entity, start, end, duration, tweenParams);
             }
 
             [BurstCompile]
-            public static void From(ref SystemState state, in Entity entity, in float start, in float duration, in TweenParams tweenParams = default)
+            public static int From(ref SystemState state, in Entity entity, in float start, in float duration, in TweenParams tweenParams = default)
             {
                 GetCurrentValue(out var end, ref state, entity);
-                FromTo(ref state, entity, start, end, duration, tweenParams);
+                return FromTo(ref state, entity, start, end, duration, tweenParams);
             }
 
             [BurstCompile]
-            public static void From(ref SystemState state, ref EntityCommandBuffer ecb, in Entity entity, in float start, in float duration, in TweenParams tweenParams = default)
+            public static int From(ref SystemState state, ref EntityCommandBuffer ecb, in Entity entity, in float start, in float duration, in TweenParams tweenParams = default)
             {
                 GetCurrentValue(out var end, ref state, entity);
-                FromTo(ref ecb, entity, start, end, duration, tweenParams);
+                return FromTo(ref ecb, entity, start, end, duration, tweenParams);
             }
 
             [BurstCompile]
-            public static void From(ref SystemState state, ref EntityCommandBuffer.ParallelWriter ecb, in int sortKey, in Entity entity, in float start, in float duration, in TweenParams tweenParams = default)
+            public static int From(ref SystemState state, ref EntityCommandBuffer.ParallelWriter ecb, in int sortKey, in Entity entity, in float start, in float duration, in TweenParams tweenParams = default)
             {
                 GetCurrentValue(out var end, ref state, entity);
-                FromTo(ref ecb, sortKey, entity, start, end, duration, tweenParams);
+                return FromTo(ref ecb, sortKey, entity, start, end, duration, tweenParams);
             }
 
             [BurstCompile]

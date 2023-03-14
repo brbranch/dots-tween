@@ -18,6 +18,7 @@ namespace DotsTween.Tweens
             TweenParams = tweenParams;
             Start = start;
             End = end;
+            tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenURPTint>().Value);
         }
 
         public void SetTweenInfo(in float4 start, in float4 end)

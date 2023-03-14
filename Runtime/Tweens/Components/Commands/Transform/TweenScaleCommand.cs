@@ -16,6 +16,7 @@ namespace DotsTween.Tweens
             TweenParams = tweenParams;
             Start = start;
             End = end;
+            tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenScale>().Value);
         }
 
         [BurstCompile]

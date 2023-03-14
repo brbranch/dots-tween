@@ -1,4 +1,6 @@
-﻿using DotsTween.Math;
+﻿using System;
+using System.Runtime.InteropServices;
+using DotsTween.Math;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -16,23 +18,23 @@ namespace DotsTween.Tweens
         public float Duration => Settings.Duration;
         public bool IsPingPong => Settings.IsPingPong;
         
-        public int Id;
+        public int Id => Settings.Id;
         public float CurrentTime;
         public float EasePercentage;
         public short PlayCount;
-        public bool IsReverting;
+        [MarshalAs(UnmanagedType.U1)]public bool IsReverting;
+        [MarshalAs(UnmanagedType.U1)]public bool IsPaused;
 
         // Cleanup and Sequencing with Timelines
         // public bool AutoKill;
         public bool IsComplete => CurrentTime >= Duration;
 
-        internal TweenState(in TweenParams tweenParams, in double elapsedTime, in int chunkIndex, in int tweenInfoTypeIndex) : this()
+        internal TweenState(in TweenParams tweenParams) : this()
         {
             Settings = tweenParams;
             PlayCount = tweenParams.LoopCount >= 0 ? tweenParams.LoopCount : LOOP_COUNT_INFINITE;
 
             CurrentTime = -math.max(tweenParams.StartDelay, 0.0f);
-            Id = GenerateId(elapsedTime, chunkIndex, tweenInfoTypeIndex);
         }
 
         [BurstCompile]
@@ -50,31 +52,13 @@ namespace DotsTween.Tweens
         [BurstCompile]
         public void SetTweenId(in int id)
         {
-            Id = id;
+            throw new NotImplementedException();
         }
 
         [BurstCompile]
         public int GetTweenId()
         {
             return Id;
-        }
-
-        [BurstCompile]
-        private int GenerateId(in double elapsedTime, in int entityInQueryIndex, in int tweenInfoTypeIndex)
-        {
-            unchecked
-            {
-                int hashCode = (int) EaseType;
-                hashCode = (hashCode * 397) ^ ((byte)EaseType).GetHashCode();
-                hashCode = (hashCode * 397) ^ Duration.GetHashCode();
-                hashCode = (hashCode * 397) ^ IsPingPong.GetHashCode();
-                hashCode = (hashCode * 397) ^ PlayCount.GetHashCode();
-                hashCode = (hashCode * 397) ^ elapsedTime.GetHashCode();
-                hashCode = (hashCode * 397) ^ entityInQueryIndex;
-                hashCode = (hashCode * 397) ^ tweenInfoTypeIndex;
-
-                return hashCode;
-            }
         }
     }
 }

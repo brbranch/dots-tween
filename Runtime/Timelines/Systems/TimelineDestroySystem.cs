@@ -29,7 +29,7 @@ namespace DotsTween.Timelines.Systems
                     var timelineElement = TimelineSystemCommandTypeHelper.DereferenceNextTimelineElement(timelineRef.ValueRO.GetTimelineElementType(index), ref bufferReader);
                     if (timelineRef.ValueRO.IsTimelineElementActive(timelineElement.GetId()))
                     {
-                        Tween.Controls.Stop(ref ecb, timelineElement.GetTargetEntity());
+                        Tween.Controls.StopAll(ref ecb, timelineElement.GetTargetEntity());
                     }
                     ++index;
                 }

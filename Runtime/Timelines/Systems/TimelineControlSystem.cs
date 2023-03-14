@@ -72,7 +72,7 @@ namespace DotsTween.Timelines.Systems
                 ++index;
                 if (timeline.IsTimelineElementActive(timelineElement.GetId()))
                 {
-                    Tween.Controls.Pause(ref ecb, timelineElement.GetTargetEntity());
+                    Tween.Controls.PauseAll(ref ecb, timelineElement.GetTargetEntity());
                 }
             }
         }
@@ -91,7 +91,7 @@ namespace DotsTween.Timelines.Systems
                 ++index;
                 if (timeline.IsTimelineElementActive(timelineElement.GetId()))
                 {
-                    Tween.Controls.Resume(ref ecb, timelineElement.GetTargetEntity());
+                    Tween.Controls.ResumeAll(ref ecb, timelineElement.GetTargetEntity());
                 }
             }
         }

@@ -77,7 +77,7 @@ namespace DotsTween.Tweens
                     for (int j = destroyBuffer.Length - 1; j >= 0; j--)
                     {
                         TweenDestroyCommand command = destroyBuffer[j];
-                        if (infos[i].GetTweenId() == command.Id)
+                        if (infos[i].GetTweenId() == command.TweenId)
                         {
                             shouldDestroy = true;
                             destroyBuffer.RemoveAt(j);
@@ -122,6 +122,9 @@ namespace DotsTween.Tweens
         [BurstCompile]
         protected override void OnCreate()
         {
+            RequireForUpdate<TweenState>();
+            RequireForUpdate<TweenDestroyCommand>();
+            
             tweenInfoQuery = GetEntityQuery(
                 ComponentType.ReadOnly<TTweenInfo>(),
                 ComponentType.ReadOnly<TweenState>(),

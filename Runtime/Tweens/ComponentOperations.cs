@@ -1,4 +1,5 @@
-﻿using Unity.Entities;
+﻿using Unity.Burst;
+using Unity.Entities;
 
 namespace DotsTween.Tweens
 {
@@ -9,6 +10,7 @@ namespace DotsTween.Tweens
         public ComponentType Enable;
         public ComponentType Disable;
 
+        [BurstCompile]
         public void Perform(ref EntityManager entityManager, in Entity target)
         {
             if (Add != default)
@@ -24,6 +26,7 @@ namespace DotsTween.Tweens
                 entityManager.SetComponentEnabled(target, Disable, false);
         }
 
+        [BurstCompile]
         public void Perform(ref EntityCommandBuffer ecb, in Entity target)
         {
             if (Add != default)
@@ -39,6 +42,7 @@ namespace DotsTween.Tweens
                 ecb.SetComponentEnabled(target, Disable, false);
         }
 
+        [BurstCompile]
         public void Perform(ref EntityCommandBuffer.ParallelWriter parallelWriter, in int sortKey, in Entity target)
         {
             if (Add != default)
@@ -52,6 +56,20 @@ namespace DotsTween.Tweens
                 
             if (Disable != default)
                 parallelWriter.SetComponentEnabled(sortKey, target, Disable, false);
+        }
+
+        [BurstCompile]
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = Add.GetHashCode();
+                hashCode = (hashCode * 1261) ^ Remove.GetHashCode();
+                hashCode = (hashCode * 1261) ^ Enable.GetHashCode();
+                hashCode = (hashCode * 1261) ^ Disable.GetHashCode();
+
+                return hashCode;
+            }
         }
     }
 }
