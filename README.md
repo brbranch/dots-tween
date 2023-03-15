@@ -57,7 +57,7 @@ Now uses Entities Graphics library from Unity.
 
 ## Features
 
-- Pause, resume and stop tweens on an entity
+- Pause, resume and stop all or individual tweens on an entity
 - Multiple types of active tweens on the same entity at the same time
 - Ping-pong (on tweens)
 - Loop
@@ -151,8 +151,16 @@ Tween.Move.FromTo(ref parallelWriter, entity, sortKey, start, end, duration);
 
 ### Stop the entity
 
+This will stop all tweens on the entity.
 ```cs
-Tween.Controls.Stop(entityManager, entity);
+Tween.Controls.StopAll(entityManager, entity);
+```
+
+To stop a specific tween on an entity, use its returned `tweenId`.
+```csharp
+var translationTweenId = Tween.Move.FromTo(ref entityManager, entity, start, end, duration);
+
+Tween.Controls.Stop(ref ecb, entity, translationTweenId);
 ```
 
 ### Loop infinitely

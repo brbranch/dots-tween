@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.8.8] 2023.03.15
+
+### Added
+- Tween Commands now return `TweenIds` so that you can control them individually.
+- Added ability to pause/resume/stop tweens individually using their `tweenId`;
+
+### Fixed
+- Generate and Destroy systems optimized to no longer try to schedule jobs without commands, reducing CPU overhead.
+
 ## [0.8.7] 2023.03.06
 
 ### Fixed
