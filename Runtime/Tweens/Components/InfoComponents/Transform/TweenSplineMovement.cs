@@ -9,23 +9,23 @@ namespace DotsTween.Tweens
     [WriteGroup(typeof(LocalTransform))]
     internal struct TweenSplineMovement : IComponentData, ITweenId, ITweenInfo<SplineTweenInfo>
     {
-        public int Id;
+        public uint Id;
         public SplineTweenInfo SplineTweenInfo;
 
-        public TweenSplineMovement(in int id, in SplineTweenInfo start, in SplineTweenInfo end = default)
+        public TweenSplineMovement(in uint id, in SplineTweenInfo start, in SplineTweenInfo end = default)
         {
             Id = id;
             SplineTweenInfo = start;
         }
 
         [BurstCompile]
-        public void SetTweenId(in int id)
+        public void SetTweenId(in uint id)
         {
             Id = id;
         }
 
         [BurstCompile]
-        public int GetTweenId()
+        public uint GetTweenId()
         {
             return Id;
         }

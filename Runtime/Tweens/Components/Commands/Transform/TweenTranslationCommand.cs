@@ -11,10 +11,10 @@ namespace DotsTween.Tweens
         public float3 Start { get; private set; }
         public float3 End { get; private set; }
 
-        public TweenTranslationCommand(in float3 start, in float3 end, in float duration, TweenParams tweenParams = default)
+        public TweenTranslationCommand(in Entity entity, in float3 start, in float3 end, in float duration, TweenParams tweenParams = default)
         {
             tweenParams.Duration = duration;
-            tweenParams.Id = tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenTranslation>().Value);
+            tweenParams.Id = tweenParams.GenerateId(entity.GetHashCode(), start.GetHashCode(), end.GetHashCode(), TypeManager.GetTypeIndex<TweenTranslation>().Value);
             TweenParams = tweenParams;
             Start = start;
             End = end;

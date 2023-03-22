@@ -9,11 +9,11 @@ namespace DotsTween.Tweens
     [WriteGroup(typeof(LocalTransform))]
     internal struct TweenRotation : IComponentData, ITweenId, ITweenInfo<quaternion>
     {
-        public int Id;
+        public uint Id;
         public quaternion Start;
         public quaternion End;
 
-        public TweenRotation(in int id, in quaternion start, in quaternion end)
+        public TweenRotation(in uint id, in quaternion start, in quaternion end)
         {
             Id = id;
             Start = start;
@@ -21,13 +21,13 @@ namespace DotsTween.Tweens
         }
 
         [BurstCompile]
-        public void SetTweenId(in int id)
+        public void SetTweenId(in uint id)
         {
             Id = id;
         }
 
         [BurstCompile]
-        public int GetTweenId()
+        public uint GetTweenId()
         {
             return Id;
         }

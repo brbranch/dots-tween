@@ -9,7 +9,7 @@ namespace DotsTween
     {
         public static class MoveSpline
         {
-            public static int FromStartToEnd(
+            public static uint FromStartToEnd(
                 ref SystemState state,
                 in Entity entity,
                 ref NativeSpline spline,
@@ -17,19 +17,19 @@ namespace DotsTween
                 bool alignRotation = false,
                 in TweenParams tweenParams = default)
             {
-                var command = new TweenSplineMovementCommand(new SplineTweenInfo
+                var splineTweenInfo = new SplineTweenInfo
                 {
                     Spline = spline,
                     NormalizedEndPosition = 1f,
                     NormalizedStartPosition = 0f,
                     AlignRotationToSpline = alignRotation
-                }, duration, tweenParams);
-
-                 state.EntityManager.AddComponentData(entity, command);
-                 return command.TweenParams.Id;
+                };
+                var command = new TweenSplineMovementCommand(entity, splineTweenInfo, duration, tweenParams);
+                state.EntityManager.AddComponentData(entity, command);
+                return command.TweenParams.Id;
             }
             
-            public static int FromStartToEnd(
+            public static uint FromStartToEnd(
                 ref EntityCommandBuffer ecb,
                 in Entity entity,
                 ref NativeSpline spline,
@@ -37,31 +37,33 @@ namespace DotsTween
                 bool alignRotation = false,
                 in TweenParams tweenParams = default)
             {
-                var command = new TweenSplineMovementCommand(new SplineTweenInfo
+                var splineTweenInfo = new SplineTweenInfo
                 {
                     Spline = spline,
                     NormalizedEndPosition = 1f,
                     NormalizedStartPosition = 0f,
                     AlignRotationToSpline = alignRotation
-                }, duration, tweenParams);
+                };
+                var command = new TweenSplineMovementCommand(entity, splineTweenInfo, duration, tweenParams);
                 ecb.AddComponent(entity, command);
                 return command.TweenParams.Id;
             }
             
-            public static int FromStartToEnd(ref EntityCommandBuffer.ParallelWriter ecb, in int sortKey, in Entity entity, ref NativeSpline spline, float duration, bool alignRotation = false, in TweenParams tweenParams = default)
+            public static uint FromStartToEnd(ref EntityCommandBuffer.ParallelWriter ecb, in int sortKey, in Entity entity, ref NativeSpline spline, float duration, bool alignRotation = false, in TweenParams tweenParams = default)
             {
-                var command = new TweenSplineMovementCommand(new SplineTweenInfo
+                var splineTweenInfo = new SplineTweenInfo
                 {
                     Spline = spline,
                     NormalizedEndPosition = 1f,
                     NormalizedStartPosition = 0f,
                     AlignRotationToSpline = alignRotation
-                }, duration, tweenParams);
+                };
+                var command = new TweenSplineMovementCommand(entity, splineTweenInfo, duration, tweenParams);
                 ecb.AddComponent(sortKey, entity, command);
                 return command.TweenParams.Id;
             }
 
-            public static int FromTo(
+            public static uint FromTo(
                 ref SystemState state,
                 in Entity entity,
                 ref NativeSpline spline,
@@ -71,18 +73,19 @@ namespace DotsTween
                 bool alignRotation = false,
                 in TweenParams tweenParams = default)
             {
-                var command = new TweenSplineMovementCommand(new SplineTweenInfo
+                var splineTweenInfo = new SplineTweenInfo
                 {
                     Spline = spline,
                     NormalizedEndPosition = normalizedSplineStartPosition,
                     NormalizedStartPosition = normalizedSplineEndPosition,
                     AlignRotationToSpline = alignRotation
-                }, duration, tweenParams);
+                };
+                var command = new TweenSplineMovementCommand(entity, splineTweenInfo, duration, tweenParams);
                 state.EntityManager.AddComponentData(entity, command);
                 return command.TweenParams.Id;
             }
 
-            public static int FromTo(
+            public static uint FromTo(
                 ref EntityCommandBuffer ecb,
                 in Entity entity,
                 ref NativeSpline spline,
@@ -92,18 +95,19 @@ namespace DotsTween
                 bool alignRotation = false,
                 in TweenParams tweenParams = default)
             {
-                var command = new TweenSplineMovementCommand(new SplineTweenInfo
+                var splineTweenInfo = new SplineTweenInfo
                 {
                     Spline = spline,
                     NormalizedEndPosition = normalizedSplineStartPosition,
                     NormalizedStartPosition = normalizedSplineEndPosition,
                     AlignRotationToSpline = alignRotation
-                }, duration, tweenParams);
+                };
+                var command = new TweenSplineMovementCommand(entity, splineTweenInfo, duration, tweenParams);
                 ecb.AddComponent(entity, command);
                 return command.TweenParams.Id;
             }
 
-            public static int FromTo(
+            public static uint FromTo(
                 ref EntityCommandBuffer.ParallelWriter ecb,
                 in int sortKey,
                 in Entity entity,
@@ -114,18 +118,19 @@ namespace DotsTween
                 bool alignRotation = false,
                 in TweenParams tweenParams = default)
             {
-                var command = new TweenSplineMovementCommand(new SplineTweenInfo
+                var splineTweenInfo = new SplineTweenInfo
                 {
                     Spline = spline,
                     NormalizedEndPosition = normalizedSplineStartPosition,
                     NormalizedStartPosition = normalizedSplineEndPosition,
                     AlignRotationToSpline = alignRotation
-                }, duration, tweenParams);
+                };
+                var command = new TweenSplineMovementCommand(entity, splineTweenInfo, duration, tweenParams);
                 ecb.AddComponent(sortKey, entity, command);
                 return command.TweenParams.Id;
             }
 
-            public static int From(
+            public static uint From(
                 ref SystemState state,
                 in Entity entity,
                 ref NativeSpline spline,
@@ -137,7 +142,7 @@ namespace DotsTween
                 return FromTo(ref state, entity, ref spline, normalizedSplineStartPosition, 1f, duration, alignRotation, tweenParams);
             }
             
-            public static int From(
+            public static uint From(
                 ref EntityCommandBuffer ecb,
                 in Entity entity,
                 ref NativeSpline spline,
@@ -149,7 +154,7 @@ namespace DotsTween
                 return FromTo(ref ecb, entity, ref spline, normalizedSplineStartPosition, 1f, duration, alignRotation, tweenParams);
             }
             
-            public static int From(
+            public static uint From(
                 ref EntityCommandBuffer.ParallelWriter parallelWriter,
                 in int sortKey,
                 in Entity entity,
@@ -162,7 +167,7 @@ namespace DotsTween
                 return FromTo(ref parallelWriter, sortKey, entity, ref spline, normalizedSplineStartPosition, 1f, duration, alignRotation, tweenParams);
             }
 
-            public static int To(
+            public static uint To(
                 ref SystemState state,
                 in Entity entity,
                 ref NativeSpline spline,
@@ -174,7 +179,7 @@ namespace DotsTween
                 return FromTo(ref state, entity, ref spline, 0f, normalizedSplineEndPosition, duration, alignRotation, tweenParams);
             }
             
-            public static int To(
+            public static uint To(
                 ref EntityCommandBuffer ecb,
                 in Entity entity,
                 ref NativeSpline spline,
@@ -186,7 +191,7 @@ namespace DotsTween
                 return FromTo(ref ecb, entity, ref spline, 0f, normalizedSplineEndPosition, duration, alignRotation, tweenParams);
             }
             
-            public static int To(
+            public static uint To(
                 ref EntityCommandBuffer.ParallelWriter parallelWriter,
                 in int sortKey,
                 in Entity entity,

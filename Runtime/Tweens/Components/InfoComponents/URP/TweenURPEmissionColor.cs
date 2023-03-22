@@ -10,23 +10,23 @@ namespace DotsTween.Tweens
     [WriteGroup(typeof(URPMaterialPropertyEmissionColor))]
     internal struct TweenURPEmissionColor : IComponentData, ITweenId, ITweenInfo<float4>
     {
-        public int Id;
+        public uint Id;
         public float4 Start;
         public float4 End;
 
-        public TweenURPEmissionColor(in int id, in float4 start, in float4 end)
+        public TweenURPEmissionColor(in uint id, in float4 start, in float4 end)
         {
             Id = id;
             Start = start;
             End = end;
         }
 
-        public void SetTweenId(in int id)
+        public void SetTweenId(in uint id)
         {
             Id = id;
         }
 
-        public int GetTweenId()
+        public uint GetTweenId()
         {
             return Id;
         }

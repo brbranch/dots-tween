@@ -18,7 +18,7 @@ namespace DotsTween.Tweens
         public float Duration => Settings.Duration;
         public bool IsPingPong => Settings.IsPingPong;
         
-        public int Id => Settings.Id;
+        public uint Id => Settings.Id;
         public float CurrentTime;
         public float EasePercentage;
         public short PlayCount;
@@ -50,13 +50,13 @@ namespace DotsTween.Tweens
         }
 
         [BurstCompile]
-        public void SetTweenId(in int id)
+        public void SetTweenId(in uint id)
         {
             throw new NotImplementedException();
         }
 
         [BurstCompile]
-        public int GetTweenId()
+        public uint GetTweenId()
         {
             return Id;
         }

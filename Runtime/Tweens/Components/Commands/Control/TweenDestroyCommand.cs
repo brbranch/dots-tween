@@ -6,9 +6,9 @@ namespace DotsTween.Tweens
     [BurstCompile]
     public struct TweenDestroyCommand : IBufferElementData
     {
-        internal readonly int TweenId;
+        internal readonly uint TweenId;
         
-        public TweenDestroyCommand(int tweenId)
+        public TweenDestroyCommand(uint tweenId)
         {
             TweenId = tweenId;
         }

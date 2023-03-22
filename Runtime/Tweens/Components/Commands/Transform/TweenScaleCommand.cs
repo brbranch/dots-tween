@@ -10,10 +10,10 @@ namespace DotsTween.Tweens
         public float Start;
         public float End;
 
-        public TweenScaleCommand(in float start, in float end, in float duration, TweenParams tweenParams = default)
+        public TweenScaleCommand(in Entity entity, in float start, in float end, in float duration, TweenParams tweenParams = default)
         {
             tweenParams.Duration = duration;
-            tweenParams.Id = tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenScale>().Value);
+            tweenParams.Id = tweenParams.GenerateId(entity.GetHashCode(), start.GetHashCode(), end.GetHashCode(), TypeManager.GetTypeIndex<TweenScale>().Value);
             TweenParams = tweenParams;
             Start = start;
             End = end;

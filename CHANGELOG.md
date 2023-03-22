@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.8.9] 2023.03.22
+
+### Fixed
+- TweenCommands should now generate more unique ids. Ids are now `uint` instead of `int`.
+
 ## [0.8.8] 2023.03.15
 
 ### Added

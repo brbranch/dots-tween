@@ -11,10 +11,10 @@ namespace DotsTween.Tweens
         public float3 Start;
         public float3 End;
 
-        public TweenNonUniformScaleCommand(in float3 start, in float3 end, in float duration, TweenParams tweenParams = default)
+        public TweenNonUniformScaleCommand(in Entity entity, in float3 start, in float3 end, in float duration, TweenParams tweenParams = default)
         {
             tweenParams.Duration = duration;
-            tweenParams.Id = tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenNonUniformScale>().Value);
+            tweenParams.Id = tweenParams.GenerateId(entity.GetHashCode(), start.GetHashCode(), end.GetHashCode(), TypeManager.GetTypeIndex<TweenNonUniformScale>().Value);
             TweenParams = tweenParams;
             Start = start;
             End = end;

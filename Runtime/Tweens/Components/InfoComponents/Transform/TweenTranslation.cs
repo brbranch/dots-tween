@@ -9,11 +9,11 @@ namespace DotsTween.Tweens
     [WriteGroup(typeof(LocalTransform))]
     internal struct TweenTranslation : IComponentData, ITweenId, ITweenInfo<float3>
     {
-        public int Id;
+        public uint Id;
         public float3 Start;
         public float3 End;
 
-        public TweenTranslation(in int id, in float3 start, in float3 end)
+        public TweenTranslation(in uint id, in float3 start, in float3 end)
         {
             Id = id;
             Start = start;
@@ -21,13 +21,13 @@ namespace DotsTween.Tweens
         }
 
         [BurstCompile]
-        public void SetTweenId(in int id)
+        public void SetTweenId(in uint id)
         {
             Id = id;
         }
 
         [BurstCompile]
-        public int GetTweenId()
+        public uint GetTweenId()
         {
             return Id;
         }

@@ -8,11 +8,11 @@ namespace DotsTween.Tweens
     [WriteGroup(typeof(LocalTransform))]
     internal struct TweenScale : IComponentData, ITweenId, ITweenInfo<float>
     {
-        public int Id;
+        public uint Id;
         public float Start;
         public float End;
 
-        public TweenScale(in int id, in float start, in float end)
+        public TweenScale(in uint id, in float start, in float end)
         {
             Id = id;
             Start = start;
@@ -20,13 +20,13 @@ namespace DotsTween.Tweens
         }
 
         [BurstCompile]
-        public void SetTweenId(in int id)
+        public void SetTweenId(in uint id)
         {
             Id = id;
         }
 
         [BurstCompile]
-        public int GetTweenId()
+        public uint GetTweenId()
         {
             return Id;
         }

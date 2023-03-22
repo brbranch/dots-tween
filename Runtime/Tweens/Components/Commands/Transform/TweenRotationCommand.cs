@@ -11,10 +11,10 @@ namespace DotsTween.Tweens
         public quaternion Start;
         public quaternion End;
 
-        public TweenRotationCommand(in quaternion start, in quaternion end, in float duration, TweenParams tweenParams = default)
+        public TweenRotationCommand(in Entity entity, in quaternion start, in quaternion end, in float duration, TweenParams tweenParams = default)
         {
             tweenParams.Duration = duration;
-            tweenParams.Id = tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenRotation>().Value);
+            tweenParams.Id = tweenParams.GenerateId(entity.GetHashCode(), start.GetHashCode(), end.GetHashCode(), TypeManager.GetTypeIndex<TweenRotation>().Value);
             TweenParams = tweenParams;
             Start = start;
             End = end;

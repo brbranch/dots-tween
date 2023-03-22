@@ -6,7 +6,7 @@ namespace DotsTween.Timelines
     [BurstCompile]
     internal struct TimelineControlCommand : IComponentData
     {
-        public int TimelinePlaybackId;
+        public uint TimelinePlaybackId;
         public TimelineControlCommands Command;
     }
 

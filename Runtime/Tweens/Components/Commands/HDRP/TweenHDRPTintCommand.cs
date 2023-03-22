@@ -12,10 +12,10 @@ namespace DotsTween.Tweens
         public float4 Start;
         public float4 End;
 
-        public TweenHDRPTintCommand(in float4 start, in float4 end, in float duration, TweenParams tweenParams = default)
+        public TweenHDRPTintCommand(in Entity entity, in float4 start, in float4 end, in float duration, TweenParams tweenParams = default)
         {
             tweenParams.Duration = duration;
-            tweenParams.Id = tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenHDRPTint>().Value);
+            tweenParams.Id = tweenParams.GenerateId(entity.GetHashCode(), start.GetHashCode(), end.GetHashCode(), TypeManager.GetTypeIndex<TweenHDRPTint>().Value);
             TweenParams = tweenParams;
             Start = start;
             End = end;

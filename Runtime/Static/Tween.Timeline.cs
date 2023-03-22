@@ -13,7 +13,7 @@ namespace DotsTween
             public static void Create(out TimelineComponent timelineComponent) => timelineComponent = new TimelineComponent(0f);
 
             [BurstCompile]
-            public static void Pause(ref EntityManager entityManager, int timelinePlaybackId)
+            public static void Pause(ref EntityManager entityManager, uint timelinePlaybackId)
             {
                 var e = entityManager.CreateEntity();
                 entityManager.AddComponentData(e, new TimelineControlCommand()
@@ -24,7 +24,7 @@ namespace DotsTween
             }
 
             [BurstCompile]
-            public static void Pause(ref EntityCommandBuffer ecb, int timelinePlaybackId)
+            public static void Pause(ref EntityCommandBuffer ecb, uint timelinePlaybackId)
             {
                 var e = ecb.CreateEntity();
                 ecb.AddComponent(e, new TimelineControlCommand()
@@ -35,7 +35,7 @@ namespace DotsTween
             }
 
             [BurstCompile]
-            public static void Resume(ref EntityManager entityManager, int timelinePlaybackId)
+            public static void Resume(ref EntityManager entityManager, uint timelinePlaybackId)
             {
                 var e = entityManager.CreateEntity();
                 entityManager.AddComponentData(e, new TimelineControlCommand()
@@ -46,7 +46,7 @@ namespace DotsTween
             }
 
             [BurstCompile]
-            public static void Resume(ref EntityCommandBuffer ecb, int timelinePlaybackId)
+            public static void Resume(ref EntityCommandBuffer ecb, uint timelinePlaybackId)
             {
                 var e = ecb.CreateEntity();
                 ecb.AddComponent(e, new TimelineControlCommand()
@@ -57,7 +57,7 @@ namespace DotsTween
             }
 
             [BurstCompile]
-            public static void Stop(ref EntityManager entityManager, int timelinePlaybackId)
+            public static void Stop(ref EntityManager entityManager, uint timelinePlaybackId)
             {
                 var e = entityManager.CreateEntity();
                 entityManager.AddComponentData(e, new TimelineControlCommand()
@@ -68,7 +68,7 @@ namespace DotsTween
             }
 
             [BurstCompile]
-            public static void Stop(ref EntityCommandBuffer ecb, int timelinePlaybackId)
+            public static void Stop(ref EntityCommandBuffer ecb, uint timelinePlaybackId)
             {
                 var e = ecb.CreateEntity();
                 ecb.AddComponent(e, new TimelineControlCommand()

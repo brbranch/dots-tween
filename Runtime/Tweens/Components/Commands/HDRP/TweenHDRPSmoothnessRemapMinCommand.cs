@@ -11,10 +11,10 @@ namespace DotsTween.Tweens
         public float Start;
         public float End;
 
-        public TweenHDRPSmoothnessRemapMinCommand(in float start, in float end, in float duration, TweenParams tweenParams = default)
+        public TweenHDRPSmoothnessRemapMinCommand(in Entity entity, in float start, in float end, in float duration, TweenParams tweenParams = default)
         {
             tweenParams.Duration = duration;
-            tweenParams.Id = tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenHDRPSmoothnessRemapMin>().Value);
+            tweenParams.Id = tweenParams.GenerateId(entity.GetHashCode(), start.GetHashCode(), end.GetHashCode(), TypeManager.GetTypeIndex<TweenHDRPSmoothnessRemapMin>().Value);
             TweenParams = tweenParams;
             Start = start;
             End = end;

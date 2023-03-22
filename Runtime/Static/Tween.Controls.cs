@@ -11,63 +11,63 @@ namespace DotsTween
         {
             #region Control Specific Tween
             [BurstCompile]
-            public static void Pause(ref EntityManager entityManager, in Entity entity, in int tweenId)
+            public static void Pause(ref EntityManager entityManager, in Entity entity, in uint tweenId)
             {
                 entityManager.GetBuffer<TweenPauseInfo>(entity).Add(new TweenPauseInfo(tweenId));
                 entityManager.AddComponent<TweenPauseCommand>(entity);
             }
 
             [BurstCompile]
-            public static void Pause(ref EntityCommandBuffer commandBuffer, in Entity entity, in int tweenId)
+            public static void Pause(ref EntityCommandBuffer commandBuffer, in Entity entity, in uint tweenId)
             {
                 commandBuffer.AppendToBuffer<TweenPauseInfo>(entity, new TweenPauseInfo(tweenId));
                 commandBuffer.AddComponent<TweenPauseCommand>(entity);
             }
 
             [BurstCompile]
-            public static void Pause(ref EntityCommandBuffer.ParallelWriter parallelWriter, in int sortKey, in Entity entity, in int tweenId)
+            public static void Pause(ref EntityCommandBuffer.ParallelWriter parallelWriter, in int sortKey, in Entity entity, in uint tweenId)
             {
                 parallelWriter.AppendToBuffer<TweenPauseInfo>(sortKey, entity, new TweenPauseInfo(tweenId));
                 parallelWriter.AddComponent<TweenPauseCommand>(sortKey, entity);
             }
 
             [BurstCompile]
-            public static void Resume(ref EntityManager entityManager, in Entity entity, in int tweenId)
+            public static void Resume(ref EntityManager entityManager, in Entity entity, in uint tweenId)
             {
                 entityManager.GetBuffer<TweenResumeInfo>(entity).Add(new TweenResumeInfo(tweenId));
                 entityManager.AddComponent<TweenResumeCommand>(entity);
             }
 
             [BurstCompile]
-            public static void Resume(ref EntityCommandBuffer commandBuffer, in Entity entity, in int tweenId)
+            public static void Resume(ref EntityCommandBuffer commandBuffer, in Entity entity, in uint tweenId)
             {
                 commandBuffer.AppendToBuffer<TweenResumeInfo>(entity, new TweenResumeInfo(tweenId));
                 commandBuffer.AddComponent<TweenResumeCommand>(entity);
             }
 
             [BurstCompile]
-            public static void Resume(ref EntityCommandBuffer.ParallelWriter parallelWriter, in int sortKey, in Entity entity, in int tweenId)
+            public static void Resume(ref EntityCommandBuffer.ParallelWriter parallelWriter, in int sortKey, in Entity entity, in uint tweenId)
             {
                 parallelWriter.AppendToBuffer<TweenResumeInfo>(sortKey, entity, new TweenResumeInfo(tweenId));
                 parallelWriter.AddComponent<TweenResumeCommand>(sortKey, entity);
             }
 
             [BurstCompile]
-            public static void Stop(ref EntityManager entityManager, in Entity entity, in int tweenId)
+            public static void Stop(ref EntityManager entityManager, in Entity entity, in uint tweenId)
             {
                 entityManager.GetBuffer<TweenStopInfo>(entity).Add(new TweenStopInfo(tweenId));
                 entityManager.AddComponent<TweenStopCommand>(entity);
             }
 
             [BurstCompile]
-            public static void Stop(ref EntityCommandBuffer commandBuffer, in Entity entity, in int tweenId)
+            public static void Stop(ref EntityCommandBuffer commandBuffer, in Entity entity, in uint tweenId)
             {
                 commandBuffer.AppendToBuffer<TweenStopInfo>(entity, new TweenStopInfo(tweenId));
                 commandBuffer.AddComponent<TweenStopCommand>(entity);
             }
 
             [BurstCompile]
-            public static void Stop(ref EntityCommandBuffer.ParallelWriter parallelWriter, in int sortKey, in Entity entity, in int tweenId)
+            public static void Stop(ref EntityCommandBuffer.ParallelWriter parallelWriter, in int sortKey, in Entity entity, in uint tweenId)
             {
                 parallelWriter.AppendToBuffer<TweenStopInfo>(sortKey, entity, new TweenStopInfo(tweenId));
                 parallelWriter.AddComponent<TweenStopCommand>(sortKey, entity);

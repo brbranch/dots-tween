@@ -7,16 +7,16 @@ namespace DotsTween.Timelines
     [BurstCompile]
     internal readonly struct TimelineElement<T> : ITimelineElement where T : unmanaged, IComponentData, ITweenParams
     {
-        public int Id { get; }
+        public uint Id { get; }
         public Entity Target { get; }
         public float StartTime { get; }
         public float EndTime { get; }
         public T Command { get; }
         
-        [BurstCompile] public int GetId() => Id;
+        [BurstCompile] public uint GetId() => Id;
         [BurstCompile] public float GetStartTime() => StartTime;
         [BurstCompile] public float GetEndTime() => EndTime;
-        [BurstCompile] public int GetTweenId() => Command.GetTweenParams().Id;
+        [BurstCompile] public uint GetTweenId() => Command.GetTweenParams().Id;
         public Entity GetTargetEntity() => Target;
         public IComponentData GetCommand() => Command;
         
@@ -30,7 +30,7 @@ namespace DotsTween.Timelines
         }
 
         [BurstCompile]
-        private static int GenerateId(in Entity target, in float startTime, in float endTime, in T command)
+        private static uint GenerateId(in Entity target, in float startTime, in float endTime, in T command)
         {
             unchecked
             {
@@ -45,7 +45,7 @@ namespace DotsTween.Timelines
                 hashCode = (hashCode * 1091) ^ tweenParams.StartDelay.GetHashCode();
                 hashCode = (hashCode * 1091) ^ tweenParams.TimelineStartPosition.GetHashCode();
                 hashCode = (hashCode * 1091) ^ tweenParams.TimelineEndPosition.GetHashCode();
-                return hashCode;
+                return (uint)hashCode;
             }
         }
     }

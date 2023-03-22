@@ -13,10 +13,10 @@ namespace DotsTween.Tweens
         public SplineTweenInfo SplineTweenInfo { get; private set; }
         public TweenParams TweenParams { get; private set; }
         
-        public TweenSplineMovementCommand(in SplineTweenInfo info, float duration, TweenParams tweenParams = default)
+        public TweenSplineMovementCommand(in Entity entity, in SplineTweenInfo info, float duration, TweenParams tweenParams = default)
         {
             tweenParams.Duration = duration;
-            tweenParams.Id = tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenSplineMovement>().Value);
+            tweenParams.Id = tweenParams.GenerateId(entity.GetHashCode(), info.NormalizedStartPosition.GetHashCode(), info.NormalizedEndPosition.GetHashCode(), TypeManager.GetTypeIndex<TweenSplineMovement>().Value);
             TweenParams = tweenParams;
             SplineTweenInfo = info;
         }

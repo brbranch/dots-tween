@@ -11,10 +11,10 @@ namespace DotsTween.Tweens
         public float Start;
         public float End;
 
-        public TweenHDRPDetailAlbedoScaleCommand(in float start, in float end, in float duration, TweenParams tweenParams = default)
+        public TweenHDRPDetailAlbedoScaleCommand(in Entity entity, in float start, in float end, in float duration, TweenParams tweenParams = default)
         {
             tweenParams.Duration = duration;
-            tweenParams.Id = tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenHDRPDetailAlbedoScale>().Value);
+            tweenParams.Id = tweenParams.GenerateId(entity.GetHashCode(), start.GetHashCode(), end.GetHashCode(), TypeManager.GetTypeIndex<TweenHDRPDetailAlbedoScale>().Value);
             TweenParams = tweenParams;
             Start = start;
             End = end;

@@ -11,10 +11,10 @@ namespace DotsTween.Tweens
         public float Start;
         public float End;
 
-        public TweenURPMetallicCommand(in float start, in float end, in float duration, TweenParams tweenParams = default)
+        public TweenURPMetallicCommand(in Entity entity, in float start, in float end, in float duration, TweenParams tweenParams = default)
         {
             tweenParams.Duration = duration;
-            tweenParams.Id = tweenParams.GenerateId(TypeManager.GetTypeIndex<TweenURPMetallic>().Value);
+            tweenParams.Id = tweenParams.GenerateId(entity.GetHashCode(), start.GetHashCode(), end.GetHashCode(), TypeManager.GetTypeIndex<TweenURPMetallic>().Value);
             TweenParams = tweenParams;
             Start = start;
             End = end;

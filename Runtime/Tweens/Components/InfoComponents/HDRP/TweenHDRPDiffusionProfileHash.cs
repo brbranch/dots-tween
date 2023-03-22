@@ -9,23 +9,23 @@ namespace DotsTween.Tweens
     [WriteGroup(typeof(HDRPMaterialPropertyDiffusionProfileHash))]
     internal struct TweenHDRPDiffusionProfileHash : IComponentData, ITweenId, ITweenInfo<float>
     {
-        public int Id;
+        public uint Id;
         public float Start;
         public float End;
 
-        public TweenHDRPDiffusionProfileHash(in int id, in float start, in float end)
+        public TweenHDRPDiffusionProfileHash(in uint id, in float start, in float end)
         {
             Id = id;
             Start = start;
             End = end;
         }
 
-        public void SetTweenId(in int id)
+        public void SetTweenId(in uint id)
         {
             Id = id;
         }
 
-        public int GetTweenId()
+        public uint GetTweenId()
         {
             return Id;
         }

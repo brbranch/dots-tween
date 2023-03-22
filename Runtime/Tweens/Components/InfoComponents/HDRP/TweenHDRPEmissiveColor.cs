@@ -10,23 +10,23 @@ namespace DotsTween.Tweens
     [WriteGroup(typeof(HDRPMaterialPropertyEmissiveColor))]
     internal struct TweenHDRPEmissiveColor : IComponentData, ITweenId, ITweenInfo<float3>
     {
-        public int Id;
+        public uint Id;
         public float3 Start;
         public float3 End;
 
-        public TweenHDRPEmissiveColor(in int id, in float3 start, in float3 end)
+        public TweenHDRPEmissiveColor(in uint id, in float3 start, in float3 end)
         {
             Id = id;
             Start = start;
             End = end;
         }
 
-        public void SetTweenId(in int id)
+        public void SetTweenId(in uint id)
         {
             Id = id;
         }
 
-        public int GetTweenId()
+        public uint GetTweenId()
         {
             return Id;
         }

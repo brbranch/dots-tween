@@ -12,7 +12,7 @@ namespace DotsTween.Timelines
     [BurstCompile]
     public struct TimelineComponent : IComponentData, INativeDisposable
     {
-        internal int PlaybackId;
+        internal uint PlaybackId;
         internal float Duration;
         internal float StartDelay;
         internal float LoopDelay;
@@ -20,7 +20,7 @@ namespace DotsTween.Timelines
         
         internal NativeList<TimelineComponentOperationTuple> OnStart;
         internal NativeList<TimelineComponentOperationTuple> OnComplete;
-        private NativeHashSet<int> activeElementIds;
+        private NativeHashSet<uint> activeElementIds;
         private NativeList<ComponentType> timelineElementTypes;
         private UnsafeAppendBuffer timelineElements;
         
@@ -42,7 +42,7 @@ namespace DotsTween.Timelines
             
             OnStart = new NativeList<TimelineComponentOperationTuple>(Allocator.Persistent);
             OnComplete = new NativeList<TimelineComponentOperationTuple>(Allocator.Persistent);
-            activeElementIds = new NativeHashSet<int>(1, Allocator.Persistent);
+            activeElementIds = new NativeHashSet<uint>(1, Allocator.Persistent);
             timelineElementTypes = new NativeList<ComponentType>(Allocator.Persistent);
             timelineElements = new UnsafeAppendBuffer(1, 4, Allocator.Persistent);
         }
@@ -146,7 +146,7 @@ namespace DotsTween.Timelines
         /// <param name="state"></param>
         /// <returns></returns>
         [BurstCompile]
-        public int Play(ref SystemState state)
+        public uint Play(ref SystemState state)
         {
             var e = state.EntityManager.CreateEntity();
             
@@ -161,7 +161,7 @@ namespace DotsTween.Timelines
         /// <param name="entityCommandBuffer"></param>
         /// /// <returns></returns>
         [BurstCompile]
-        public int Play(ref EntityCommandBuffer entityCommandBuffer)
+        public uint Play(ref EntityCommandBuffer entityCommandBuffer)
         {
             var e = entityCommandBuffer.CreateEntity();
             
@@ -177,7 +177,7 @@ namespace DotsTween.Timelines
         /// <param name="entityCommandBuffer"></param>
         /// <returns></returns>
         [BurstCompile]
-        public int Play(EntityManager entityManager, ref EntityCommandBuffer entityCommandBuffer)
+        public uint Play(EntityManager entityManager, ref EntityCommandBuffer entityCommandBuffer)
         {
             var e = entityCommandBuffer.CreateEntity();
             SetupPlaybackId(ref e, entityManager.GetHashCode());
@@ -186,7 +186,7 @@ namespace DotsTween.Timelines
         }
 
         [BurstCompile]
-        public int Play(ref EntityCommandBuffer.ParallelWriter parallelWriter, in int sortKey)
+        public uint Play(ref EntityCommandBuffer.ParallelWriter parallelWriter, in int sortKey)
         {
             var e = parallelWriter.CreateEntity(sortKey);
             
@@ -196,7 +196,7 @@ namespace DotsTween.Timelines
         }
 
         [BurstCompile]
-        public int Play(EntityManager entityManager, ref EntityCommandBuffer.ParallelWriter parallelWriter, in int sortKey)
+        public uint Play(EntityManager entityManager, ref EntityCommandBuffer.ParallelWriter parallelWriter, in int sortKey)
         {
             var e = entityManager.CreateEntity();
             
@@ -246,13 +246,13 @@ namespace DotsTween.Timelines
                     hashCode = (hashCode * 421) ^ type.GetHashCode();
                 }
                 
-                PlaybackId = hashCode;
+                PlaybackId = (uint)hashCode;
             }
         }
 
-        internal void AddTimelineElementIdToActive(int timelineElementId) => activeElementIds.Add(timelineElementId);
-        internal void RemoveTimelineElementIdFromActive(int timelineElementId) => activeElementIds.Remove(timelineElementId);
-        internal bool IsTimelineElementActive(int timelineElementId) => activeElementIds.Contains(timelineElementId);
+        internal void AddTimelineElementIdToActive(uint timelineElementId) => activeElementIds.Add(timelineElementId);
+        internal void RemoveTimelineElementIdFromActive(uint timelineElementId) => activeElementIds.Remove(timelineElementId);
+        internal bool IsTimelineElementActive(uint timelineElementId) => activeElementIds.Contains(timelineElementId);
         internal UnsafeAppendBuffer.Reader GetTimelineReader() => timelineElements.AsReader();
         internal ComponentType GetTimelineElementType(int index) => timelineElementTypes[index];
     }
