@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.8.10] 2023.03.23
+
+### Fixed
+- Jobless tween generation now properly cleans up commands.
+- TweenDestroySystem no longer continuously runs when no destroy commands are present.
+
 ## [0.8.9] 2023.03.22
 
 ### Fixed

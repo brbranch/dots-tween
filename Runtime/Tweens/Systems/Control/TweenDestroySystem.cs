@@ -124,6 +124,7 @@ namespace DotsTween.Tweens
         {
             RequireForUpdate<TweenState>();
             RequireForUpdate<TweenDestroyCommand>();
+            RequireForUpdate<TTweenInfo>();
             
             tweenInfoQuery = GetEntityQuery(
                 ComponentType.ReadOnly<TTweenInfo>(),

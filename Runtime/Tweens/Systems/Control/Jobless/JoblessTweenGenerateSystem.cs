@@ -24,7 +24,7 @@ namespace DotsTween.Tweens
         {
             var ecb = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(World.Unmanaged);
 
-            foreach (var (commandRef, entity) in SystemAPI.Query<RefRO<TTweenCommand>>().WithEntityAccess())
+            foreach (var (commandRef, entity) in SystemAPI.Query<RefRW<TTweenCommand>>().WithEntityAccess())
             {
                 var chunk = EntityManager.GetChunk(entity);
                 
@@ -53,6 +53,8 @@ namespace DotsTween.Tweens
                 TTweenInfo info = default;
                 info.SetTweenId(tween.Id);
                 info.SetTweenInfo(commandRef.ValueRO.GetTweenStart(), commandRef.ValueRO.GetTweenEnd());
+                
+                commandRef.ValueRW.Cleanup();
                 ecb.AddComponent(entity, info);
                 ecb.RemoveComponent<TTweenCommand>(entity);
             }
