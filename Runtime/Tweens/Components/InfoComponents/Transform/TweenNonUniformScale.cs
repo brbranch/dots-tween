@@ -6,7 +6,7 @@ using Unity.Transforms;
 namespace DotsTween.Tweens
 {
     [BurstCompile]
-    [WriteGroup(typeof(PostTransformScale))]
+    [WriteGroup(typeof(PostTransformMatrix))]
     internal struct TweenNonUniformScale : IComponentData, ITweenId, ITweenInfo<float3>
     {
         public uint Id;

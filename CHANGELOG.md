@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.8.11] 2023.03.23
+
+### Changed
+- Updated Unity DOTS
+  - com.unity.collections: `2.1.0-pre.11` to `2.1.0-pre.18`
+  - com.unity.entities: `1.0.0-pre.47` to `1.0.0-pre.65`
+  - com.unity.burst: `1.8.3` to `1.8.4`
+  - com.unity.entities.graphics: `1.0.0-pre.44` to `1.0.0-pre.65`
+
 ## [0.8.10] 2023.03.23
 
 ### Fixed

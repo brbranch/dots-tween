@@ -18,7 +18,7 @@ namespace DotsTween.Tweens
         [BurstCompile]
         protected override void OnUpdate()
         {
-            Entities.ForEach((ref PostTransformScale postTransformScale, in DynamicBuffer<TweenState> tweenBuffer, in TweenNonUniformScale tweenInfo) =>
+            Entities.ForEach((ref PostTransformMatrix postTransformScale, in DynamicBuffer<TweenState> tweenBuffer, in TweenNonUniformScale tweenInfo) =>
             {
                 foreach (var tween in tweenBuffer)
                 {
@@ -27,7 +27,7 @@ namespace DotsTween.Tweens
                         var x = math.lerp(tweenInfo.Start.x, tweenInfo.End.x, tween.EasePercentage);
                         var y = math.lerp(tweenInfo.Start.y, tweenInfo.End.y, tween.EasePercentage);
                         var z = math.lerp(tweenInfo.Start.z, tweenInfo.End.z, tween.EasePercentage);
-                        postTransformScale.Value = float3x3.Scale(x, y, z);
+                        postTransformScale.Value = float4x4.Scale(x, y, z);
                         break;
                     }
                 }

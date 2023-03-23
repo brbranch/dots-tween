@@ -6,7 +6,8 @@
         "Unity.Entities.Hybrid",
         "Unity.Mathematics",
         "Unity.Burst",
-        "Unity.Entities.Graphics"
+        "Unity.Entities.Graphics",
+        "Unity.Collections"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

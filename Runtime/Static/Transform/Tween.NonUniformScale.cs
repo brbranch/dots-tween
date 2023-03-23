@@ -80,13 +80,13 @@ namespace DotsTween
             [BurstCompile]
             private static void GetCurrentValue(out float3 currentValue, ref SystemState state, in Entity entity)
             {
-                if (!state.EntityManager.HasComponent<PostTransformScale>(entity))
+                if (!state.EntityManager.HasComponent<PostTransformMatrix>(entity))
                 {
                     currentValue = new float3(1f, 1f, 1f);
                     return;
                 }
 
-                var matrix = state.EntityManager.GetComponentData<PostTransformScale>(entity).Value;
+                var matrix = state.EntityManager.GetComponentData<PostTransformMatrix>(entity).Value;
                 currentValue = new float3(matrix.c0.x, matrix.c1.y, matrix.c2.z);
             }
         }

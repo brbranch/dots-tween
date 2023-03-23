@@ -166,7 +166,7 @@ namespace DotsTween.Tweens
     [BurstCompile] internal partial class TweenTranslationGenerateSystem : TweenGenerateSystem<TweenTranslationCommand, TweenTranslation, LocalTransform, float3> { }
     [BurstCompile] internal partial class TweenRotationGenerateSystem : TweenGenerateSystem<TweenRotationCommand, TweenRotation, LocalTransform, quaternion> { }
     [BurstCompile] internal partial class TweenScaleGenerateSystem : TweenGenerateSystem<TweenScaleCommand, TweenScale, LocalTransform, float> { }
-    [BurstCompile] internal partial class TweenNonUniformScaleGenerateSystem : TweenGenerateSystem<TweenNonUniformScaleCommand, TweenNonUniformScale, PostTransformScale, float3> { }
+    [BurstCompile] internal partial class TweenNonUniformScaleGenerateSystem : TweenGenerateSystem<TweenNonUniformScaleCommand, TweenNonUniformScale, PostTransformMatrix, float3> { }
 
 #if DOTS_TWEEN_URP
     [BurstCompile] internal partial class TweenURPTintGenerateSystem : TweenGenerateSystem<TweenURPTintCommand, TweenURPTint, URPMaterialPropertyBaseColor, float4> {}
