@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.8.13] 2023.03.28
+
+### Fixed
+- Fixed an issue where the new timeline id generation was not burst compatible. (remember kids, always test your code.)
+
 ## [0.8.12] 2023.03.28
 
 ### Fixed

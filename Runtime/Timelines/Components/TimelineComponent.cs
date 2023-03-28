@@ -157,15 +157,17 @@ namespace DotsTween.Timelines
 
         /// <summary>
         /// Uses the entityCommandBuffer to create a deferred timeline entity. No structural changes.
+        /// [Optional] Provide elapsed time for better timeline id generation. eg: SystemAPI.Time.ElapsedTime
         /// </summary>
         /// <param name="entityCommandBuffer"></param>
-        /// /// <returns></returns>
+        /// <param name="elapsedTime"></param>
+        /// <returns></returns>
         [BurstCompile]
-        public uint Play(ref EntityCommandBuffer entityCommandBuffer)
+        public uint Play(ref EntityCommandBuffer entityCommandBuffer, double elapsedTime = 0d)
         {
             var e = entityCommandBuffer.CreateEntity();
             
-            SetupPlaybackId(ref e, World.DefaultGameObjectInjectionWorld.Unmanaged.Time.ElapsedTime.GetHashCode());
+            SetupPlaybackId(ref e, elapsedTime.GetHashCode());
             entityCommandBuffer.AddComponent(e, this);
             return PlaybackId;
         }
@@ -190,7 +192,7 @@ namespace DotsTween.Timelines
         {
             var e = parallelWriter.CreateEntity(sortKey);
             
-            SetupPlaybackId(ref e, sortKey ^ World.DefaultGameObjectInjectionWorld.Unmanaged.Time.ElapsedTime.GetHashCode());
+            SetupPlaybackId(ref e, sortKey);
             parallelWriter.AddComponent(sortKey, e, this);
             return PlaybackId;
         }
