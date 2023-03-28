@@ -165,7 +165,7 @@ namespace DotsTween.Timelines
         {
             var e = entityCommandBuffer.CreateEntity();
             
-            SetupPlaybackId(ref e, e.GetHashCode());
+            SetupPlaybackId(ref e, World.DefaultGameObjectInjectionWorld.Unmanaged.Time.ElapsedTime.GetHashCode());
             entityCommandBuffer.AddComponent(e, this);
             return PlaybackId;
         }
@@ -179,8 +179,8 @@ namespace DotsTween.Timelines
         [BurstCompile]
         public uint Play(EntityManager entityManager, ref EntityCommandBuffer entityCommandBuffer)
         {
-            var e = entityCommandBuffer.CreateEntity();
-            SetupPlaybackId(ref e, entityManager.GetHashCode());
+            var e = entityManager.CreateEntity();
+            SetupPlaybackId(ref e, entityManager.WorldUnmanaged.Time.ElapsedTime.GetHashCode());
             entityCommandBuffer.AddComponent(e, this);
             return PlaybackId;
         }
@@ -190,7 +190,7 @@ namespace DotsTween.Timelines
         {
             var e = parallelWriter.CreateEntity(sortKey);
             
-            SetupPlaybackId(ref e, sortKey);
+            SetupPlaybackId(ref e, sortKey ^ World.DefaultGameObjectInjectionWorld.Unmanaged.Time.ElapsedTime.GetHashCode());
             parallelWriter.AddComponent(sortKey, e, this);
             return PlaybackId;
         }
@@ -200,7 +200,7 @@ namespace DotsTween.Timelines
         {
             var e = entityManager.CreateEntity();
             
-            SetupPlaybackId(ref e, sortKey);
+            SetupPlaybackId(ref e, sortKey ^ entityManager.WorldUnmanaged.Time.ElapsedTime.GetHashCode());
             parallelWriter.AddComponent(sortKey, e, this);
             return PlaybackId;
         }
@@ -228,7 +228,7 @@ namespace DotsTween.Timelines
         }
 
         [BurstCompile]
-        internal void SetupPlaybackId(ref Entity e, in int extraHash = 0)
+        internal void SetupPlaybackId(ref Entity e, in int extraHash)
         {
             unchecked
             {

@@ -45,6 +45,7 @@ namespace DotsTween.Timelines
                 hashCode = (hashCode * 1091) ^ tweenParams.StartDelay.GetHashCode();
                 hashCode = (hashCode * 1091) ^ tweenParams.TimelineStartPosition.GetHashCode();
                 hashCode = (hashCode * 1091) ^ tweenParams.TimelineEndPosition.GetHashCode();
+                hashCode = (hashCode * 1091) ^ tweenParams.Id.GetHashCode();
                 return (uint)hashCode;
             }
         }

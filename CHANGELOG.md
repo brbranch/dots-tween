@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.8.12] 2023.03.28
+
+### Fixed
+- Timelines should now properly wait for previous tweens (of the same type) to be cleaned up before trying to play the new one.
+- Timeline Id generation now using more unique hashcodes.
+
 ## [0.8.11] 2023.03.23
 
 ### Changed

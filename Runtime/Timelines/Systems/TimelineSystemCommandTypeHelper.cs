@@ -179,5 +179,49 @@ namespace DotsTween.Timelines.Systems
             if (componentType == SplineMovement) { ecb.AddComponent<TweenSplineMovementCommand>(target, (TweenSplineMovementCommand)command); return; }
 #endif
         }
+
+        [BurstDiscard]
+        internal static bool AlreadyHasInfoComponent(in Entity target, in ComponentType componentType, in EntityManager entityManager)
+        {
+            if (componentType == Translation) return entityManager.HasComponent<TweenTranslation>(target);
+            if (componentType == Scale) return entityManager.HasComponent<TweenRotation>(target);
+            if (componentType == Rotation) return entityManager.HasComponent<TweenScale>(target);
+            if (componentType == NonUniformScale) return entityManager.HasComponent<TweenNonUniformScale>(target);
+#if DOTS_TWEEN_URP
+            if (componentType == URPTint) return entityManager.HasComponent<TweenURPTint>(target);
+            if (componentType == URPFade) return entityManager.HasComponent<TweenURPFade>(target);
+            if (componentType == URPBumpScale) return entityManager.HasComponent<TweenURPBumpScale>(target);
+            if (componentType == URPCutoff) return entityManager.HasComponent<TweenURPCutoff>(target);
+            if (componentType == URPEmissionColor) return entityManager.HasComponent<TweenURPEmissionColor>(target);
+            if (componentType == URPMetallic) return entityManager.HasComponent<TweenURPMetallic>(target);
+            if (componentType == URPOcclusionStrength) return entityManager.HasComponent<TweenURPOcclusionStrength>(target);
+            if (componentType == URPSmoothness) return entityManager.HasComponent<TweenURPSmoothness>(target);
+            if (componentType == URPSpecularColor) return entityManager.HasComponent<TweenURPSpecularColor>(target);
+#elif DOTS_TWEEN_HDRP
+            if (componentType == HDRPAlphaCutoff) return entityManager.HasComponent<TweenHDRPAlphaCutoff>(target);
+            if (componentType == HDRPAmbientOcclusionRemapMax) return entityManager.HasComponent<TweenHDRPAmbientOcclusionRemapMax>(target);
+            if (componentType == HDRPAmbientOcclusionRemapMin) return entityManager.HasComponent<TweenHDRPAmbientOcclusionRemapMin>(target);
+            if (componentType == HDRPDetailAlbedoScale) return entityManager.HasComponent<TweenHDRPDetailAlbedoScale>(target);
+            if (componentType == HDRPDetailNormalScale) return entityManager.HasComponent<TweenHDRPDetailNormalScale>(target);
+            if (componentType == HDRPDetailSmoothnessScale) return entityManager.HasComponent<TweenHDRPDetailSmoothnessScale>(target);
+            if (componentType == HDRPDiffusionProfileHash) return entityManager.HasComponent<TweenHDRPDiffusionProfileHash>(target);
+            if (componentType == HDRPEmissiveColor) return entityManager.HasComponent<TweenHDRPEmissiveColor>(target);
+            if (componentType == HDRPMetallic) return entityManager.HasComponent<TweenHDRPMetallic>(target);
+            if (componentType == HDRPSmoothness) return entityManager.HasComponent<TweenHDRPSmoothness>(target);
+            if (componentType == HDRPSmoothnessRemapMax) return entityManager.HasComponent<TweenHDRPSmoothnessRemapMax>(target);
+            if (componentType == HDRPSmoothnessRemapMin) return entityManager.HasComponent<TweenHDRPSmoothnessRemapMin>(target);
+            if (componentType == HDRPSpecularColor) return entityManager.HasComponent<TweenHDRPSpecularColor>(target);
+            if (componentType == HDRPThickness) return entityManager.HasComponent<TweenHDRPThickness>(target);
+            if (componentType == HDRPThicknessRemap) return entityManager.HasComponent<TweenHDRPThicknessRemap>(target);
+            if (componentType == HDRPTint) return entityManager.HasComponent<TweenHDRPTint>(target);
+            if (componentType == HDRPTintUnlit) return entityManager.HasComponent<TweenHDRPTintUnlit>(target);
+            if (componentType == HDRPFade) return entityManager.HasComponent<TweenHDRPFade>(target);
+            if (componentType == HDRPFadeUnlit) return entityManager.HasComponent<TweenHDRPFadeUnlit>(target);
+#endif
+#if DOTS_TWEEN_SPLINES
+            if (componentType == SplineMovement) return entityManager.HasComponent<TweenSplineMovement>(target);
+#endif
+            return false;
+        }
     }
 }

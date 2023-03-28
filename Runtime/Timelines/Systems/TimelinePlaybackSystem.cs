@@ -84,7 +84,8 @@ namespace DotsTween.Timelines.Systems
             var hasAlreadyPlayed = timelineElement.GetEndTime() <= timeline.CurrentTime;
             
             if (!pastStartTime || alreadyPlaying || hasAlreadyPlayed) return;
-            
+            if (TimelineSystemCommandTypeHelper.AlreadyHasInfoComponent(timelineElement.GetTargetEntity(), componentType, EntityManager)) return;
+
             timeline.AddTimelineElementIdToActive(timelineElement.GetId());
             TimelineSystemCommandTypeHelper.Add(ref ecb, componentType, ref timelineElement);
         }

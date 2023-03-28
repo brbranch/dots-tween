@@ -5,7 +5,7 @@
 ![GitHub](https://img.shields.io/github/license/dyonng/dots-tween)
 ![GitHub repo size](https://img.shields.io/github/repo-size/dyonng/dots-tween)
 
-Entity compatible tween library for Unity ECS/DOTS.
+Tweening library for Unity ECS/DOTS 1.0  
 Now uses Entities Graphics library from Unity.
 
 ## Table of Contents
