@@ -27,14 +27,13 @@ namespace DotsTween.Tweens
             foreach (var (commandRef, entity) in SystemAPI.Query<RefRW<TTweenCommand>>().WithEntityAccess())
             {
                 var chunk = EntityManager.GetChunk(entity);
-                
+
                 bool hasTweenStateBuffer = chunk.Has<TweenState>();
-                bool hasTweenPauseBuffer = chunk.Has<TweenPauseInfo>(); 
-                bool hasTweenResumeBuffer = chunk.Has<TweenResumeInfo>(); 
-                bool hasTweenStopBuffer = chunk.Has<TweenStopInfo>();
-                
-                TryToAddBuffers(out var buffersWereAdded, ref ecb, entity, hasTweenStateBuffer, hasTweenPauseBuffer, hasTweenResumeBuffer, hasTweenStopBuffer);
-                
+                bool hasTweenPauseBuffer = chunk.Has<TweenPauseInfo>();
+                bool hasTweenResumeBuffer = chunk.Has<TweenResumeInfo>();
+
+                TryToAddBuffers(out var buffersWereAdded, ref ecb, entity, hasTweenStateBuffer, hasTweenPauseBuffer, hasTweenResumeBuffer);
+
                 if (buffersWereAdded)
                 {
                     break;
@@ -53,13 +52,13 @@ namespace DotsTween.Tweens
                 TTweenInfo info = default;
                 info.SetTweenId(tween.Id);
                 info.SetTweenInfo(commandRef.ValueRO.GetTweenStart(), commandRef.ValueRO.GetTweenEnd());
-                
+
                 commandRef.ValueRW.Cleanup();
                 ecb.AddComponent(entity, info);
                 ecb.RemoveComponent<TTweenCommand>(entity);
             }
         }
-        
+
         [BurstCompile]
         private void TryToAddBuffers(
             out bool buffersWereAdded,
@@ -67,22 +66,18 @@ namespace DotsTween.Tweens
             in Entity entity,
             [MarshalAs(UnmanagedType.U1)] bool hasTweenStateBuffer,
             [MarshalAs(UnmanagedType.U1)] bool hasTweenPauseBuffer,
-            [MarshalAs(UnmanagedType.U1)] bool hasTweenResumeBuffer,
-            [MarshalAs(UnmanagedType.U1)] bool hasTweenStopBuffer)
+            [MarshalAs(UnmanagedType.U1)] bool hasTweenResumeBuffer)
         {
             if (!hasTweenStateBuffer) ecb.AddBuffer<TweenState>(entity);
             if (!hasTweenPauseBuffer) ecb.AddBuffer<TweenPauseInfo>(entity);
             if (!hasTweenResumeBuffer) ecb.AddBuffer<TweenResumeInfo>(entity);
-            if (!hasTweenStopBuffer) ecb.AddBuffer<TweenStopInfo>(entity);
 
             buffersWereAdded = !hasTweenStateBuffer
                 || !hasTweenPauseBuffer
-                || !hasTweenResumeBuffer
-                || !hasTweenStopBuffer;
+                || !hasTweenResumeBuffer;
         }
     }
 #if DOTS_TWEEN_SPLINES
     [BurstCompile] internal partial class TweenSplineMovementGenerateSystem : JoblessTweenGenerateSystem<TweenSplineMovementCommand, TweenSplineMovement, LocalTransform, SplineTweenInfo> { }
 #endif
 }
-

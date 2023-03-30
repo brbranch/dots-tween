@@ -1,77 +1,99 @@
 # Changelog
 
+## [0.8.14] 2023.03.30
+
+### Changed
+
+- Slightly optimized `Tween.Controls.Stop` by skipping the step of creating a stop command. We now directly create a destroy command. This should allow the tween to stop earlier than the flow before.
+- `Tween.Controls.StopAll(ref EntityManager, in Entity)` now uses this more optimized stop flow as well.
+- Timeline `OnComplete` component operations are now also performed when a timeline is stopped prematurely.
+
 ## [0.8.13] 2023.03.28
 
 ### Fixed
+
 - Fixed an issue where the new timeline id generation was not burst compatible. (remember kids, always test your code.)
 
 ## [0.8.12] 2023.03.28
 
 ### Fixed
+
 - Timelines should now properly wait for previous tweens (of the same type) to be cleaned up before trying to play the new one.
 - Timeline Id generation now using more unique hashcodes.
 
 ## [0.8.11] 2023.03.23
 
 ### Changed
+
 - Updated Unity DOTS
-  - com.unity.collections: `2.1.0-pre.11` to `2.1.0-pre.18`
-  - com.unity.entities: `1.0.0-pre.47` to `1.0.0-pre.65`
-  - com.unity.burst: `1.8.3` to `1.8.4`
-  - com.unity.entities.graphics: `1.0.0-pre.44` to `1.0.0-pre.65`
+    - com.unity.collections: `2.1.0-pre.11` to `2.1.0-pre.18`
+    - com.unity.entities: `1.0.0-pre.47` to `1.0.0-pre.65`
+    - com.unity.burst: `1.8.3` to `1.8.4`
+    - com.unity.entities.graphics: `1.0.0-pre.44` to `1.0.0-pre.65`
 
 ## [0.8.10] 2023.03.23
 
 ### Fixed
+
 - Jobless tween generation now properly cleans up commands.
 - TweenDestroySystem no longer continuously runs when no destroy commands are present.
 
 ## [0.8.9] 2023.03.22
 
 ### Fixed
+
 - TweenCommands should now generate more unique ids. Ids are now `uint` instead of `int`.
 
 ## [0.8.8] 2023.03.15
 
 ### Added
+
 - Tween Commands now return `TweenIds` so that you can control them individually.
 - Added ability to pause/resume/stop tweens individually using their `tweenId`;
 
 ### Fixed
+
 - Generate and Destroy systems optimized to no longer try to schedule jobs without commands, reducing CPU overhead.
 
 ## [0.8.7] 2023.03.06
 
 ### Fixed
+
 - Fixed an issue with one of the Timeline Play methods being not burst compatible.
 
 ## [0.8.6] 2023.03.06
 
 ### Changed
+
 - Timelines are now unmanaged and burst compatible.
 
 ## [0.8.5] 2023.03.04
 
 ### Added
+
 - Unity Spline movement support
 
 ## [0.8.4] 2023.02.17
 
 ### Changed
+
 - reverted previous ignore of meta files
 
 ## [0.8.3] - 2023.02.17
 
 ### Added
+
 - Added conditional compilation for HDRP `#if DOTS_TWEEN_HDRP`
 - A bunch of HDRP Tweens
 
 ### Fixed
+
 - Fixed current value checking with URP Tween functions
 
 ## [0.8.2] - 2023.02.16
 
 ### Changed
+
 - Added conditional compilation for URP `#if DOTS_TWEEN_URP`
 
 ## [0.8.1] - 2023.02.16
@@ -85,18 +107,19 @@
 ### Added
 
 - A bunch of URP tweens
-  - Base Color Alpha Fading
-  - Specular Color
-  - Emission Color
-  - Metallic
-  - Cutoff
-  - Bump Scale
-  - Occlusion Strength
-  - Smoothness
+    - Base Color Alpha Fading
+    - Specular Color
+    - Emission Color
+    - Metallic
+    - Cutoff
+    - Bump Scale
+    - Occlusion Strength
+    - Smoothness
 
 ### Internal Changes
+
 - Cleaned up and organized everything into a better folder structure (in my opinion at least)
-- Now using `static partial class` for the tween shortcuts so we can separate them into different files. 
+- Now using `static partial class` for the tween shortcuts so we can separate them into different files.
 
 ## [0.8.0] - 2023.02.15
 
@@ -108,10 +131,10 @@
 ### Added
 
 - Timelines (called Sequences in DOTween)
-  - This also introduces a new SystemGroup `TimelineSimulationSystemGroup`; runs before `TweenSimulationSystemGroup`
-  - Can be accessed using `Tween.Timelines`
+    - This also introduces a new SystemGroup `TimelineSimulationSystemGroup`; runs before `TweenSimulationSystemGroup`
+    - Can be accessed using `Tween.Timelines`
 - Ability to tween `From` and `To`. Example: `Tween.Move.To()`
-  - The original function is now called `FromTo`. Example: `Tween.Rotate.FromTo()`
+    - The original function is now called `FromTo`. Example: `Tween.Rotate.FromTo()`
 - Ability to perform "Component Operations" when starting and/or completing a tween.
 
 ## [0.7.2] - 2023.01.26
@@ -135,12 +158,12 @@
 
 - Start of Dyon's Fork
 - Namespace is now `DotsTween`
-  - Runtime reference is now `DotsTween.Runtime`
+    - Runtime reference is now `DotsTween.Runtime`
 - Dependency upgrade
-  - "com.unity.collections": "2.1.0-pre.6",
-  - "com.unity.entities": "1.0.0-pre.15",
-  - "com.unity.burst": "1.8.2",
-  - "com.unity.mathematics": "1.2.6"
+    - "com.unity.collections": "2.1.0-pre.6",
+    - "com.unity.entities": "1.0.0-pre.15",
+    - "com.unity.burst": "1.8.2",
+    - "com.unity.mathematics": "1.2.6"
 - Stress Test sample now using subscene
 
 ## [0.6.0] - 2021.08.08
@@ -148,8 +171,8 @@
 ### Changed
 
 - Dependency upgrade
-  - Entities 0.17.0-preview.42 (from 0.14.0-preview.18)
-  - Burst 1.4.9 (from 1.3.6)
+    - Entities 0.17.0-preview.42 (from 0.14.0-preview.18)
+    - Burst 1.4.9 (from 1.3.6)
 
 ### Fixed
 

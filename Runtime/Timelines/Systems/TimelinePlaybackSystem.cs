@@ -19,11 +19,11 @@ namespace DotsTween.Timelines.Systems
         {
             var deltaTime = SystemAPI.Time.DeltaTime;
             var ecb = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(CheckedStateRef.WorldUnmanaged);
-            
+
             foreach (var (timeline, timelineEntity) in SystemAPI.Query<RefRW<TimelineComponent>>().WithNone<TimelinePausedTag, TimelineDestroyTag>().WithEntityAccess())
             {
                 timeline.ValueRW.CurrentTime += deltaTime;
-                
+
                 // Perform Component operations after the initial Timeline Delay (if any)
                 if (timeline.ValueRO is { IsPlaying: false, CurrentTime: >= 0f })
                 {
@@ -33,7 +33,7 @@ namespace DotsTween.Timelines.Systems
 
                 var bufferReader = timeline.ValueRW.GetTimelineReader();
                 var index = 0;
-                
+
                 while (!bufferReader.EndOfBuffer && index < timeline.ValueRO.Size)
                 {
                     var componentType = timeline.ValueRO.GetTimelineElementType(index);
@@ -63,7 +63,6 @@ namespace DotsTween.Timelines.Systems
 
             if (timeline.LoopCount == 0)
             {
-                PerformComponentOperations(ref ecb, ref timeline.OnComplete);
                 ecb.AddComponent<TimelineDestroyTag>(timelineEntity);
                 return;
             }
@@ -82,14 +81,14 @@ namespace DotsTween.Timelines.Systems
             var pastStartTime = timelineElement.GetStartTime() <= timeline.CurrentTime;
             var alreadyPlaying = timeline.IsTimelineElementActive(timelineElement.GetId());
             var hasAlreadyPlayed = timelineElement.GetEndTime() <= timeline.CurrentTime;
-            
+
             if (!pastStartTime || alreadyPlaying || hasAlreadyPlayed) return;
             if (TimelineSystemCommandTypeHelper.AlreadyHasInfoComponent(timelineElement.GetTargetEntity(), componentType, EntityManager)) return;
 
             timeline.AddTimelineElementIdToActive(timelineElement.GetId());
             TimelineSystemCommandTypeHelper.Add(ref ecb, componentType, ref timelineElement);
         }
-        
+
         [BurstCompile]
         private void TryToRemoveTimelineElementIdFromActiveList(ref ITimelineElement timelineElement, ref TimelineComponent timeline)
         {

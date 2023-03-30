@@ -65,7 +65,6 @@ namespace DotsTween.Tweens
             [ReadOnly] public BufferTypeHandle<TweenState> TweenStateBufferType;
             [ReadOnly] public BufferTypeHandle<TweenPauseInfo> TweenPauseBufferType;
             [ReadOnly] public BufferTypeHandle<TweenResumeInfo> TweenResumeBufferType;
-            [ReadOnly] public BufferTypeHandle<TweenStopInfo> TweenStopBufferType;
 
             public EntityCommandBuffer.ParallelWriter ParallelWriter;
 
@@ -73,9 +72,8 @@ namespace DotsTween.Tweens
             public void Execute(in ArchetypeChunk chunk, int chunkIndex, bool useEnabledMask, in v128 chunkEnabledMask)
             {
                 bool hasTweenStateBuffer = chunk.Has(ref TweenStateBufferType);
-                bool hasTweenPauseBuffer = chunk.Has(ref TweenPauseBufferType); 
-                bool hasTweenResumeBuffer = chunk.Has(ref TweenResumeBufferType); 
-                bool hasTweenStopBuffer = chunk.Has(ref TweenStopBufferType); 
+                bool hasTweenPauseBuffer = chunk.Has(ref TweenPauseBufferType);
+                bool hasTweenResumeBuffer = chunk.Has(ref TweenResumeBufferType);
                 bool hasTargetType = chunk.Has(ref TargetType);
 
                 NativeArray<Entity> entities = chunk.GetNativeArray(EntityType);
@@ -85,7 +83,7 @@ namespace DotsTween.Tweens
                     Entity entity = entities[i];
                     TTweenCommand command = commands[i];
 
-                    TryToAddBuffers(out var didAddBuffers, chunkIndex, ref entity, hasTweenStateBuffer, hasTweenPauseBuffer, hasTweenResumeBuffer, hasTweenStopBuffer);
+                    TryToAddBuffers(out var didAddBuffers, chunkIndex, ref entity, hasTweenStateBuffer, hasTweenPauseBuffer, hasTweenResumeBuffer);
 
                     if (didAddBuffers)
                     {
@@ -117,18 +115,15 @@ namespace DotsTween.Tweens
                 ref Entity entity,
                 [MarshalAs(UnmanagedType.U1)] bool hasTweenStateBuffer,
                 [MarshalAs(UnmanagedType.U1)] bool hasTweenPauseBuffer,
-                [MarshalAs(UnmanagedType.U1)] bool hasTweenResumeBuffer,
-                [MarshalAs(UnmanagedType.U1)] bool hasTweenStopBuffer)
+                [MarshalAs(UnmanagedType.U1)] bool hasTweenResumeBuffer)
             {
                 if (!hasTweenStateBuffer) ParallelWriter.AddBuffer<TweenState>(chunkIndex, entity);
                 if (!hasTweenPauseBuffer) ParallelWriter.AddBuffer<TweenPauseInfo>(chunkIndex, entity);
                 if (!hasTweenResumeBuffer) ParallelWriter.AddBuffer<TweenResumeInfo>(chunkIndex, entity);
-                if (!hasTweenStopBuffer) ParallelWriter.AddBuffer<TweenStopInfo>(chunkIndex, entity);
 
                 buffersWereAdded = !hasTweenStateBuffer
                     || !hasTweenPauseBuffer
-                    || !hasTweenResumeBuffer
-                    || !hasTweenStopBuffer;
+                    || !hasTweenResumeBuffer;
             }
         }
 
@@ -154,7 +149,6 @@ namespace DotsTween.Tweens
                 TweenStateBufferType = GetBufferTypeHandle<TweenState>(true),
                 TweenPauseBufferType = GetBufferTypeHandle<TweenPauseInfo>(true),
                 TweenResumeBufferType = GetBufferTypeHandle<TweenResumeInfo>(true),
-                TweenStopBufferType = GetBufferTypeHandle<TweenStopInfo>(true),
                 ParallelWriter = endSimECBSystem.CreateCommandBuffer().AsParallelWriter(),
             };
 
@@ -164,20 +158,31 @@ namespace DotsTween.Tweens
     }
 
     [BurstCompile] internal partial class TweenTranslationGenerateSystem : TweenGenerateSystem<TweenTranslationCommand, TweenTranslation, LocalTransform, float3> { }
+
     [BurstCompile] internal partial class TweenRotationGenerateSystem : TweenGenerateSystem<TweenRotationCommand, TweenRotation, LocalTransform, quaternion> { }
+
     [BurstCompile] internal partial class TweenScaleGenerateSystem : TweenGenerateSystem<TweenScaleCommand, TweenScale, LocalTransform, float> { }
+
     [BurstCompile] internal partial class TweenNonUniformScaleGenerateSystem : TweenGenerateSystem<TweenNonUniformScaleCommand, TweenNonUniformScale, PostTransformMatrix, float3> { }
 
 #if DOTS_TWEEN_URP
-    [BurstCompile] internal partial class TweenURPTintGenerateSystem : TweenGenerateSystem<TweenURPTintCommand, TweenURPTint, URPMaterialPropertyBaseColor, float4> {}
-    [BurstCompile] internal partial class TweenURPFadeGenerateSystem : TweenGenerateSystem<TweenURPFadeCommand, TweenURPFade, URPMaterialPropertyBaseColor, float> {}
-    [BurstCompile] internal partial class TweenURPBumpScaleGenerateSystem : TweenGenerateSystem<TweenURPBumpScaleCommand, TweenURPBumpScale, URPMaterialPropertyBumpScale, float> {}
-    [BurstCompile] internal partial class TweenURPCutoffGenerateSystem : TweenGenerateSystem<TweenURPCutoffCommand, TweenURPCutoff, URPMaterialPropertyCutoff, float> {}
-    [BurstCompile] internal partial class TweenURPEmissionColorGenerateSystem : TweenGenerateSystem<TweenURPEmissionColorCommand, TweenURPEmissionColor, URPMaterialPropertyEmissionColor, float4> {}
-    [BurstCompile] internal partial class TweenURPMetallicGenerateSystem : TweenGenerateSystem<TweenURPMetallicCommand, TweenURPMetallic, URPMaterialPropertyMetallic, float> {}
-    [BurstCompile] internal partial class TweenURPOcclusionStrengthGenerateSystem : TweenGenerateSystem<TweenURPOcclusionStrengthCommand, TweenURPOcclusionStrength, URPMaterialPropertyOcclusionStrength, float> {}
-    [BurstCompile] internal partial class TweenURPSmoothnessGenerateSystem : TweenGenerateSystem<TweenURPSmoothnessCommand, TweenURPSmoothness, URPMaterialPropertySmoothness, float> {}
-    [BurstCompile] internal partial class TweenURPSpecularColorGenerateSystem : TweenGenerateSystem<TweenURPSpecularColorCommand, TweenURPSpecularColor, URPMaterialPropertySpecColor, float4> {}
+    [BurstCompile] internal partial class TweenURPTintGenerateSystem : TweenGenerateSystem<TweenURPTintCommand, TweenURPTint, URPMaterialPropertyBaseColor, float4> { }
+
+    [BurstCompile] internal partial class TweenURPFadeGenerateSystem : TweenGenerateSystem<TweenURPFadeCommand, TweenURPFade, URPMaterialPropertyBaseColor, float> { }
+
+    [BurstCompile] internal partial class TweenURPBumpScaleGenerateSystem : TweenGenerateSystem<TweenURPBumpScaleCommand, TweenURPBumpScale, URPMaterialPropertyBumpScale, float> { }
+
+    [BurstCompile] internal partial class TweenURPCutoffGenerateSystem : TweenGenerateSystem<TweenURPCutoffCommand, TweenURPCutoff, URPMaterialPropertyCutoff, float> { }
+
+    [BurstCompile] internal partial class TweenURPEmissionColorGenerateSystem : TweenGenerateSystem<TweenURPEmissionColorCommand, TweenURPEmissionColor, URPMaterialPropertyEmissionColor, float4> { }
+
+    [BurstCompile] internal partial class TweenURPMetallicGenerateSystem : TweenGenerateSystem<TweenURPMetallicCommand, TweenURPMetallic, URPMaterialPropertyMetallic, float> { }
+
+    [BurstCompile] internal partial class TweenURPOcclusionStrengthGenerateSystem : TweenGenerateSystem<TweenURPOcclusionStrengthCommand, TweenURPOcclusionStrength, URPMaterialPropertyOcclusionStrength, float> { }
+
+    [BurstCompile] internal partial class TweenURPSmoothnessGenerateSystem : TweenGenerateSystem<TweenURPSmoothnessCommand, TweenURPSmoothness, URPMaterialPropertySmoothness, float> { }
+
+    [BurstCompile] internal partial class TweenURPSpecularColorGenerateSystem : TweenGenerateSystem<TweenURPSpecularColorCommand, TweenURPSpecularColor, URPMaterialPropertySpecColor, float4> { }
 #elif DOTS_TWEEN_HDRP
     [BurstCompile] internal partial class TweenHDRPAlphaCutoffGenerateSystem : TweenGenerateSystem<TweenHDRPAlphaCutoffCommand, TweenHDRPAlphaCutoff, HDRPMaterialPropertyAlphaCutoff, float> {}
     [BurstCompile] internal partial class TweenHDRPAmbientOcclusionRemapMaxGenerateSystem : TweenGenerateSystem<TweenHDRPAmbientOcclusionRemapMaxCommand, TweenHDRPAmbientOcclusionRemapMax, HDRPMaterialPropertyAORemapMax, float> {}

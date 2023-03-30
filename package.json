@@ -1,37 +1,37 @@
 {
-  "name": "com.dyonng.dotstween",
-  "version": "0.8.13",
-  "displayName": "DOTS Tween",
-  "description": "Tween library for Unity ECS/DOTS.",
-  "unity": "2022.2",
-  "dependencies": {
-    "com.unity.collections": "2.1.0-pre.18",
-    "com.unity.entities": "1.0.0-pre.65",
-    "com.unity.burst": "1.8.4",
-    "com.unity.mathematics": "1.2.6",
-    "com.unity.entities.graphics": "1.0.0-pre.65"
-  },
-  "author": {
-    "name": "Dyon",
-    "email": "dyonjng@gmail.com",
-    "url": "https://github.com/dyonng/dots-tween"
-  },
-  "keywords": [
-    "ECS",
-    "DOTS",
-    "Entity",
-    "Tween",
-    "Animation",
-    "entity",
-    "component",
-    "system",
-    "tweening"
-  ],
-  "samples": [
-    {
-      "displayName": "Stress Test",
-      "description": "The test demonstrates lots of cubes being translated, rotated and scaled at the same time. Dependent on Entities.Graphics for rendering.",
-      "path": "Samples~/StressTest"
-    }
-  ]
+    "name": "com.dyonng.dotstween",
+    "version": "0.8.14",
+    "displayName": "DOTS Tween",
+    "description": "Tween library for Unity ECS/DOTS.",
+    "unity": "2022.2",
+    "dependencies": {
+        "com.unity.collections": "2.1.0-pre.18",
+        "com.unity.entities": "1.0.0-pre.65",
+        "com.unity.burst": "1.8.4",
+        "com.unity.mathematics": "1.2.6",
+        "com.unity.entities.graphics": "1.0.0-pre.65"
+    },
+    "author": {
+        "name": "Dyon",
+        "email": "dyonjng@gmail.com",
+        "url": "https://github.com/dyonng/dots-tween"
+    },
+    "keywords": [
+        "ECS",
+        "DOTS",
+        "Entity",
+        "Tween",
+        "Animation",
+        "entity",
+        "component",
+        "system",
+        "tweening"
+    ],
+    "samples": [
+        {
+            "displayName": "Stress Test",
+            "description": "The test demonstrates lots of cubes being translated, rotated and scaled at the same time. Dependent on Entities.Graphics for rendering.",
+            "path": "Samples~/StressTest"
+        }
+    ]
 }
