@@ -70,12 +70,14 @@ namespace DotsTween.Tweens
                 NativeArray<TTweenInfo> infos = chunk.GetNativeArray(ref InfoType);
                 BufferAccessor<TweenState> tweenBuffers = chunk.GetBufferAccessor(ref TweenBufferType);
                 BufferAccessor<TweenDestroyCommand> destroyBuffers = chunk.GetBufferAccessor(ref DestroyCommandType);
+                
                 for (int i = 0; i < entities.Length; i++)
                 {
-                    Entity entity = entities[i];
-
-                    bool shouldDestroy = false;
                     DynamicBuffer<TweenDestroyCommand> destroyBuffer = destroyBuffers[i];
+                    if (destroyBuffer.IsEmpty) continue;
+
+                    Entity entity = entities[i];
+                    bool shouldDestroy = false;
                     for (int j = destroyBuffer.Length - 1; j >= 0; j--)
                     {
                         TweenDestroyCommand command = destroyBuffer[j];
@@ -103,16 +105,6 @@ namespace DotsTween.Tweens
                             infos[i].Cleanup();
                             ParallelWriter.RemoveComponent<TTweenInfo>(chunkIndex, entity);
                             break;
-                        }
-                    }
-
-                    if (tweenBuffer.IsEmpty)
-                    {
-                        ParallelWriter.RemoveComponent<TweenState>(chunkIndex, entity);
-
-                        if (destroyBuffer.IsEmpty)
-                        {
-                            ParallelWriter.RemoveComponent<TweenDestroyCommand>(chunkIndex, entity);
                         }
                     }
                 }
@@ -154,30 +146,18 @@ namespace DotsTween.Tweens
     }
 
     [BurstCompile] internal partial class TweenTranslationDestroySystem : TweenDestroySystem<TweenTranslation, float3> { }
-
     [BurstCompile] internal partial class TweenRotationDestroySystem : TweenDestroySystem<TweenRotation, quaternion> { }
-
     [BurstCompile] internal partial class TweenScaleDestroySystem : TweenDestroySystem<TweenScale, float> { }
-
     [BurstCompile] internal partial class TweenNonUniformScaleDestroySystem : TweenDestroySystem<TweenNonUniformScale, float3> { }
-
 #if DOTS_TWEEN_URP
     [BurstCompile] internal partial class TweenURPTintDestroySystem : TweenDestroySystem<TweenURPTint, float4> { }
-
     [BurstCompile] internal partial class TweenURPFadeDestroySystem : TweenDestroySystem<TweenURPFade, float> { }
-
     [BurstCompile] internal partial class TweenURPBumpScaleDestroySystem : TweenDestroySystem<TweenURPBumpScale, float> { }
-
     [BurstCompile] internal partial class TweenURPCutoffDestroySystem : TweenDestroySystem<TweenURPCutoff, float> { }
-
     [BurstCompile] internal partial class TweenURPEmissionColorDestroySystem : TweenDestroySystem<TweenURPEmissionColor, float4> { }
-
     [BurstCompile] internal partial class TweenURPMetallicDestroySystem : TweenDestroySystem<TweenURPMetallic, float> { }
-
     [BurstCompile] internal partial class TweenURPOcclusionStrengthDestroySystem : TweenDestroySystem<TweenURPOcclusionStrength, float> { }
-
     [BurstCompile] internal partial class TweenURPSmoothnessDestroySystem : TweenDestroySystem<TweenURPSmoothness, float> { }
-
     [BurstCompile] internal partial class TweenURPSpecularColorDestroySystem : TweenDestroySystem<TweenURPSpecularColor, float4> { }
 #elif DOTS_TWEEN_HDRP
     [BurstCompile] internal partial class TweenHDRPAlphaCutoffDestroySystem : TweenDestroySystem<TweenHDRPAlphaCutoff, float> {}

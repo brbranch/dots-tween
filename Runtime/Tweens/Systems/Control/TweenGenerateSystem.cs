@@ -158,30 +158,18 @@ namespace DotsTween.Tweens
     }
 
     [BurstCompile] internal partial class TweenTranslationGenerateSystem : TweenGenerateSystem<TweenTranslationCommand, TweenTranslation, LocalTransform, float3> { }
-
     [BurstCompile] internal partial class TweenRotationGenerateSystem : TweenGenerateSystem<TweenRotationCommand, TweenRotation, LocalTransform, quaternion> { }
-
     [BurstCompile] internal partial class TweenScaleGenerateSystem : TweenGenerateSystem<TweenScaleCommand, TweenScale, LocalTransform, float> { }
-
     [BurstCompile] internal partial class TweenNonUniformScaleGenerateSystem : TweenGenerateSystem<TweenNonUniformScaleCommand, TweenNonUniformScale, PostTransformMatrix, float3> { }
-
 #if DOTS_TWEEN_URP
     [BurstCompile] internal partial class TweenURPTintGenerateSystem : TweenGenerateSystem<TweenURPTintCommand, TweenURPTint, URPMaterialPropertyBaseColor, float4> { }
-
     [BurstCompile] internal partial class TweenURPFadeGenerateSystem : TweenGenerateSystem<TweenURPFadeCommand, TweenURPFade, URPMaterialPropertyBaseColor, float> { }
-
     [BurstCompile] internal partial class TweenURPBumpScaleGenerateSystem : TweenGenerateSystem<TweenURPBumpScaleCommand, TweenURPBumpScale, URPMaterialPropertyBumpScale, float> { }
-
     [BurstCompile] internal partial class TweenURPCutoffGenerateSystem : TweenGenerateSystem<TweenURPCutoffCommand, TweenURPCutoff, URPMaterialPropertyCutoff, float> { }
-
     [BurstCompile] internal partial class TweenURPEmissionColorGenerateSystem : TweenGenerateSystem<TweenURPEmissionColorCommand, TweenURPEmissionColor, URPMaterialPropertyEmissionColor, float4> { }
-
     [BurstCompile] internal partial class TweenURPMetallicGenerateSystem : TweenGenerateSystem<TweenURPMetallicCommand, TweenURPMetallic, URPMaterialPropertyMetallic, float> { }
-
     [BurstCompile] internal partial class TweenURPOcclusionStrengthGenerateSystem : TweenGenerateSystem<TweenURPOcclusionStrengthCommand, TweenURPOcclusionStrength, URPMaterialPropertyOcclusionStrength, float> { }
-
     [BurstCompile] internal partial class TweenURPSmoothnessGenerateSystem : TweenGenerateSystem<TweenURPSmoothnessCommand, TweenURPSmoothness, URPMaterialPropertySmoothness, float> { }
-
     [BurstCompile] internal partial class TweenURPSpecularColorGenerateSystem : TweenGenerateSystem<TweenURPSpecularColorCommand, TweenURPSpecularColor, URPMaterialPropertySpecColor, float4> { }
 #elif DOTS_TWEEN_HDRP
     [BurstCompile] internal partial class TweenHDRPAlphaCutoffGenerateSystem : TweenGenerateSystem<TweenHDRPAlphaCutoffCommand, TweenHDRPAlphaCutoff, HDRPMaterialPropertyAlphaCutoff, float> {}

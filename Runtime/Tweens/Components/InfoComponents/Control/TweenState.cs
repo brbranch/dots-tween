@@ -10,7 +10,7 @@ namespace DotsTween.Tweens
     [BurstCompile]
     public struct TweenState : IBufferElementData, ITweenId
     {
-        internal const short LOOP_COUNT_INFINITE = -1;
+        public const short LOOP_COUNT_INFINITE = -1;
 
         public TweenParams Settings;
 

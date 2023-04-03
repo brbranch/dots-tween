@@ -19,8 +19,9 @@ namespace DotsTween.Tweens
         {
             Entities.ForEach((ref DynamicBuffer<TweenState> tweenBuffer) =>
             {
-                var deltaTime = SystemAPI.Time.DeltaTime;
+                if (tweenBuffer.IsEmpty) return;
                 
+                var deltaTime = SystemAPI.Time.DeltaTime;
                 for (int i = 0; i < tweenBuffer.Length; i++)
                 {
                     TweenState tween = tweenBuffer[i];

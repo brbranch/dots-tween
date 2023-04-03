@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.15] 2023.04.03
+
+### Fixed
+
+- Fixed an issue where tweens were prematurely destroyed if you tried to stop and play tweens on the same frame.
+- `TweenState.LOOP_COUNT_INFINITE` is actually `public` now. Use this for denoting that your tween/timeline is infinite looping.
+
 ## [0.8.14] 2023.03.30
 
 ### Changed
@@ -26,10 +33,10 @@
 ### Changed
 
 - Updated Unity DOTS
-    - com.unity.collections: `2.1.0-pre.11` to `2.1.0-pre.18`
-    - com.unity.entities: `1.0.0-pre.47` to `1.0.0-pre.65`
-    - com.unity.burst: `1.8.3` to `1.8.4`
-    - com.unity.entities.graphics: `1.0.0-pre.44` to `1.0.0-pre.65`
+  - com.unity.collections: `2.1.0-pre.11` to `2.1.0-pre.18`
+  - com.unity.entities: `1.0.0-pre.47` to `1.0.0-pre.65`
+  - com.unity.burst: `1.8.3` to `1.8.4`
+  - com.unity.entities.graphics: `1.0.0-pre.44` to `1.0.0-pre.65`
 
 ## [0.8.10] 2023.03.23
 
@@ -107,14 +114,14 @@
 ### Added
 
 - A bunch of URP tweens
-    - Base Color Alpha Fading
-    - Specular Color
-    - Emission Color
-    - Metallic
-    - Cutoff
-    - Bump Scale
-    - Occlusion Strength
-    - Smoothness
+  - Base Color Alpha Fading
+  - Specular Color
+  - Emission Color
+  - Metallic
+  - Cutoff
+  - Bump Scale
+  - Occlusion Strength
+  - Smoothness
 
 ### Internal Changes
 
@@ -131,10 +138,10 @@
 ### Added
 
 - Timelines (called Sequences in DOTween)
-    - This also introduces a new SystemGroup `TimelineSimulationSystemGroup`; runs before `TweenSimulationSystemGroup`
-    - Can be accessed using `Tween.Timelines`
+  - This also introduces a new SystemGroup `TimelineSimulationSystemGroup`; runs before `TweenSimulationSystemGroup`
+  - Can be accessed using `Tween.Timelines`
 - Ability to tween `From` and `To`. Example: `Tween.Move.To()`
-    - The original function is now called `FromTo`. Example: `Tween.Rotate.FromTo()`
+  - The original function is now called `FromTo`. Example: `Tween.Rotate.FromTo()`
 - Ability to perform "Component Operations" when starting and/or completing a tween.
 
 ## [0.7.2] - 2023.01.26
@@ -158,12 +165,12 @@
 
 - Start of Dyon's Fork
 - Namespace is now `DotsTween`
-    - Runtime reference is now `DotsTween.Runtime`
+  - Runtime reference is now `DotsTween.Runtime`
 - Dependency upgrade
-    - "com.unity.collections": "2.1.0-pre.6",
-    - "com.unity.entities": "1.0.0-pre.15",
-    - "com.unity.burst": "1.8.2",
-    - "com.unity.mathematics": "1.2.6"
+  - "com.unity.collections": "2.1.0-pre.6",
+  - "com.unity.entities": "1.0.0-pre.15",
+  - "com.unity.burst": "1.8.2",
+  - "com.unity.mathematics": "1.2.6"
 - Stress Test sample now using subscene
 
 ## [0.6.0] - 2021.08.08
@@ -171,8 +178,8 @@
 ### Changed
 
 - Dependency upgrade
-    - Entities 0.17.0-preview.42 (from 0.14.0-preview.18)
-    - Burst 1.4.9 (from 1.3.6)
+  - Entities 0.17.0-preview.42 (from 0.14.0-preview.18)
+  - Burst 1.4.9 (from 1.3.6)
 
 ### Fixed
 
@@ -214,13 +221,13 @@
 - Tween support for `SpriteRenderer.Color` in Tiny (`Tween.Tint()`)
 - Support for Tiny 0.29.0 and above
 - Unit tests
-    - `Ease_Delayed`
-    - Generation, application and destruction of `Tween.Tint()`
+  - `Ease_Delayed`
+  - Generation, application and destruction of `Tween.Tint()`
 - `EaseDesc` shortcuts (with exponent = 2)
-    - `EaseDesc.Linear`
-    - `EaseDesc.SmoothStart`
-    - `EaseDesc.SmoothStop`
-    - `EaseDesc.SmoothStep`
+  - `EaseDesc.Linear`
+  - `EaseDesc.SmoothStart`
+  - `EaseDesc.SmoothStop`
+  - `EaseDesc.SmoothStep`
 
 ### Changed
 
@@ -239,16 +246,16 @@
 - `TweenParams` default values in constructor
 - `TweenParams` overrides `ToString()`
 - Unit tests
-    - Ease
-    - Pause
-    - Resume
-    - Stop
-    - Ping-pong
-    - Loop
-    - Generate, apply and destroy
-        - `Translation`
-        - `Rotation`
-        - `NonUniformScale`
+  - Ease
+  - Pause
+  - Resume
+  - Stop
+  - Ping-pong
+  - Loop
+  - Generate, apply and destroy
+    - `Translation`
+    - `Rotation`
+    - `NonUniformScale`
 
 ### Changed
 
