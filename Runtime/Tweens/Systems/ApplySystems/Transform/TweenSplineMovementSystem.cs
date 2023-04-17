@@ -32,7 +32,7 @@ namespace DotsTween.Tweens
                     {
                         var forward = math.normalize(tweenInfo.SplineTweenInfo.Spline.EvaluateTangent(splinePosition));
                         var up = tweenInfo.SplineTweenInfo.Spline.EvaluateUpVector(splinePosition);
-                        localTransformRef.ValueRW.Rotation = quaternion.LookRotation(forward, up);
+                        localTransformRef.ValueRW.Rotation = math.normalize(quaternion.LookRotation(forward, up));
                     }
                 }
             }

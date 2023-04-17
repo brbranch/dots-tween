@@ -103,7 +103,6 @@ namespace DotsTween.Tweens
                     TTweenInfo info = default;
                     info.SetTweenId(tween.Id);
                     info.SetTweenInfo(command.GetTweenStart(), command.GetTweenEnd());
-                    command.Cleanup();
                     ParallelWriter.AddComponent(chunkIndex, entity, info);
                     ParallelWriter.RemoveComponent<TTweenCommand>(chunkIndex, entity);
                 }

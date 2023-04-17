@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.8.16] 2023.04.17
+
+### Fixed
+
+- Spline Movement wasn't working due to premature cleanup
+
 ## [0.8.15] 2023.04.03
 
 ### Fixed

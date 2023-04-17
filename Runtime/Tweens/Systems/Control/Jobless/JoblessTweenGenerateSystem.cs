@@ -53,7 +53,6 @@ namespace DotsTween.Tweens
                 info.SetTweenId(tween.Id);
                 info.SetTweenInfo(commandRef.ValueRO.GetTweenStart(), commandRef.ValueRO.GetTweenEnd());
 
-                commandRef.ValueRW.Cleanup();
                 ecb.AddComponent(entity, info);
                 ecb.RemoveComponent<TTweenCommand>(entity);
             }
