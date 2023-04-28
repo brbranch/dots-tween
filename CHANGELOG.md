@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.17] 2023.04.28
+
+### Added
+- Added additional spline alignment settings:
+  - can specify the axis of alignment; useful for keeping orientation, eg: 2d splines in 3d space.
+  - can specify a rotational offset for the new axis alignment modes.
+
 ## [0.8.16] 2023.04.17
 
 ### Fixed
