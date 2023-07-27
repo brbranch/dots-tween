@@ -5,8 +5,11 @@
 ![GitHub](https://img.shields.io/github/license/dyonng/dots-tween)
 ![GitHub repo size](https://img.shields.io/github/repo-size/dyonng/dots-tween)
 
-Tweening library for Unity ECS/DOTS 1.0  
-Now uses Entities Graphics library from Unity.
+### Updated to Unity 2022.3 LTS
+
+Tweening library for Unity ECS/DOTS 1.0.11    
+Now uses Entities Graphics library from Unity.  
+Developed on `2022.3.5f1`, in case you were wondering :)
 
 ## Table of Contents
 
@@ -108,14 +111,18 @@ Now uses Entities Graphics library from Unity.
 
 ## Dependencies
 
- - com.unity.collections: `2.1.0-pre.18`
- - com.unity.entities: `1.0.0-pre.65`
- - com.unity.burst: `1.8.4`
- - com.unity.mathematics: `1.2.6`
- - com.unity.entities.graphics: `1.0.0-pre.65`
+```json
+"dependencies": {
+    "com.unity.collections": "2.1.4",
+    "com.unity.entities": "1.0.11",
+    "com.unity.burst": "1.8.7",
+    "com.unity.mathematics": "1.2.6",
+    "com.unity.entities.graphics": "1.0.11"
+}
+```
 
 ### For Spline Support
- - "com.unity.splines" : "2.1.0"
+ - "com.unity.splines" : "2.3.0"
 
 ## Installation
 
@@ -175,18 +182,27 @@ Tween.Move.FromTo(ref entityManager, entity, start, end, duration, new TweenPara
 
 Tweens with infinite LoopCounts do not support `OnComplete` component operations.
 
+#### _Has been updated to use `ComponentTypeSet` to support multiple component tags_
+
 ```csharp
 Tween.Scale.FromTo(ref entityManager, entity, start, end, duration, new TweenParams
 {
     LoopCount = 2,
     OnStart = new ComponentOperations
     {
-        Add = ComponentType.ReadOnly<AnotherTag>(),
+        Add = new ComponentTypeSet(
+            ComponentType.ReadOnly<CoolTag1>(),
+            ComponentType.ReadOnly<CoolTag2>(),
+            ComponentType.ReadOnly<CoolTag3>(),
+        ),
     },
     OnComplete = new ComponentOperations
     {
-        Add = ComponentType.ReadOnly<ExampleTag>(),
-        Remove = ComponentType.ReadOnly<AnotherTag>(),
+        Add = new ComponentTypeSet(ComponentType.ReadOnly<ExampleTweenDoneTag>()),
+        Remove = new ComponentTypeSet(
+            ComponentType.ReadOnly<AnotherTag1>(),
+            ComponentType.ReadOnly<AnotherTag2>(),
+        ),
     }
 });
 ```

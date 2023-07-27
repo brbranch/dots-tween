@@ -1,61 +1,67 @@
-﻿using Unity.Burst;
+﻿// ReSharper disable UnassignedField.Global
+
+using Unity.Burst;
 using Unity.Entities;
 
 namespace DotsTween.Tweens
 {
+    [BurstCompile]
     public struct ComponentOperations
     {
-        public ComponentType Add;
-        public ComponentType Remove;
-        public ComponentType Enable;
-        public ComponentType Disable;
-
+        public ComponentTypeSet Add;
+        public ComponentTypeSet Remove;
+        public ComponentTypeSet Enable;
+        public ComponentTypeSet Disable;
+        
         [BurstCompile]
         public void Perform(ref EntityManager entityManager, in Entity target)
         {
-            if (Add != default)
-                entityManager.AddComponent(target, Add);
-                
-            if (Remove != default)
-                entityManager.RemoveComponent(target, Remove);
-                
-            if (Enable != default)
-                entityManager.SetComponentEnabled(target, Enable, true);
-                
-            if (Disable != default)
-                entityManager.SetComponentEnabled(target, Disable, false);
+            if (Add.Length > 0) entityManager.AddComponent(target, Add);
+            if (Remove.Length > 0) entityManager.RemoveComponent(target, Remove);
+
+            for (int index = 0; index < Enable.Length; ++index)
+            {
+                entityManager.SetComponentEnabled(target, Enable.GetComponentType(index), true);
+            }
+            
+            for (int index = 0; index < Disable.Length; ++index)
+            {
+                entityManager.SetComponentEnabled(target, Disable.GetComponentType(index), false);
+            }
         }
 
         [BurstCompile]
         public void Perform(ref EntityCommandBuffer ecb, in Entity target)
         {
-            if (Add != default)
-                ecb.AddComponent(target, Add);
-                
-            if (Remove != default)
-                ecb.RemoveComponent(target, Remove);
-                
-            if (Enable != default)
-                ecb.SetComponentEnabled(target, Enable, true);
-                
-            if (Disable != default)
-                ecb.SetComponentEnabled(target, Disable, false);
+            if (Add.Length > 0) ecb.AddComponent(target, Add);
+            if (Remove.Length > 0) ecb.RemoveComponent(target, Remove);
+
+            for (int index = 0; index < Enable.Length; ++index)
+            {
+                ecb.SetComponentEnabled(target, Enable.GetComponentType(index), true);
+            }
+            
+            for (int index = 0; index < Disable.Length; ++index)
+            {
+                ecb.SetComponentEnabled(target, Disable.GetComponentType(index), false);
+            }
         }
 
         [BurstCompile]
         public void Perform(ref EntityCommandBuffer.ParallelWriter parallelWriter, in int sortKey, in Entity target)
         {
-            if (Add != default)
-                parallelWriter.AddComponent(sortKey, target, Add);
-                
-            if (Remove != default)
-                parallelWriter.RemoveComponent(sortKey, target, Remove);
-                
-            if (Enable != default)
-                parallelWriter.SetComponentEnabled(sortKey, target, Enable, true);
-                
-            if (Disable != default)
-                parallelWriter.SetComponentEnabled(sortKey, target, Disable, false);
+            if (Add.Length > 0) parallelWriter.AddComponent(sortKey, target, Add);
+            if (Remove.Length > 0) parallelWriter.RemoveComponent(sortKey, target, Remove);
+
+            for (int index = 0; index < Enable.Length; ++index)
+            {
+                parallelWriter.SetComponentEnabled(sortKey, target, Enable.GetComponentType(index), true);
+            }
+            
+            for (int index = 0; index < Disable.Length; ++index)
+            {
+                parallelWriter.SetComponentEnabled(sortKey, target, Disable.GetComponentType(index), false);
+            }
         }
 
         [BurstCompile]
@@ -63,13 +69,26 @@ namespace DotsTween.Tweens
         {
             unchecked
             {
-                int hashCode = Add.GetHashCode();
-                hashCode = (hashCode * 1261) ^ Remove.GetHashCode();
-                hashCode = (hashCode * 1261) ^ Enable.GetHashCode();
-                hashCode = (hashCode * 1261) ^ Disable.GetHashCode();
+                int hashCode = GetHashCodeFromComponentTypes(Add);
+                hashCode = (hashCode * 1261) ^ GetHashCodeFromComponentTypes(Remove);
+                hashCode = (hashCode * 1261) ^ GetHashCodeFromComponentTypes(Enable);
+                hashCode = (hashCode * 1261) ^ GetHashCodeFromComponentTypes(Disable);
 
                 return hashCode;
             }
+        }
+        
+        [BurstCompile]
+        private static int GetHashCodeFromComponentTypes(in ComponentTypeSet set)
+        {
+            var code = 0;
+
+            for (int x = 0; x < set.Length; ++x)
+            {
+                code = (code * 5657) ^ set.GetComponentType(x).GetHashCode();
+            }
+
+            return code;
         }
     }
 }

@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.9.0] 2023.07.27
+
+### Added
+
+- Added ability to perform multiple component operations by using a `ComponentTypeSet`. (breaking change)
+
+### Changed
+
+- Updated Unity to 2022.3 LTS
+- Updated dependencies:
+  - `"com.unity.collections": "2.1.4"`
+  - `"com.unity.entities": "1.0.11"`
+  - `"com.unity.burst": "1.8.7"`
+  - `"com.unity.entities.graphics": "1.0.11"`
+
 ## [0.8.17] 2023.04.28
 
 ### Added
