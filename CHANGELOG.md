@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.9.1] 2023.07.31
+
+### Fixed
+
+- Elastic and Back eases no longer mapped to each other.
+
 ## [0.9.0] 2023.07.27
 
 ### Added

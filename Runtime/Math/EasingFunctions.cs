@@ -1,7 +1,9 @@
-﻿using Unity.Mathematics;
+﻿using Unity.Burst;
+using Unity.Mathematics;
 
 namespace DotsTween.Math
 {
+    [BurstCompile]
     public static class EasingFunctions
     {
         private const float N1 = 7.5625f;
@@ -44,6 +46,7 @@ namespace DotsTween.Math
         private static float OutBounce(float x) { return InterpolateOutBounceStatic(x); }
         private static float InOutBounce(float x) { return x < 0.5f ? (1f - InterpolateOutBounceStatic(1f - 2f * x)) / 2f : (1f + InterpolateOutBounceStatic(2f * x - 1f)) / 2f; }
         
+        [BurstCompile]
         private static float InterpolateOutBounceStatic(float x)
         {
             switch (x)
@@ -67,6 +70,7 @@ namespace DotsTween.Math
             }
         }
         
+        [BurstCompile]
         public static float Ease(EaseType easeType, float t)
         {
             return easeType switch
@@ -93,12 +97,12 @@ namespace DotsTween.Math
                 EaseType.CircularIn => InCirc(t),
                 EaseType.CircularOut => OutCirc(t),
                 EaseType.CircularInOut => InOutCirc(t),
-                EaseType.ElasticIn => InBack(t),
-                EaseType.ElasticOut => OutBack(t),
-                EaseType.ElasticInOut => InOutBack(t),
-                EaseType.BackIn => InElastic(t),
-                EaseType.BackOut => OutElastic(t),
-                EaseType.BackInOut => InOutElastic(t),
+                EaseType.ElasticIn => InElastic(t),
+                EaseType.ElasticOut => OutElastic(t),
+                EaseType.ElasticInOut => InOutElastic(t),
+                EaseType.BackIn => InBack(t),
+                EaseType.BackOut => OutBack(t),
+                EaseType.BackInOut => InOutBack(t),
                 EaseType.BounceIn => InBounce(t),
                 EaseType.BounceOut => OutBounce(t),
                 EaseType.BounceInOut => InOutBounce(t),
