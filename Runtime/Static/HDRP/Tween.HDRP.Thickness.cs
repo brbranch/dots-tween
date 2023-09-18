@@ -4,6 +4,7 @@ using Unity.Burst;
 using Unity.Entities;
 using Unity.Rendering;
 using Unity.Transforms;
+using System.Runtime.CompilerServices;
 
 namespace DotsTween
 {
@@ -15,6 +16,7 @@ namespace DotsTween
             public static class Thickness
             {
                 [BurstCompile]
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 public static uint FromTo(ref SystemState state, in Entity entity, in float start, in float end, in float duration, in TweenParams tweenParams = default)
                 {
                     var command = new TweenHDRPThicknessCommand(entity, start, end, duration, tweenParams);
@@ -23,6 +25,7 @@ namespace DotsTween
                 }
 
                 [BurstCompile]
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 public static uint FromTo(ref EntityCommandBuffer ecb, in Entity entity, in float start, in float end, in float duration, in TweenParams tweenParams = default)
                 {
                     var command = new TweenHDRPThicknessCommand(entity, start, end, duration, tweenParams);
@@ -31,6 +34,7 @@ namespace DotsTween
                 }
 
                 [BurstCompile]
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 public static uint FromTo(ref EntityCommandBuffer.ParallelWriter ecb, in int sortKey, in Entity entity, in float start, in float end, in float duration, in TweenParams tweenParams = default)
                 {
                     var command = new TweenHDRPThicknessCommand(entity, start, end, duration, tweenParams);
@@ -39,6 +43,7 @@ namespace DotsTween
                 }
 
                 [BurstCompile]
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 public static uint To(ref SystemState state, in Entity entity, in float end, in float duration, in TweenParams tweenParams = default)
                 {
                     GetCurrentValue(out var start, ref state, entity);
@@ -46,6 +51,7 @@ namespace DotsTween
                 }
 
                 [BurstCompile]
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 public static uint To(ref SystemState state, ref EntityCommandBuffer ecb, in Entity entity, in float end, in float duration, in TweenParams tweenParams = default)
                 {
                     GetCurrentValue(out var start, ref state, entity);
@@ -53,6 +59,7 @@ namespace DotsTween
                 }
 
                 [BurstCompile]
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 public static uint To(ref SystemState state, ref EntityCommandBuffer.ParallelWriter ecb, in int sortKey, in Entity entity, in float end, in float duration, in TweenParams tweenParams = default)
                 {
                     GetCurrentValue(out var start, ref state, entity);
@@ -60,6 +67,7 @@ namespace DotsTween
                 }
 
                 [BurstCompile]
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 public static uint From(ref SystemState state, in Entity entity, in float start, in float duration, in TweenParams tweenParams = default)
                 {
                     GetCurrentValue(out var end, ref state, entity);
@@ -67,6 +75,7 @@ namespace DotsTween
                 }
 
                 [BurstCompile]
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 public static uint From(ref SystemState state, ref EntityCommandBuffer ecb, in Entity entity, in float start, in float duration, in TweenParams tweenParams = default)
                 {
                     GetCurrentValue(out var end, ref state, entity);
@@ -74,6 +83,7 @@ namespace DotsTween
                 }
 
                 [BurstCompile]
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 public static uint From(ref SystemState state, ref EntityCommandBuffer.ParallelWriter ecb, in int sortKey, in Entity entity, in float start, in float duration, in TweenParams tweenParams = default)
                 {
                     GetCurrentValue(out var end, ref state, entity);
@@ -81,6 +91,7 @@ namespace DotsTween
                 }
 
                 [BurstCompile]
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 private static void GetCurrentValue(out float currentValue, ref SystemState state, in Entity entity)
                 {
                     currentValue = state.EntityManager.GetComponentData<HDRPMaterialPropertyThickness>(entity).Value;

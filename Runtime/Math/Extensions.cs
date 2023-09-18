@@ -1,13 +1,18 @@
-﻿using Unity.Mathematics;
+﻿using System.Runtime.CompilerServices;
+using Unity.Burst;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace DotsTween.Math
 {
+    [BurstCompile]
     internal static class Extensions
     {
-        public static float4 ToFloat4(this Color color)
+        [BurstCompile]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void ToFloat4(in this Color color, out float4 f4)
         {
-            return new float4(color.r, color.g, color.b, color.a);
+            f4 = new float4(color.r, color.g, color.b, color.a);
         }
 
         /// <summary>
@@ -15,9 +20,11 @@ namespace DotsTween.Math
         /// </summary>
         /// <param name="color"></param>
         /// <returns></returns>
-        public static float3 ToFloat3(this Color color)
+        [BurstCompile]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void ToFloat3(in this Color color, out float3 f3)
         {
-            return new float3(color.r, color.g, color.b);
+            f3 = new float3(color.r, color.g, color.b);
         }
     }
 }

@@ -29,14 +29,14 @@ namespace DotsTween.Timelines.Systems
             var ecb = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(CheckedStateRef.WorldUnmanaged);
 
             // TODO (@dyonng) probably needs optimization to reduce search complexity
-            foreach (var (control, controlEntity) in SystemAPI.Query<TimelineControlCommand>().WithEntityAccess())
+            foreach (var (controlRef, controlEntity) in SystemAPI.Query<RefRO<TimelineControlCommand>>().WithEntityAccess())
             {
                 foreach (var timelineEntity in timelineEntities)
                 {
                     var timeline = EntityManager.GetComponentData<TimelineComponent>(timelineEntity);
-                    if (timeline.PlaybackId != control.TimelinePlaybackId) continue;
+                    if (timeline.PlaybackId != controlRef.ValueRO.TimelinePlaybackId) continue;
                     
-                    switch (control.Command)
+                    switch (controlRef.ValueRO.Command)
                     {
                         case TimelineControlCommands.Pause:
                             PauseTimeline(ref ecb, timelineEntity, ref timeline);

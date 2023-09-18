@@ -1,18 +1,18 @@
-﻿using Unity.Burst;
+﻿#if DOTS_TWEEN_SPLINES
+using Unity.Burst;
 using Unity.Entities;
 
-namespace DotsTween.Tweens
+namespace DotsTween.Tweens.Spline
 {
     [BurstCompile]
     [UpdateInGroup(typeof(TweenDestroySystemGroup))]
-    internal partial class JoblessTweenDestroySystem<TTweenInfo, TTweenInfoValue> : SystemBase
-        where TTweenInfo : unmanaged, IComponentData, ITweenId, ITweenInfo<TTweenInfoValue>
+    internal partial class TweenSplineMovementDestroySystem : SystemBase
     {
         [BurstCompile]
         protected override void OnCreate()
         {
             RequireForUpdate<TweenDestroyCommand>();
-            RequireForUpdate<TTweenInfo>();
+            RequireForUpdate<TweenSplineMovement>();
             RequireForUpdate<TweenState>();
         }
 
@@ -20,9 +20,8 @@ namespace DotsTween.Tweens
         protected override void OnUpdate()
         {
             var ecb = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(World.Unmanaged);
-            var tweenInfoTypeIndex = TypeManager.GetTypeIndex(typeof(TTweenInfo));
              
-            foreach (var (infoRef, destroyBuffer, tweenBuffer, entity) in SystemAPI.Query<RefRW<TTweenInfo>, DynamicBuffer<TweenDestroyCommand>, DynamicBuffer<TweenState>>().WithEntityAccess())
+            foreach (var (infoRef, destroyBuffer, tweenBuffer, entity) in SystemAPI.Query<RefRW<TweenSplineMovement>, DynamicBuffer<TweenDestroyCommand>, DynamicBuffer<TweenState>>().WithEntityAccess())
             {
                 if (destroyBuffer.IsEmpty) continue;
                 
@@ -51,15 +50,12 @@ namespace DotsTween.Tweens
                         tweenBuffer[j].Settings.OnComplete.Perform(ref ecb, entity);
                         tweenBuffer.RemoveAt(j);
                         infoRef.ValueRW.Cleanup();
-                        ecb.RemoveComponent<TTweenInfo>(entity);
+                        ecb.RemoveComponent<TweenSplineMovement>(entity);
                         break;
                     }
                 }
             }
         }
     }
-     
-#if DOTS_TWEEN_SPLINES
-    [BurstCompile] internal partial class TweenSplineMovementDestroySystem : JoblessTweenDestroySystem<TweenSplineMovement, SplineTweenInfo> { }
-#endif
 }
+#endif

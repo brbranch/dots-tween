@@ -1,4 +1,5 @@
-﻿using DotsTween.Tweens;
+﻿using System.Runtime.CompilerServices;
+using DotsTween.Tweens;
 using Unity.Burst;
 using Unity.Entities;
 
@@ -12,6 +13,7 @@ namespace DotsTween
 #region Control Specific Tween
 
             [BurstCompile]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void Pause(ref EntityManager entityManager, in Entity entity, in uint tweenId)
             {
                 entityManager.GetBuffer<TweenPauseInfo>(entity).Add(new TweenPauseInfo(tweenId));
@@ -19,6 +21,7 @@ namespace DotsTween
             }
 
             [BurstCompile]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void Pause(ref EntityCommandBuffer commandBuffer, in Entity entity, in uint tweenId)
             {
                 commandBuffer.AppendToBuffer<TweenPauseInfo>(entity, new TweenPauseInfo(tweenId));
@@ -26,6 +29,7 @@ namespace DotsTween
             }
 
             [BurstCompile]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void Pause(ref EntityCommandBuffer.ParallelWriter parallelWriter, in int sortKey, in Entity entity, in uint tweenId)
             {
                 parallelWriter.AppendToBuffer<TweenPauseInfo>(sortKey, entity, new TweenPauseInfo(tweenId));
@@ -33,6 +37,7 @@ namespace DotsTween
             }
 
             [BurstCompile]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void Resume(ref EntityManager entityManager, in Entity entity, in uint tweenId)
             {
                 entityManager.GetBuffer<TweenResumeInfo>(entity).Add(new TweenResumeInfo(tweenId));
@@ -40,6 +45,7 @@ namespace DotsTween
             }
 
             [BurstCompile]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void Resume(ref EntityCommandBuffer commandBuffer, in Entity entity, in uint tweenId)
             {
                 commandBuffer.AppendToBuffer<TweenResumeInfo>(entity, new TweenResumeInfo(tweenId));
@@ -47,6 +53,7 @@ namespace DotsTween
             }
 
             [BurstCompile]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void Resume(ref EntityCommandBuffer.ParallelWriter parallelWriter, in int sortKey, in Entity entity, in uint tweenId)
             {
                 parallelWriter.AppendToBuffer<TweenResumeInfo>(sortKey, entity, new TweenResumeInfo(tweenId));
@@ -54,6 +61,7 @@ namespace DotsTween
             }
 
             [BurstCompile]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void Stop(ref EntityManager entityManager, in Entity entity, in uint tweenId)
             {
                 var destroyBuffer = entityManager.GetBuffer<TweenDestroyCommand>(entity);
@@ -61,12 +69,14 @@ namespace DotsTween
             }
 
             [BurstCompile]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void Stop(ref EntityCommandBuffer commandBuffer, in Entity entity, in uint tweenId)
             {
                 commandBuffer.AppendToBuffer<TweenDestroyCommand>(entity, new TweenDestroyCommand(tweenId));
             }
 
             [BurstCompile]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void Stop(ref EntityCommandBuffer.ParallelWriter parallelWriter, in int sortKey, in Entity entity, in uint tweenId)
             {
                 parallelWriter.AppendToBuffer<TweenDestroyCommand>(sortKey, entity, new TweenDestroyCommand(tweenId));
@@ -77,6 +87,7 @@ namespace DotsTween
 #region Control All
 
             [BurstCompile]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void PauseAll(ref EntityManager entityManager, in Entity entity)
             {
                 entityManager.GetBuffer<TweenPauseInfo>(entity).Add(new TweenPauseInfo());
@@ -84,6 +95,7 @@ namespace DotsTween
             }
 
             [BurstCompile]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void PauseAll(ref EntityCommandBuffer commandBuffer, in Entity entity)
             {
                 commandBuffer.AppendToBuffer<TweenPauseInfo>(entity, new TweenPauseInfo());
@@ -91,6 +103,7 @@ namespace DotsTween
             }
 
             [BurstCompile]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void PauseAll(ref EntityCommandBuffer.ParallelWriter parallelWriter, in int sortKey, in Entity entity)
             {
                 parallelWriter.AppendToBuffer<TweenPauseInfo>(sortKey, entity, new TweenPauseInfo());
@@ -98,6 +111,7 @@ namespace DotsTween
             }
 
             [BurstCompile]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void ResumeAll(ref EntityManager entityManager, in Entity entity)
             {
                 entityManager.GetBuffer<TweenResumeInfo>(entity).Add(new TweenResumeInfo());
@@ -105,6 +119,7 @@ namespace DotsTween
             }
 
             [BurstCompile]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void ResumeAll(ref EntityCommandBuffer commandBuffer, in Entity entity)
             {
                 commandBuffer.AppendToBuffer<TweenResumeInfo>(entity, new TweenResumeInfo());
@@ -112,6 +127,7 @@ namespace DotsTween
             }
 
             [BurstCompile]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void ResumeAll(ref EntityCommandBuffer.ParallelWriter parallelWriter, in int sortKey, in Entity entity)
             {
                 parallelWriter.AppendToBuffer<TweenResumeInfo>(sortKey, entity, new TweenResumeInfo());
@@ -119,6 +135,7 @@ namespace DotsTween
             }
 
             [BurstCompile]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void StopAll(ref EntityManager entityManager, in Entity entity)
             {
                 if (!entityManager.HasBuffer<TweenState>(entity)) return;
@@ -130,12 +147,14 @@ namespace DotsTween
             }
 
             [BurstCompile]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void StopAll(ref EntityCommandBuffer commandBuffer, in Entity entity)
             {
                 commandBuffer.AddComponent<TweenStopCommand>(entity);
             }
 
             [BurstCompile]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void StopAll(ref EntityCommandBuffer.ParallelWriter parallelWriter, in int sortKey, in Entity entity)
             {
                 parallelWriter.AddComponent<TweenStopCommand>(sortKey, entity);

@@ -19,46 +19,46 @@ namespace DotsTween.Tweens
 
         protected override void OnUpdate()
         {
-            foreach (var (localTransformRef, tweenInfo, tweenBuffer) in SystemAPI.Query<RefRW<LocalTransform>, TweenSplineMovement, DynamicBuffer<TweenState>>())
+            foreach (var (localTransformRef, tweenInfoRef, tweenBuffer) in SystemAPI.Query<RefRW<LocalTransform>, RefRW<TweenSplineMovement>, DynamicBuffer<TweenState>>())
             {
                 foreach (var tween in tweenBuffer)
                 {
-                    if (tween.Id != tweenInfo.Id || tween.IsPaused) continue;
+                    if (tween.Id != tweenInfoRef.ValueRO.Id || tween.IsPaused) continue;
                         
-                    float splinePosition = math.lerp(tweenInfo.SplineTweenInfo.NormalizedStartPosition, tweenInfo.SplineTweenInfo.NormalizedEndPosition, tween.EasePercentage);
-                    localTransformRef.ValueRW.Position = tweenInfo.SplineTweenInfo.Spline.EvaluatePosition(splinePosition);
+                    float splinePosition = math.lerp(tweenInfoRef.ValueRO.SplineTweenInfo.NormalizedStartPosition, tweenInfoRef.ValueRO.SplineTweenInfo.NormalizedEndPosition, tween.EasePercentage);
+                    localTransformRef.ValueRW.Position = tweenInfoRef.ValueRO.SplineTweenInfo.Spline.EvaluatePosition(splinePosition);
 
-                    switch (tweenInfo.SplineTweenInfo.Alignment.Mode)
+                    switch (tweenInfoRef.ValueRO.SplineTweenInfo.Alignment.Mode)
                     {
                         case TweenSplineAlignMode.Full:
                         {
-                            var forward = math.normalize(tweenInfo.SplineTweenInfo.Spline.EvaluateTangent(splinePosition));
-                            var up = tweenInfo.SplineTweenInfo.Spline.EvaluateUpVector(splinePosition);
+                            var forward = math.normalize(tweenInfoRef.ValueRO.SplineTweenInfo.Spline.EvaluateTangent(splinePosition));
+                            var up = tweenInfoRef.ValueRO.SplineTweenInfo.Spline.EvaluateUpVector(splinePosition);
                             localTransformRef.ValueRW.Rotation = math.normalize(quaternion.LookRotationSafe(forward, up));
                             break;
                         }
 
                         case TweenSplineAlignMode.XAxis:
                         {
-                            float3 tangent = math.normalize(tweenInfo.SplineTweenInfo.Spline.EvaluateTangent(splinePosition));
+                            float3 tangent = math.normalize(tweenInfoRef.ValueRO.SplineTweenInfo.Spline.EvaluateTangent(splinePosition));
                             float angleRadians = math.atan2(tangent.y, tangent.z);
-                            if (!float.IsNaN(angleRadians)) localTransformRef.ValueRW.Rotation = quaternion.Euler(new float3(angleRadians - tweenInfo.SplineTweenInfo.Alignment.AngleOffsetRadians, 0f, 0f));
+                            if (!float.IsNaN(angleRadians)) localTransformRef.ValueRW.Rotation = quaternion.Euler(new float3(angleRadians - tweenInfoRef.ValueRO.SplineTweenInfo.Alignment.AngleOffsetRadians, 0f, 0f));
                             break;
                         }
                         
                         case TweenSplineAlignMode.YAxis:
                         {
-                            float3 tangent = math.normalize(tweenInfo.SplineTweenInfo.Spline.EvaluateTangent(splinePosition));
+                            float3 tangent = math.normalize(tweenInfoRef.ValueRO.SplineTweenInfo.Spline.EvaluateTangent(splinePosition));
                             float angleRadians = math.atan2(tangent.z, tangent.x);
-                            if (!float.IsNaN(angleRadians)) localTransformRef.ValueRW.Rotation = quaternion.Euler(new float3(0f, angleRadians - tweenInfo.SplineTweenInfo.Alignment.AngleOffsetRadians, 0f));
+                            if (!float.IsNaN(angleRadians)) localTransformRef.ValueRW.Rotation = quaternion.Euler(new float3(0f, angleRadians - tweenInfoRef.ValueRO.SplineTweenInfo.Alignment.AngleOffsetRadians, 0f));
                             break;
                         }
 
                         case TweenSplineAlignMode.ZAxis:
                         {
-                            float3 tangent = math.normalize(tweenInfo.SplineTweenInfo.Spline.EvaluateTangent(splinePosition));
+                            float3 tangent = math.normalize(tweenInfoRef.ValueRO.SplineTweenInfo.Spline.EvaluateTangent(splinePosition));
                             float angleRadians = math.atan2(tangent.y, tangent.x);
-                            if (!float.IsNaN(angleRadians)) localTransformRef.ValueRW.Rotation = quaternion.Euler(new float3(0f, 0f, angleRadians - tweenInfo.SplineTweenInfo.Alignment.AngleOffsetRadians));
+                            if (!float.IsNaN(angleRadians)) localTransformRef.ValueRW.Rotation = quaternion.Euler(new float3(0f, 0f, angleRadians - tweenInfoRef.ValueRO.SplineTweenInfo.Alignment.AngleOffsetRadians));
                             break;
                         }
                         

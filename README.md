@@ -7,9 +7,10 @@
 
 ### Updated to Unity 2022.3 LTS
 
-Tweening library for Unity ECS/DOTS 1.0.11    
-Now uses Entities Graphics library from Unity.  
-Developed on `2022.3.5f1`, in case you were wondering :)
+Tweening library for Unity ECS/DOTS  
+Updated for Entities 1.0.16    
+Uses Entities Graphics library from Unity.  
+Developed on `2022.3.9f1`, in case you were wondering :)
 
 ## Table of Contents
 
@@ -114,10 +115,10 @@ Developed on `2022.3.5f1`, in case you were wondering :)
 ```json
 "dependencies": {
     "com.unity.collections": "2.1.4",
-    "com.unity.entities": "1.0.11",
-    "com.unity.burst": "1.8.7",
+    "com.unity.entities": "1.0.16",
+    "com.unity.burst": "1.8.8",
     "com.unity.mathematics": "1.2.6",
-    "com.unity.entities.graphics": "1.0.11"
+    "com.unity.entities.graphics": "1.0.16"
 }
 ```
 

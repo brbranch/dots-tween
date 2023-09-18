@@ -4,6 +4,7 @@ using Unity.Burst;
 
 namespace DotsTween.Tweens
 {
+    [BurstCompile]
     public struct TweenParams
     {
         public float Duration { get; internal set; }

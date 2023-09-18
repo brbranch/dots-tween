@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.10.0] 2023.09.18
+
+### Added
+- Aggressively inline `static` methods for minor performance boost.
+
+### Changed
+- Updated dependencies:
+  - `"com.unity.entities": "1.0.16"`
+  - `"com.unity.burst": "1.8.8"`
+  - `"com.unity.entities.graphics": "1.0.16"`
+
 ## [0.9.1] 2023.07.31
 
 ### Fixed

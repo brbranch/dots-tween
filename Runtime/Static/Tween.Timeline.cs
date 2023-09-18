@@ -1,4 +1,5 @@
-﻿using DotsTween.Timelines;
+﻿using System.Runtime.CompilerServices;
+using DotsTween.Timelines;
 using Unity.Burst;
 using Unity.Entities;
 
@@ -10,9 +11,11 @@ namespace DotsTween
         public static class Timeline
         {
             [BurstCompile]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void Create(out TimelineComponent timelineComponent) => timelineComponent = new TimelineComponent(0f);
 
             [BurstCompile]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void Pause(ref EntityManager entityManager, uint timelinePlaybackId)
             {
                 var e = entityManager.CreateEntity();
@@ -24,6 +27,7 @@ namespace DotsTween
             }
 
             [BurstCompile]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void Pause(ref EntityCommandBuffer ecb, uint timelinePlaybackId)
             {
                 var e = ecb.CreateEntity();
@@ -35,6 +39,7 @@ namespace DotsTween
             }
 
             [BurstCompile]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void Resume(ref EntityManager entityManager, uint timelinePlaybackId)
             {
                 var e = entityManager.CreateEntity();
@@ -46,6 +51,7 @@ namespace DotsTween
             }
 
             [BurstCompile]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void Resume(ref EntityCommandBuffer ecb, uint timelinePlaybackId)
             {
                 var e = ecb.CreateEntity();
@@ -57,6 +63,7 @@ namespace DotsTween
             }
 
             [BurstCompile]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void Stop(ref EntityManager entityManager, uint timelinePlaybackId)
             {
                 var e = entityManager.CreateEntity();
@@ -68,6 +75,7 @@ namespace DotsTween
             }
 
             [BurstCompile]
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void Stop(ref EntityCommandBuffer ecb, uint timelinePlaybackId)
             {
                 var e = ecb.CreateEntity();
