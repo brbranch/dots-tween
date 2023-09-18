@@ -19,7 +19,7 @@ namespace DotsTween
             {
                 [BurstCompile]
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                private static uint FromTo(ref SystemState state, in Entity entity, in float4 start, in float4 end, in float duration, in TweenParams tweenParams = default)
+                public static uint FromTo(ref SystemState state, in Entity entity, in float4 start, in float4 end, in float duration, in TweenParams tweenParams = default)
                 {
                     var command = new TweenURPSpecularColorCommand(entity, start, end, duration, tweenParams);
                     state.EntityManager.AddComponentData(entity, command);
@@ -28,7 +28,7 @@ namespace DotsTween
 
                 [BurstCompile]
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                private static uint FromTo(ref EntityCommandBuffer ecb, in Entity entity, in float4 start, in float4 end, in float duration, in TweenParams tweenParams = default)
+                public static uint FromTo(ref EntityCommandBuffer ecb, in Entity entity, in float4 start, in float4 end, in float duration, in TweenParams tweenParams = default)
                 {
                     var command = new TweenURPSpecularColorCommand(entity, start, end, duration, tweenParams);
                     ecb.AddComponent(entity, command);
@@ -37,7 +37,7 @@ namespace DotsTween
 
                 [BurstCompile]
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                private static uint FromTo(ref EntityCommandBuffer.ParallelWriter ecb, in int sortKey, in Entity entity, in float4 start, in float4 end, in float duration, in TweenParams tweenParams = default)
+                public static uint FromTo(ref EntityCommandBuffer.ParallelWriter ecb, in int sortKey, in Entity entity, in float4 start, in float4 end, in float duration, in TweenParams tweenParams = default)
                 {
                     var command = new TweenURPSpecularColorCommand(entity, start, end, duration, tweenParams);
                     ecb.AddComponent(sortKey, entity, command);
@@ -46,7 +46,7 @@ namespace DotsTween
 
                 [BurstCompile]
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                private static uint To(ref SystemState state, in Entity entity, in float4 end, in float duration, in TweenParams tweenParams = default)
+                public static uint To(ref SystemState state, in Entity entity, in float4 end, in float duration, in TweenParams tweenParams = default)
                 {
                     GetCurrentValue(out var start, ref state, entity);
                     return FromTo(ref state, entity, start, end, duration, tweenParams);
@@ -54,7 +54,7 @@ namespace DotsTween
 
                 [BurstCompile]
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                private static uint To(ref SystemState state, ref EntityCommandBuffer ecb, in Entity entity, in float4 end, in float duration, in TweenParams tweenParams = default)
+                public static uint To(ref SystemState state, ref EntityCommandBuffer ecb, in Entity entity, in float4 end, in float duration, in TweenParams tweenParams = default)
                 {
                     GetCurrentValue(out var start, ref state, entity);
                     return FromTo(ref ecb, entity, start, end, duration, tweenParams);
@@ -62,7 +62,7 @@ namespace DotsTween
 
                 [BurstCompile]
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                private static uint To(ref SystemState state, ref EntityCommandBuffer.ParallelWriter ecb, in int sortKey, in Entity entity, in float4 end, in float duration, in TweenParams tweenParams = default)
+                public static uint To(ref SystemState state, ref EntityCommandBuffer.ParallelWriter ecb, in int sortKey, in Entity entity, in float4 end, in float duration, in TweenParams tweenParams = default)
                 {
                     GetCurrentValue(out var start, ref state, entity);
                     return FromTo(ref ecb, sortKey, entity, start, end, duration, tweenParams);
@@ -70,7 +70,7 @@ namespace DotsTween
 
                 [BurstCompile]
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                private static uint From(ref SystemState state, in Entity entity, in float4 start, in float duration, in TweenParams tweenParams = default)
+                public static uint From(ref SystemState state, in Entity entity, in float4 start, in float duration, in TweenParams tweenParams = default)
                 {
                     GetCurrentValue(out var end, ref state, entity);
                     return FromTo(ref state, entity, start, end, duration, tweenParams);
@@ -78,7 +78,7 @@ namespace DotsTween
 
                 [BurstCompile]
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                private static uint From(ref SystemState state, ref EntityCommandBuffer ecb, in Entity entity, in float4 start, in float duration, in TweenParams tweenParams = default)
+                public static uint From(ref SystemState state, ref EntityCommandBuffer ecb, in Entity entity, in float4 start, in float duration, in TweenParams tweenParams = default)
                 {
                     GetCurrentValue(out var end, ref state, entity);
                     return FromTo(ref ecb, entity, start, end, duration, tweenParams);
@@ -86,7 +86,7 @@ namespace DotsTween
 
                 [BurstCompile]
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                private static uint From(ref SystemState state, ref EntityCommandBuffer.ParallelWriter ecb, in int sortKey, in Entity entity, in float4 start, in float duration, in TweenParams tweenParams = default)
+                public static uint From(ref SystemState state, ref EntityCommandBuffer.ParallelWriter ecb, in int sortKey, in Entity entity, in float4 start, in float duration, in TweenParams tweenParams = default)
                 {
                     GetCurrentValue(out var end, ref state, entity);
                     return FromTo(ref ecb, sortKey, entity, start, end, duration, tweenParams);
@@ -94,7 +94,7 @@ namespace DotsTween
 
                 [BurstCompile]
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                private static uint FromTo(ref SystemState state, in Entity entity, in Color start, in Color end, in float duration, in TweenParams tweenParams = default)
+                public static uint FromTo(ref SystemState state, in Entity entity, in Color start, in Color end, in float duration, in TweenParams tweenParams = default)
                 {
                     start.ToFloat4(out var startColour);
                     end.ToFloat4(out var endColour);
@@ -105,7 +105,7 @@ namespace DotsTween
 
                 [BurstCompile]
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                private static uint FromTo(ref EntityCommandBuffer ecb, in Entity entity, in Color start, in Color end, in float duration, in TweenParams tweenParams = default)
+                public static uint FromTo(ref EntityCommandBuffer ecb, in Entity entity, in Color start, in Color end, in float duration, in TweenParams tweenParams = default)
                 {
                     start.ToFloat4(out var startColour);
                     end.ToFloat4(out var endColour);
@@ -116,7 +116,7 @@ namespace DotsTween
 
                 [BurstCompile]
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                private static uint FromTo(ref EntityCommandBuffer.ParallelWriter ecb, in int sortKey, in Entity entity, in Color start, in Color end, in float duration, in TweenParams tweenParams = default)
+                public static uint FromTo(ref EntityCommandBuffer.ParallelWriter ecb, in int sortKey, in Entity entity, in Color start, in Color end, in float duration, in TweenParams tweenParams = default)
                 {
                     start.ToFloat4(out var startColour);
                     end.ToFloat4(out var endColour);
@@ -127,7 +127,7 @@ namespace DotsTween
 
                 [BurstCompile]
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                private static uint To(ref SystemState state, in Entity entity, in Color end, in float duration, in TweenParams tweenParams = default)
+                public static uint To(ref SystemState state, in Entity entity, in Color end, in float duration, in TweenParams tweenParams = default)
                 {
                     end.ToFloat4(out var endColour);
                     GetCurrentValue(out var start, ref state, entity);
@@ -136,7 +136,7 @@ namespace DotsTween
 
                 [BurstCompile]
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                private static uint To(ref SystemState state, ref EntityCommandBuffer ecb, in Entity entity, in Color end, in float duration, in TweenParams tweenParams = default)
+                public static uint To(ref SystemState state, ref EntityCommandBuffer ecb, in Entity entity, in Color end, in float duration, in TweenParams tweenParams = default)
                 {
                     end.ToFloat4(out var endColour);
                     GetCurrentValue(out var start, ref state, entity);
@@ -145,7 +145,7 @@ namespace DotsTween
 
                 [BurstCompile]
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                private static uint To(ref SystemState state, ref EntityCommandBuffer.ParallelWriter ecb, in int sortKey, in Entity entity, in Color end, in float duration, in TweenParams tweenParams = default)
+                public static uint To(ref SystemState state, ref EntityCommandBuffer.ParallelWriter ecb, in int sortKey, in Entity entity, in Color end, in float duration, in TweenParams tweenParams = default)
                 {
                     end.ToFloat4(out var endColour);
                     GetCurrentValue(out var start, ref state, entity);
@@ -154,7 +154,7 @@ namespace DotsTween
 
                 [BurstCompile]
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                private static uint From(ref SystemState state, in Entity entity, in Color start, in float duration, in TweenParams tweenParams = default)
+                public static uint From(ref SystemState state, in Entity entity, in Color start, in float duration, in TweenParams tweenParams = default)
                 {
                     start.ToFloat4(out var startColour);
                     GetCurrentValue(out var end, ref state, entity);
@@ -163,7 +163,7 @@ namespace DotsTween
 
                 [BurstCompile]
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                private static uint From(ref SystemState state, ref EntityCommandBuffer ecb, in Entity entity, in Color start, in float duration, in TweenParams tweenParams = default)
+                public static uint From(ref SystemState state, ref EntityCommandBuffer ecb, in Entity entity, in Color start, in float duration, in TweenParams tweenParams = default)
                 {
                     start.ToFloat4(out var startColour);
                     GetCurrentValue(out var end, ref state, entity);
@@ -172,7 +172,7 @@ namespace DotsTween
 
                 [BurstCompile]
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                private static uint From(ref SystemState state, ref EntityCommandBuffer.ParallelWriter ecb, in int sortKey, in Entity entity, in Color start, in float duration, in TweenParams tweenParams = default)
+                public static uint From(ref SystemState state, ref EntityCommandBuffer.ParallelWriter ecb, in int sortKey, in Entity entity, in Color start, in float duration, in TweenParams tweenParams = default)
                 {
                     start.ToFloat4(out var startColour);
                     GetCurrentValue(out var end, ref state, entity);

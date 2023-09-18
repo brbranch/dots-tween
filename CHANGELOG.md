@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.10.1] 2023.09.18
+
+### Fixed
+- URP static tween methods no longer `private` (don't use copy-paste friends)
+
 ## [0.10.0] 2023.09.18
 
 ### Added
